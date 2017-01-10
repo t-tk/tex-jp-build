@@ -25,7 +25,6 @@ struct ublock {
      cmapresources_korean1-2/       Adobe-Korea1-2 materials
         cid2code.txt (Version 01/31/2012)
 */
-273a284
 
 static struct ublock ublock_data[] = {
   {0x0000, 0x007F, ENTRY_GCJK}, /* Basic Latin */
