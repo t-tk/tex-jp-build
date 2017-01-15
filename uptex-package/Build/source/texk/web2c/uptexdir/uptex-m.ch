@@ -34,6 +34,7 @@
 % (08/13/2012) TTK  upTeX u1.11
 % (12/29/2014) TTK  upTeX u1.20
 % (02/20/2016) TTK  upTeX u1.21
+% (01/15/2017) TTK  upTeX u1.22
 
 @x upTeX: banner
   {printed when p\TeX\ starts}
@@ -41,8 +42,8 @@
   {printed when p\TeX\ starts}
 @#
 @d upTeX_version=1
-@d upTeX_revision==".21"
-@d upTeX_version_string=='-u1.21' {current up\TeX\ version}
+@d upTeX_revision==".22"
+@d upTeX_version_string=='-u1.22' {current up\TeX\ version}
 @#
 @d upTeX_banner=='This is upTeX, Version 3.14159265',pTeX_version_string,upTeX_version_string
 @d upTeX_banner_k==upTeX_banner
