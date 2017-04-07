@@ -1,3 +1,28 @@
+2017-03-27  Karl Berry  <karl@freefriends.org>
+
+	* Makefile.am (AM_TESTS_ENVIRONMENT): use instead of TESTS_ENVIRONMENT.
+
+2017-03-21  Akira Kakuto  <kakuto@fuk.kindai.ac.jp>
+
+	* dvips.c: Show information and exit if dvips finds options
+	--help or --version. Report from Igor Liferenko:
+	http://tug.org/pipermail/tex-k/2017-March/002748.html
+
+2017-03-18  Karl Berry  <karl@tug.org>
+
+	* configure.ac,
+	* NEWS
+	* dvips.c,
+	* dvips.h,
+	* afm2tfm.c,
+	* dvips.texi: version 5.997 for TL17.
+
+2017-02-28  Akira Kakuto  <kakuto@fuk.kindai.ac.jp>
+
+	* dvips.c: In the case of -T option, reverse the default in the change
+	made on 2016-11-01. Thanks Ulrike Fischer:
+	http://tug.org/pipermail/tex-live/2017-February/039743.html.
+
 2016-12-13  Akira Kakuto  <kakuto@fuk.kindai.ac.jp>
 
 	* emspecial.c: Fix a bug in emspecial(), reported by Norbert Klingen:

@@ -1,3 +1,18 @@
+2017-04-06  Hironori Kitagawa  <h_kitagawa2001@yahoo.co.jp>
+
+	* ptex-base.ch: Fix a bug that the postbreakpenalty sometimes reappears
+	even when it was removed by \unpenalty.
+	* tests/postpena.tex: Added.
+
+2017-03-12  Akira Kakuto  <kakuto@fuk.kindai.ac.jp>
+
+	* ptex-base.ch: Fix a typo pointed out at
+	https://github.com/clerkma/ptex-ng/issues/19.
+
+2017-02-05  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* ppltotf.ch: Expand the limit of glue/kern and kern tables.
+
 2016-12-16  Akira Kakuto  <kakuto@fuk.kindai.ac.jp>
 
 	* pbibtex.ch, pdvitype.ch, ppltotf.ch, ptftopl.ch:

@@ -554,7 +554,7 @@ distance of the baselineshift between Latin characters and Kanji chatacters.
 @d penalty_node=12 {|type| of a penalty node}
 @y
 @d penalty_node=14 {|type| of a penalty node}
-@d widow_pena=1 {|subtype| of penalty nodes from \.{\\jchrwidowpenalty}}
+@d widow_pena=1 {|subtype| of penalty nodes from \.{\\jcharwidowpenalty}}
 @d kinsoku_pena=2 {|subtype| of penalty nodes from kinsoku}
 @z
 
@@ -672,7 +672,7 @@ end
 @y
 @ @<Display penalty |p|@>=
 begin print_esc("penalty "); print_int(penalty(p));
-if subtype(p)=widow_pena then print("(for \jchrwidowpenalty)")
+if subtype(p)=widow_pena then print("(for \jcharwidowpenalty)")
 else if subtype(p)=kinsoku_pena then print("(for kinsoku)");
 end
 @z
@@ -6925,7 +6925,9 @@ end;
 
 @<Append KANJI-character |cur_chr| ...@>=
 if is_char_node(tail) then
-  begin cx:=qo(character(tail)); @<Insert |post_break_penalty|@>;
+  begin if not( (last_jchr<>null) and (link(last_jchr)=tail) ) then
+    begin cx:=qo(character(tail)); @<Insert |post_break_penalty|@>;
+    end;
   end
 else if type(tail)=ligature_node then
   begin cx:=qo(character(lig_char(tail))); @<Insert |post_break_penalty|@>;
