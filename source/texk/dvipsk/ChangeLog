@@ -1,6 +1,15 @@
+2017-05-19  Karl Berry  <karl@tug.org>
+
+	* Version 5.997 for TeX Live 2017 release.
+
 2017-03-27  Karl Berry  <karl@freefriends.org>
 
 	* Makefile.am (AM_TESTS_ENVIRONMENT): use instead of TESTS_ENVIRONMENT.
+
+2017-03-22  Karl Berry  <karl@tug.org>
+
+	* dvips.texi: don't claim -q quiets standard error.
+	Report from Igor Liferenko.
 
 2017-03-21  Akira Kakuto  <kakuto@fuk.kindai.ac.jp>
 
