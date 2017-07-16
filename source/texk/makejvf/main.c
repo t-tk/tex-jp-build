@@ -9,7 +9,8 @@
 
 FILE *vfp,*afp=NULL;
 char *atfmname,*vtfmname,*afmname,*vfname,*kanatfm,*jistfm,*ucsqtfm;
-int kanatume=-1,chotai=0,baseshift=0,minute=0,useset3=0,hankana=0,fidzero=0;
+int kanatume=-1,chotai=0,baseshift=0,minute=0,useset3=0,hankana=0,fidzero=0,enhanced=0;
+int pstfm_nt;
 long ucs=0;
 
 int main(int argc, char ** argv)
@@ -21,7 +22,7 @@ int main(int argc, char ** argv)
 	kpse_set_program_name(argv[0], "makejvf");
 	set_enc_string("sjis", "euc");
 
-	while ((c = getopt (argc, argv, "k:K:Ca:b:mu:3J:U:Hi")) != -1)
+	while ((c = getopt (argc, argv, "k:K:Ca:b:mu:3J:U:Hie")) != -1)
 		switch (c) {
 
 
@@ -85,6 +86,9 @@ int main(int argc, char ** argv)
 		case 'i':
 			fidzero=1;
 			break;
+		case 'e':
+			enhanced=1;
+			break;
 		default:
 			usage();
 			exit(0);
@@ -120,31 +124,9 @@ int main(int argc, char ** argv)
 
 	tfmget(atfmname);
 
-	maketfm(vtfmname);
-
-	if (kanatfm) {
-		if (FILESTRCASEEQ(&kanatfm[strlen(kanatfm)-4], ".tfm")) {
-			kanatfm[strlen(kanatfm)-4] = '\0';
-		}
-		maketfm(kanatfm);
-	}
-
-	if (jistfm) {
-		if (FILESTRCASEEQ(&jistfm[strlen(jistfm)-4], ".tfm")) {
-			jistfm[strlen(jistfm)-4] = '\0';
-		}
-		maketfm(jistfm);
-	}
-
-	if (ucsqtfm) {
-		if (FILESTRCASEEQ(&ucsqtfm[strlen(ucsqtfm)-4], ".tfm")) {
-			ucsqtfm[strlen(ucsqtfm)-4] = '\0';
-		}
-		maketfm(ucsqtfm);
-	}
-
 	vfp = vfopen(vfname);
 
+	pstfm_nt=1; /* initialize */
 	if (ucs) {
 		ib=0;
 		for (i=0;i<(useset3*2+1);i++)
@@ -161,12 +143,37 @@ int main(int argc, char ** argv)
 
 	vfclose(vfp);
 
+	if (kanatfm) {
+		if (FILESTRCASEEQ(&kanatfm[strlen(kanatfm)-4], ".tfm")) {
+			kanatfm[strlen(kanatfm)-4] = '\0';
+		}
+		maketfm(kanatfm);
+		pstfm_nt=1; /* already done*/
+	}
+
+	maketfm(vtfmname);
+	pstfm_nt=1; /* already done*/
+
+	if (jistfm) {
+		if (FILESTRCASEEQ(&jistfm[strlen(jistfm)-4], ".tfm")) {
+			jistfm[strlen(jistfm)-4] = '\0';
+		}
+		maketfm(jistfm);
+	}
+
+	if (ucsqtfm) {
+		if (FILESTRCASEEQ(&ucsqtfm[strlen(ucsqtfm)-4], ".tfm")) {
+			ucsqtfm[strlen(ucsqtfm)-4] = '\0';
+		}
+		maketfm(ucsqtfm);
+	}
+
 	exit(0);
 }
 
 void usage(void)
 {
-	fputs2("MAKEJVF ver.1.1a-u1.22 -- make Japanese VF file.\n", stderr);
+	fputs2("MAKEJVF version 20170716 -- make Japanese VF file.\n", stderr);
 	fputs2("%% makejvf [<options>] <TFMfile> <PSfontTFM>\n", stderr);
 	fputs2("options:\n", stderr);
 	fputs2("-C           長体モード\n", stderr);
@@ -186,4 +193,7 @@ void usage(void)
 	fputs2("-3           use set3 (with UCS mode)\n", stderr);
 	fputs2("-H           use half-width katakana (with UCS mode)\n", stderr);
 	fputs2("-i           font ID from No.0\n", stderr);
+	fputs2("-e           enhanced mode; the horizontal shift amount is determined\n", stderr);
+	fputs2("             from the glue/kern table of <TFMfile> input\n", stderr);
+	fputs2("Email bug reports to issue@texjp.org.\n", stderr);
 }
