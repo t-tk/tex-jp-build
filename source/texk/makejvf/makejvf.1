@@ -6,8 +6,25 @@ makejvf \- Make Japanese VF file from Japanese \*(TX TFM file
 .SH SYNOPSIS
 \fBmakejvf\fR [\fI<options>\fR] \fI<\*(TX TFM file>\fR \fI<TFM name of PS font>\fR
 .SH DESCRIPTION
-\fBmakejvf\fP is a tool to generate Japanese VF file from Japanese \*(TX TFM
+\fBmakejvf\fR is a tool to generate Japanese VF file from Japanese \*(TX TFM
 (JFM) file for use with dvips.
+.TP 5
+When processing Japanese texts, p\*(TX refers to JFM (min10.tfm, jis.tfm \
+etc.), which includes definitions of some different character widths and \
+metric glue/kerns. For most punctuations and quotation marks, the \
+character widths are truncated to less than 1 zw (zenkaku-width; the \
+width of ordinary Kanji characters), and metric glue/kerns are inserted \
+as a substitute.
+.TP 5
+On the other hand, in Japanese PS fonts, all punctuations and quotation \
+marks have the same character widths as ordinary Kanji characters. \
+For this reason, when dvips processes the resulting DVI, these characters \
+have to be shifted to the left by the amount of glue/kerns inserted.
+.TP 5
+To achieve this, Virtual fonts (VF) and PS TFM files are required; \
+VF should include the commands of shifting characters, and PS TFM should \
+have the exact character widths of PS fonts. \
+The program \fBmakejvf\fR can be used for this purpose.
 .SH OPTIONS
 .PP
 .TP 10
@@ -24,8 +41,12 @@ When a positive integer is specified, the characters are lowered.
 When a negative integer is specified, the characters are raised.
 .TP 10
 \fB-m\fR
-Replace single/double quotation marks (', '') with prime quotation marks
-(so-called "minute") in vertical writing.
+Replace single/double quotation marks (', '') with single/double prime
+quotation marks (so-called "minute") in vertical writing.
+The replacement is realized by manipulating glyphs of prime and
+double prime (JIS 0x216C and 0x216D; Unicode U+2032 and U+2033),
+\fInot\fR by putting actual glyphs designed for quotation marks
+(Unicode U+301D and U+301E/U+301F).
 .TP 10
 \fB-a\fI <AFMfile>\fR
 Name of the AFM file. Used for Kana-tsume mode.
@@ -56,6 +77,23 @@ Use half-width Katakana (with UCS mode)
 .TP 10
 \fB-i\fR
 Start font ID from No. 0.
+.TP 10
+\fB-e\fR
+Enhanced mode; the horizontal shift amount is determined from the
+glue/kern table of input JFM file.
+.TP 10
+By default, \fBmakejvf\fR uses the hard-coded value as the horizontal \
+shift amount, which is (mostly) optimized for Japanese fonts. \
+When enhanced mode (option \fB-e\fR) is enabled, the shift amount is \
+determined from the input p\*(TX TFM (JFM) file, which is likely to \
+output most suitable VF for the JFM.
+.TP 10
+For most standard Japanese JFM (like jis.tfm and its derivatives), \
+the output VFs from both modes will have no significant difference. \
+For simplified/traditional Chinese JFM (like upschrm-h.tfm and \
+uptchcrm-h.tfm), the output VF from enhanced mode will be better. \
+For min10.tfm and its derivatives, enhanced mode should \fInever\fR be \
+enabled, since the characterization in min10.tfm is non-standard.
 .SH EXAMPLE
 .TP 5
 If you want to use min10 as Ryumin-Light-H, run
