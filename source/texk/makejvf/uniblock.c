@@ -21,11 +21,11 @@ struct ublock {
  [2] CMap files
      https://github.com/adobe-type-tools/cmap-resources/
      Adobe-CNS1-7/                  Adobe-CNS1-7 materials
-        cid2code.txt (Version 07/14/2017)
+        cid2code.txt (Version 10/24/2017)
      Adobe-GB1-5/                   Adobe-GB1-5 materials
-        cid2code.txt (Version 10/29/2010)
+        cid2code.txt (Version 12/05/2017)
      Adobe-Japan1-6/                Adobe-Japan1-6 materials
-        cid2code.txt (Version 07/03/2017)
+        cid2code.txt (Version 10/24/2017)
      Adobe-Korea1-2/                Adobe-Korea1-2 materials
         cid2code.txt (Version 01/31/2012)
 */
