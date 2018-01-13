@@ -28,6 +28,12 @@ struct ublock {
         cid2code.txt (Version 10/24/2017)
      Adobe-Korea1-2/                Adobe-Korea1-2 materials
         cid2code.txt (Version 01/31/2012)
+ Following code points are omitted from ENTRY_J:
+   block                      code point  name                      Adobe-Japan CID
+   Tibetan                    U+0FD6      Left-facing Svasti Sign   12182
+   Supplemental Puncutuation  U+2E40      Double Hyphen             15516
+   Latin Extended-D           U+A7B5      Latin Small Letter Beta   15909
+   Latin Extended-E           U+AB53      Latin Small Letter Chi    15911
 */
 
 static struct ublock ublock_data[] = {
@@ -64,7 +70,7 @@ static struct ublock ublock_data[] = {
   {0x0D80, 0x0DFF, ENTRY_NO  , 0}, /* Sinhala */
   {0x0E00, 0x0E7F, ENTRY_NO  , 0}, /* Thai */
   {0x0E80, 0x0EFF, ENTRY_NO  , 0}, /* Lao */
-  {0x0F00, 0x0FFF, ENTRY_J   , 0}, /* Tibetan */
+  {0x0F00, 0x0FFF, ENTRY_NO  , 0}, /* Tibetan */
   {0x1000, 0x109F, ENTRY_NO  , 0}, /* Myanmar */
   {0x10A0, 0x10FF, ENTRY_NO  , 0}, /* Georgian */
   {0x1100, 0x11FF, ENTRY_K   , 0}, /* Hangul Jamo */
@@ -132,7 +138,7 @@ static struct ublock ublock_data[] = {
   {0x2D30, 0x2D7F, ENTRY_NO  , 0}, /* Tifinagh */
   {0x2D80, 0x2DDF, ENTRY_NO  , 0}, /* Ethiopic Extended */
   {0x2DE0, 0x2DFF, ENTRY_NO  , 0}, /* Cyrillic Extended-A */
-  {0x2E00, 0x2E7F, ENTRY_J   , 0}, /* Supplemental Punctuation */
+  {0x2E00, 0x2E7F, ENTRY_NO  , 0}, /* Supplemental Punctuation */
   {0x2E80, 0x2EFF, ENTRY_GCJ , 0}, /* CJK Radicals Supplement */
   {0x2F00, 0x2FDF, ENTRY_GCJK, 0}, /* Kangxi Radicals */
   {0x2FF0, 0x2FFF, ENTRY_G   , 0}, /* Ideographic Description Characters */
@@ -157,7 +163,7 @@ static struct ublock ublock_data[] = {
   {0xA640, 0xA69F, ENTRY_NO  , 0}, /* Cyrillic Extended-B */
   {0xA6A0, 0xA6FF, ENTRY_NO  , 0}, /* Bamum */
   {0xA700, 0xA71F, ENTRY_NO  , 0}, /* Modifier Tone Letters */
-  {0xA720, 0xA7FF, ENTRY_J   , 0}, /* Latin Extended-D */
+  {0xA720, 0xA7FF, ENTRY_NO  , 0}, /* Latin Extended-D */
   {0xA800, 0xA82F, ENTRY_NO  , 0}, /* Syloti Nagri */
   {0xA830, 0xA83F, ENTRY_NO  , 0}, /* Common Indic Number Forms */
   {0xA840, 0xA87F, ENTRY_NO  , 0}, /* Phags-pa */
@@ -173,7 +179,7 @@ static struct ublock ublock_data[] = {
   {0xAA80, 0xAADF, ENTRY_NO  , 0}, /* Tai Viet */
   {0xAAE0, 0xAAFF, ENTRY_NO  , 0}, /* Meetei Mayek Extensions */
   {0xAB00, 0xAB2F, ENTRY_NO  , 0}, /* Ethiopic Extended-A */
-  {0xAB30, 0xAB6F, ENTRY_J   , 0}, /* Latin Extended-E */
+  {0xAB30, 0xAB6F, ENTRY_NO  , 0}, /* Latin Extended-E */
   {0xAB70, 0xABBF, ENTRY_NO  , 0}, /* Cherokee Supplement */
   {0xABC0, 0xABFF, ENTRY_NO  , 0}, /* Meetei Mayek */
   {0xAC00, 0xD7AF, ENTRY_K   , 0}, /* Hangul Syllables */
