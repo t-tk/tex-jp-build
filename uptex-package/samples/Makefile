@@ -1,5 +1,5 @@
-PTEX = ptex
 UPTEX = uptex
+PTEX = ptex
 UPLATEX = uplatex
 PLATEX = platex
 DVIPS = dvips
@@ -53,13 +53,13 @@ kin:
 	$(DVIPS) kinsoku-chk-utf8
 
 widow:
-	platex widow
+	$(PLATEX) widow
 	mv widow.dvi widow-platex.dvi
 	$(DVIPDFMX) widow-platex.dvi
 	uplatex-euc --kanji-internal=euc widow
 	mv widow.dvi widow-u-euc.dvi
 	$(DVIPDFMX) widow-u-euc.dvi
-	uplatex widow
+	$(UPLATEX) widow
 	mv widow.dvi widow-u-uptex.dvi
 	$(DVIPDFMX) widow-u-uptex.dvi
 
@@ -191,7 +191,7 @@ jbibj:
 	for be in euc uptex; do \
 	for fe in jis euc sjis utf8; do \
 		uptex -kanji=$$fe --kanji-internal=$$ie -fmt=uplatex-$$ie jbib1-jis.tex ; \
-		upbibtex -kanji=$$fe --kanji-internal=$$be jbib1-jis ; \
+		$(UPBIBTEX) -kanji=$$fe --kanji-internal=$$be jbib1-jis ; \
 		uptex -kanji=$$fe --kanji-internal=$$ie -fmt=uplatex-$$ie jbib1-jis.tex ; \
 		uptex -kanji=$$fe --kanji-internal=$$ie -fmt=uplatex-$$ie jbib1-jis.tex ; \
 		perl check_enc.pl $$fe jbib1-jis.aux jbib1-jis.bbl || exit ; \
