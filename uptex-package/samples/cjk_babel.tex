@@ -14,6 +14,17 @@
 \usepackage[OT2,T2A,T2B,T2C,T1]{fontenc}
 \usepackage[french,german,czech,russian,japanese]{babel}
 
+%%% Setting of kcatcode %%%
+%%% kcatcode  15: not cjk, 16: kanji, 17: kana, 18: other cjk char
+\kcatcode"A7=15% U+00A7:§  (Latin-1 Supplement, Common)
+%\kcatcode"C0=15% U+00C0:À  (Latin-1 Supplement, Latin-1 letters)
+%\kcatcode"100=15% U+0100:Ā  (Latin Extended-A)
+\kcatcode`П=15% U+041F:П (Cyrillic)
+\kcatcode`“=15% U+201C:“ (General Punctuation)
+%
+% pxcjkcat package  https://ctan.org/pkg/pxcjkcat
+%\usepackage[prefernoncjk]{pxcjkcat}
+
 \DeclareFontFamily{JY2}{jpnrm}{}
 \DeclareFontFamily{JY2}{schrm}{}
 \DeclareFontFamily{JY2}{tchrm}{}
@@ -32,13 +43,6 @@
 \DeclareRobustCommand\korrm{\kanjifamily{korrm}\selectfont}
 
 \begin{document}
-%%% kcatcode  15: not cjk, 16: kanji, 17: kana, 18: other cjk char
-\kcatcode"A7=15% U+00A7:§  (Latin-1 Supplement, Common)
-%\kcatcode"C0=15% U+00C0:À  (Latin-1 Supplement, Latin-1 letters)
-%\kcatcode"100=15% U+0100:Ā  (Latin Extended-A)
-\kcatcode`П=15% U+041F:П (Cyrillic)
-\kcatcode`“=15% U+201C:“ (General Punctuation)
-\kcatcode`␣=15% U+2423: ␣ (Control Pictures)
 
 \selectlanguage{french}
 \section{フランス語 Français}
@@ -110,9 +114,10 @@ often naïve vis-à-vis the dæmonic phœnix’s official rôle
 in fluffy soufflés?”
 
 \noindent
+\kcatcode"2423=15% U+2423: ␣ (Control Pictures)
 T1 with UTF-8 direct input:\\
 \begin{center}\begin{tabular}{r|l|l|}
-00:&(`)()()(˜)()(˝)()(ˇ)&(˘)()()(¸)()(‚)(‹)(›)\\
+00:&(`)()()()()()()()&()()()(¸)()(‚)(‹)(›)\\
 10:&(“)(”)(„)(«)(»)(–)(—)()&()(ı)()()()()()()\\
 20:&(␣)(!)(")()()()()(’)&()()(*)(+)(,)()(.)(/)\\
 30:&(0)(1)(2)(3)(4)(5)(6)(7)&(8)(9)(:)(;)()(=)()(?)\\
@@ -228,7 +233,8 @@ T2A:\\
 간단명료한 양식으로
 모아 엮어졌습니다. 
 이 FAQ의 구조는 지난 판에 비하여
-획기적으로 변경되었습니다.
+획기적으로 변경% (A space is NOT inserted here.)
+되었습니다.
 상세한 것은 ``이 FAQ을 어떻게 읽을
 것인가'' 라는 대목을 참조하시기 바랍니다.
 
