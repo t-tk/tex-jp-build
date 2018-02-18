@@ -1,13 +1,13 @@
 %%
-%% 行頭、行末禁則パラメータ
+%% 行頭、行末禁則パラメータ (Last update: 2017/08/05 texjporg)
 %%
 %% 1byte characters
 \prebreakpenalty`!=10000
 \prebreakpenalty`"=10000
 \postbreakpenalty`\#=500
 \postbreakpenalty`\$=500
-\postbreakpenalty`\%=500
-\postbreakpenalty`\&=500
+\prebreakpenalty`\%=500
+\prebreakpenalty`\&=500
 \postbreakpenalty`\`=10000
 \prebreakpenalty`'=10000
 \prebreakpenalty`)=10000
@@ -71,8 +71,8 @@
 \prebreakpenalty`＝=200
 \postbreakpenalty`＃=200
 \postbreakpenalty`＄=200
-\postbreakpenalty`％=200
-\postbreakpenalty`＆=200
+\prebreakpenalty`％=200
+\prebreakpenalty`＆=200
 \prebreakpenalty`ぁ=150
 \prebreakpenalty`ぃ=150
 \prebreakpenalty`ぅ=150
@@ -126,6 +126,7 @@
 \postbreakpenalty`¡=10000
 \postbreakpenalty`¿=10000
 \prebreakpenalty`ː=10000
+\prebreakpenalty`·=10000
 \prebreakpenalty"AA=10000% ª
 \prebreakpenalty"BA=10000% º
 \prebreakpenalty`¹=10000
@@ -156,8 +157,8 @@
 %%
 %%\postbreakpenalty`¡=10000
 %%\postbreakpenalty`¿=10000
-%%\prebreakpenalty`º=10000
-%%\prebreakpenalty`ª=10000
+%%\prebreakpenalty"BA=10000% º
+%%\prebreakpenalty"AA=10000% ª
 \prebreakpenalty`™=10000
 %%
 %% kinsoku  半角片仮名
@@ -378,10 +379,10 @@
 %%
 %% inhibitxspcode  JIS X 0212
 %%
-%%\inhibitxspcode`¡=1
-%%\inhibitxspcode`¿=1
-%%\inhibitxspcode`º=1
-%%\inhibitxspcode`ª=1
+%%\inhibitxspcode`¡=2
+%%\inhibitxspcode`¿=2
+%%\inhibitxspcode"BA=1% º
+%%\inhibitxspcode"AA=1% ª
 \inhibitxspcode`™=1
 %%
 %% inhibitxspcode  半角片仮名
