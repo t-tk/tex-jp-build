@@ -2,8 +2,15 @@
 
 This bundle provides a minimum subset of TeX Live subversion repository
 for building binaries of Japanese TeX processing tools.
-This bundle also provides the latest "upstream" sources for
-followings: ptexenc, ptex, eptex, makejvf.
+This bundle also provides the latest "upstream" sources for the followings:
+
+* ptexenc
+* ptex, pbibtex
+* eptex
+* makejvf
+* mendex
+* dviout-util
+
 Other tools and libraries (kpathsea, dvips, dvipdfmx etc.) are prepared
 only for easy building/testing of an experimental environment for developers;
 we do not intend to provide the "upstream" sources.
@@ -21,6 +28,7 @@ The bundle includes sources of:
 ptex, eptex, uptex, euptex,
 dvips, dvipdfmx, dvi2tty, makejvf, mendex, upmendex,
 pbibtex, upbibtex, pmpost, upmpost,
+dviout-util (dvispc, chkdvifont),
 seetex (dvibook, dviconcat, dviselect, dvitodvi),
 dvidvi, related tools
 and related libraries (kpathsea, ptexenc).
