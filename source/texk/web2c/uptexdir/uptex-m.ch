@@ -1,4 +1,4 @@
-% This is a change file for upTeX u1.23
+% This is a change file for upTeX u1.24
 % By Takuji Tanaka.
 %
 % (02/26/2007) TTK  upTeX u0.01
@@ -38,6 +38,7 @@
 % (04/09/2017) TTK  Hironori Kitagawa fixed a bug in \endlinechar.
 % (2018-01-21) HK   Added \uptexversion primitive and co.
 % (2018-02-24) TTK  upTeX u1.23
+% (2019-03-XX) TTK  upTeX u1.24
 
 @x upTeX: banner
   {printed when \pTeX\ starts}
@@ -45,8 +46,8 @@
   {printed when \pTeX\ starts}
 @#
 @d upTeX_version=1
-@d upTeX_revision==".23"
-@d upTeX_version_string=='-u1.23' {current u\pTeX\ version}
+@d upTeX_revision==".24"
+@d upTeX_version_string=='-u1.24' {current u\pTeX\ version}
 @#
 @d upTeX_banner=='This is upTeX, Version 3.14159265',pTeX_version_string,upTeX_version_string
 @d upTeX_banner_k==upTeX_banner
