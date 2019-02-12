@@ -19,6 +19,11 @@ CONVBKMK = convbkmk -g
 CONVBKMKO = convbkmk -g -o
 PS2PDF = ps2pdf
 
+all: uplatex-euc.fmt uplatex-sjis.fmt \
+ misc kin widow uptex uplatex aozora adobe \
+ babel greek punct encswitch \
+ jscman tfpl otf jbib jisuni dvi2tty bkmk consio eplatex texxet
+
 ####
 #### "platex on uptex"
 ####   These are for test purpose.
@@ -35,9 +40,6 @@ uplatex-sjis.fmt:
 
 ####
 ####
-
-all: misc kin widow uptex uplatex aozora adobe encswitch \
- jscman tfpl otf jbib jisuni dvi2tty bkmk consio eplatex texxet
 
 misc: misch miscv
 
@@ -137,6 +139,11 @@ greek:
 	$(UPLATEX) greek-uplatex
 	$(DVIPDFMX) greek-uplatex
 	$(DVIPS) greek-uplatex
+
+punct:
+	$(UPLATEX) punctuation
+	$(DVIPDFMX) punctuation
+	$(DVIPS) punctuation
 
 encswitch: encswitchj encswitchp encswitchu
 
@@ -471,6 +478,6 @@ eptexdoc: eptexdoc-uplatex.tex
 
 
 clean:
-	rm -f *.aux *.log *.dvi *.ps *.pdf *.mpx *.1 \
+	rm -f *.fmt *.aux *.log *.dvi *.ps *.pdf *.mpx *.1 \
 		min10x-* umin10x-* *.out *.blg *.bbl *.pdvitype *.dvi2tty \
 		jsclasses-uplatex.dtx eptexdoc-uplatex.tex fam256*.tex
