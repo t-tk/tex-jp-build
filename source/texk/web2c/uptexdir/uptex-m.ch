@@ -38,7 +38,7 @@
 % (04/09/2017) TTK  Hironori Kitagawa fixed a bug in \endlinechar.
 % (2018-01-21) HK   Added \uptexversion primitive and co.
 % (2018-02-24) TTK  upTeX u1.23
-% (2019-03-XX) TTK  upTeX u1.24
+% (2019-02-23) TTK  upTeX u1.24
 
 @x upTeX: banner
   {printed when \pTeX\ starts}
