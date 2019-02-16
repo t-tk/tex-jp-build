@@ -572,7 +572,7 @@ static int range_check(struct index ind, int count, char *lbuff)
 					}
 					if (strlen(ind.p[j].enc)>0) {
 						SPRINTF(tmpbuff,"%s%s%s%s%s%s",encap_prefix,ind.p[j].enc,encap_infix
-							                      ,ind.p[j].page,encap_suffix,delim_n);
+						                              ,ind.p[j].page,encap_suffix,delim_n);
 						linecheck(lbuff,tmpbuff);
 					}
 				}
