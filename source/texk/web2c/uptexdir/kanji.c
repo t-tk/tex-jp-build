@@ -27,7 +27,7 @@ boolean is_char_ascii(integer c)
 boolean is_char_kanji(integer c)
 {
     if (is_internalUPTEX()) 
-        return (c>=0&&(c & CS_TOKEN_FLAG) < CJK_CHAR_LIMIT);
+        return (c >= 0);
     else
         return iskanji1(Hi(c)) && iskanji2(Lo(c));
 }
