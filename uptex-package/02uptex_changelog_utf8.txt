@@ -1,7 +1,7 @@
 ### ChangeLog / 変更履歴
 
 2019.02.23 Ver1.24-20190223a
-  TeXLive svn r50029 base
+  TeXLive svn r50082 base
   Build/source/texk/web2c/uptexdir:
     * uptex-m.ch, uppltotf.ch, uptftopl.ch, updvitype.ch, upbibtex.ch,
       uptex_version.h:
@@ -13,6 +13,10 @@
       "Latin Extended Additional" 15 (not_cjk).
     * COPYRIGHT, COPYRIGHT.ja:
       Update copyright year.
+  Master/texmf-dist/tex/uptex/uptex-base:
+    * ukinsoku.tex:
+      Import from GitHub
+      https://github.com/texjporg/uptex-base
   samples:
     Update.
   01uptex_doc_utf8.txt:
