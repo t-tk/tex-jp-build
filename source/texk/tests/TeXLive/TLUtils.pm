@@ -1,4 +1,3 @@
-# $Id: TLUtils.pm 49855 2019-01-28 22:47:02Z karl $
 # TeXLive::TLUtils.pm - the inevitable utilities for TeX Live.
 # Copyright 2007-2019 Norbert Preining, Reinhard Kotucha
 # This file is licensed under the GNU General Public License version 2
@@ -6,7 +5,7 @@
 
 package TeXLive::TLUtils;
 
-my $svnrev = '$Revision: 49855 $';
+my $svnrev = '$Revision: 50493 $';
 my $_modulerevision = ($svnrev =~ m/: ([0-9]+) /) ? $1 : "unknown";
 sub module_revision { return $_modulerevision; }
 
@@ -322,7 +321,7 @@ sub platform_name {
     # We don't use uname numbers here.)
     #
     # this changes each year, per above:
-    my $mactex_darwin = 10;  # lowest minor rev supported by x86_64-darwin.
+    my $mactex_darwin = 12;  # lowest minor rev supported by x86_64-darwin.
     #
     # Most robust approach is apparently to check sw_vers (os version,
     # returns "10.x" values), and sysctl (processor hardware).
@@ -377,7 +376,7 @@ sub platform_desc {
     'amd64-kfreebsd'   => 'GNU/kFreeBSD on x86_64',
     'amd64-netbsd'     => 'NetBSD on x86_64',
     'armel-linux'      => 'GNU/Linux on ARM',
-    'armhf-linux'      => 'GNU/Linux on ARMhf',
+    'armhf-linux'      => 'GNU/Linux on ARMv6/RPi',
     'hppa-hpux'        => 'HP-UX',
     'i386-cygwin'      => 'Cygwin on Intel x86',
     'i386-darwin'      => 'MacOSX legacy (10.5-10.6) on Intel x86',
@@ -398,8 +397,8 @@ sub platform_desc {
     'universal-darwin' => 'MacOSX universal binaries',
     'win32'            => 'Windows',
     'x86_64-cygwin'    => 'Cygwin on x86_64',
-    'x86_64-darwin'       => 'MacOSX current (10.10-) on x86_64',
-    'x86_64-darwinlegacy' => 'MacOSX legacy (10.6-10.9) on x86_64',
+    'x86_64-darwin'       => 'MacOSX current (10.12-) on x86_64',
+    'x86_64-darwinlegacy' => 'MacOSX legacy (10.6-) on x86_64',
     'x86_64-linux'     => 'GNU/Linux on x86_64',
     'x86_64-linuxmusl' => 'GNU/Linux on x86_64 with musl',
     'x86_64-solaris'   => 'Solaris on x86_64',
@@ -881,7 +880,7 @@ sub mkdirhier {
     # from the UNC path, since (! -d //servername/) tests true
     $subdir = $& if ( win32() && ($tree =~ s!^//[^/]+/!!) );
 
-    @dirs = split (/\//, $tree);
+    @dirs = split (/[\/\\]/, $tree);
     for my $dir (@dirs) {
       $subdir .= "$dir/";
       if (! -d $subdir) {
@@ -894,7 +893,7 @@ sub mkdirhier {
         } else {
           if (! mkdir ($subdir)) {
             $ret = 0;
-            $reterror = "mkdir($subdir) failed: $!";
+            $reterror = "mkdir($subdir) failed for tree $tree: $!";
             last;
           }
         }
@@ -1137,10 +1136,14 @@ sub copy {
     $outfile = "$destdir/$filename";
   }
 
-  mkdirhier ($destdir) unless -d "$destdir";
+  if (! -d $destdir) {
+    my ($ret,$err) = mkdirhier ($destdir);
+    die "mkdirhier($destdir) failed: $err\n" if ! $ret;
+  }
 
   if (-l "$infile") {
-    symlink (readlink $infile, "$destdir/$filename");
+    symlink (readlink $infile, "$destdir/$filename")
+    || die "symlink(readlink $infile, $destdir/$filename) failed: $!";
   } else {
     if (! open (IN, $infile)) {
       warn "open($infile) failed, not copying: $!";
@@ -1148,13 +1151,13 @@ sub copy {
     }
     binmode IN;
 
-    $mode = (-x "$infile") ? oct("0777") : oct("0666");
+    $mode = (-x $infile) ? oct("0777") : oct("0666");
     $mode &= ~umask;
 
     open (OUT, ">$outfile") || die "open(>$outfile) failed: $!";
     binmode OUT;
 
-    chmod $mode, "$outfile";
+    chmod ($mode, $outfile) || warn "chmod($mode,$outfile) failed: $!";
 
     while ($read = sysread (IN, $buffer, $blocksize)) {
       die "read($infile) failed: $!" unless defined $read;
@@ -1167,8 +1170,9 @@ sub copy {
       }
     }
     close (OUT) || warn "close($outfile) failed: $!";
-    close IN || warn "close($infile) failed: $!";;
-    @stat = lstat ("$infile");
+    close (IN) || warn "close($infile) failed: $!";;
+    @stat = lstat ($infile);
+    die "lstat($infile) failed: $!" if ! @stat;
     utime ($stat[8], $stat[9], $outfile);
   }
 }
@@ -2224,7 +2228,8 @@ sub unpack {
     # we can remove it afterwards
     $remove_containerfile = 1;
   }
-  if (!system_pipe($decompressor, $containerfile, $tarfile, $remove_container, @decompressorArgs)
+  if (!system_pipe($decompressor, $containerfile, $tarfile,
+                   $remove_containerfile, @decompressorArgs)
       ||
       ! -f $tarfile) {
     unlink($tarfile, $containerfile);
