@@ -1,4 +1,4 @@
-%% (Last update: 2019/01/29 ttk, texjporg)
+%% (Last update: 2019/05/11 ttk, texjporg)
 %%
 \ifnum\ucs"3000="3000 \else
     \errhelp{Please try to run (e)uptex with option
@@ -6,6 +6,8 @@
     \errmessage{This file should be read with
                 internal Kanji encoding Unicode}\@@end
 \fi
+\kcatcode"FF10=17% Fullwidth ASCII variants
+\kcatcode"FF66=17% Halfwidth Katakana variants
 %%
 %% 行頭、行末禁則パラメータ
 %%
