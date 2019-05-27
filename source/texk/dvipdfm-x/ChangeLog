@@ -1,3 +1,27 @@
+2019-05-22  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* tt_gsub.c: Fix a bug that otl_gsub_read_alternate() and
+	otl_gsub_read_ligature() exit loops wrongly for erroneous
+	data, which leads to uninitialized values.
+	Reported by Chih-Hsuan Yen:
+	https://tug.org/pipermail/dvipdfmx/2019-May/000004.html.
+	* configure.ac: Version 20190522.
+
+2019-05-08  Akira Kakuto  <kakuto@w32tex.org>
+
+	* dpxfile.c: Avoid buffer overflow.
+
+2019-05-08  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* spc_pdfm.c: Transformation also applies to annotations
+	created by pdf:ann.
+
+2019-05-07  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* tt_cmap.c: Fix a bug that CFF charset data were not read.
+	* unicode.c: Fix a bug that end-of-buffer calculation was
+	wrong.
+
 2019-05-05  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
 
 	* pdfdoc.c: g option affects only annotations created by
