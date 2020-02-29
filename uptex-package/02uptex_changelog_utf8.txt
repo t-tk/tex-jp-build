@@ -3,7 +3,7 @@
 2020.02.22 Ver1.26-20200229a
   samples:
     Update.
-  00readme_uptex.txt, 01uptex_doc_utf8.txt:
+  01uptex_doc_utf8.txt:
     Update.
 
 2020.02.22 Ver1.26-20200222a
