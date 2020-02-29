@@ -1,6 +1,6 @@
 ### ChangeLog / 変更履歴
 
-2020.02.22 Ver1.26-20200229a
+2020.02.29 Ver1.26-20200229a
   samples:
     Update.
   01uptex_doc_utf8.txt:
