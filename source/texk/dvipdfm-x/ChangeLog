@@ -1,3 +1,20 @@
+2020-03-27  Karl Berry  <karl@tug.org>
+
+	* TeX Live 2020.
+
+2020-03-15  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* tfm.c, tfm.h, vf.c: Fallback multibyte character
+	in virtual font for (u)pTeX.
+	* configure.ac: version 20200315.
+
+2020-02-29  Hironobu Yamashita  <h.y.acetaminophen@gmail.com>
+
+	* pdfdev.c: Revert the commit on 2019-06-30: see
+	https://tug.org/pipermail/tex-live/2020-February/044855.html.
+	Note that the problem with fake-bold reappears!
+	https://tug.org/pipermail/dvipdfmx/2019-June/000014.html.
+
 2020-02-12  Akira Kakuto  <kakuto@w32tex.org>
 
 	* dvipdfmx.c: Fix a potential bug in set_default_pdf_filename().

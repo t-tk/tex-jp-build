@@ -1,3 +1,38 @@
+2020-04-23  Tomas Rokicki  <rokicki@gmail.com>
+        and Karl Berry  <karl@freefriends.org>
+
+	* patgen.web,
+	* pktogf.web,
+	* pktype.web: fix trivial typos and clarify public domain status.
+	No code changes.
+	(These .web files are not maintained by DEK, per
+	https://tug.org/TUGbpat/tb35-1/tb109knut.pdf page 2.)
+
+2020-04-13  Andreas Scherer  <https://ascherer.github.io>
+
+	* ctangleboot.cin: Add comment for section 6.
+
+2020-04-11  Andreas Scherer  <https://ascherer.github.io>
+
+	* ctangleboot.cin,
+	* cwebboot.cin: Rearrange 'common variables'.
+
+2020-03-30  Andreas Scherer  <https://ascherer.github.io>
+
+	* ctangleboot.cin,
+	* cwebboot.cin,
+	* help.h: Add new option '-t' to CWEB.
+
+2020-03-27  Karl Berry  <karl@tug.org>
+
+	* TeX Live 2020.
+
+2020-03-12  Karl Berry  <karl@freefriends.org>
+
+	* doc/web2c.texi (\input quoted filename),
+	(\input braced filename),
+	(\input filename caveats): new subnodes of "\input filenames".
+
 2020-02-09  Phelype Oleinik  <phe.h.o1@gmail.com>
 
 	* tex.ch (29.256, scan_file_name): new procedure to implement
