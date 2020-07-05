@@ -26,6 +26,9 @@
 
 First comes general stuff:
 
+@d ctangle 0
+@d cweave 1
+@d ctwill 2
 
 @s boolean int
 @s uint8_t int
@@ -35,20 +38,10 @@ First comes general stuff:
 typedef bool boolean;
 typedef uint8_t eight_bits;
 typedef uint16_t sixteen_bits;
-typedef enum {
-  @!ctangle, @!cweave, @!ctwill
-} cweb;
-extern cweb program; /* \.{CTANGLE} or \.{CWEAVE} or \.{CTWILL}? */
+extern int program; /* \.{CWEAVE} or \.{CTANGLE} or \.{CTWILL}? */
 extern int phase; /* which phase are we in? */
 
-@ You may have noticed that almost all \.{"strings"} in the \.{CWEB} sources
-are placed in the context of the `|_|'~macro.  This is just a shortcut for the
-`|@!gettext|' function from the ``GNU~gettext utilities.'' For systems that do
-not have this library installed, we wrap things for neutral behavior without
-internationalization.
-
-@d _(STRING) gettext(STRING)
-
+@ @d _(STRING) gettext(STRING)
 @<Include files@>=
 #ifndef HAVE_GETTEXT
 #define HAVE_GETTEXT 0
@@ -60,8 +53,8 @@ internationalization.
 #define gettext(A) A
 #endif
 @#
-#include <stdbool.h> /* |@!bool|, |@!true|, |@!false| */
-#include <stdint.h> /* |@!uint8_t|, |@!uint16_t| */
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 @ Code related to the character set:
@@ -84,10 +77,10 @@ internationalization.
 @d minus_gt_ast 027 /* `\.{->*}'\,;  corresponds to MIT's {\tentex\char'27} */
 
 @<Common code...@>=
-extern char section_text[]; /* name being sought for */
-extern char *section_text_end; /* end of |section_text| */
-extern char *id_first; /* where the current identifier begins in the buffer */
-extern char *id_loc; /* just after the current identifier in the buffer */
+char section_text[longest_name+1]; /* name being sought for */
+char *section_text_end = section_text+longest_name; /* end of |section_text| */
+char *id_first; /* where the current identifier begins in the buffer */
+char *id_loc; /* just after the current identifier in the buffer */
 
 @ Code related to input routines:
 
@@ -202,7 +195,6 @@ extern boolean print_where; /* tells \.{CTANGLE} to print line and file info */
 @d show_banner flags['b'] /* should the banner line be printed? */
 @d show_progress flags['p'] /* should progress reports be printed? */
 @d show_happiness flags['h'] /* should lack of errors be announced? */
-@d temporary_output flags['t'] /* should temporary output take precedence? */
 @d make_xrefs flags['x'] /* should cross references be output? */
 
 @<Common code...@>=

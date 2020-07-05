@@ -28,19 +28,6 @@
 @z
 
 @x
-\def\botofcontents{\vfill
-@y
-\def\covernote{\vbox{%
-@z
-
-@x
-}
-@y
-}}
-\datecontentspage
-@z
-
-@x
 @s not_eq normal @q unreserve a C++ keyword @>
 @y
 @z
@@ -66,8 +53,8 @@ extern int strncmp(); /* compare up to $n$ string characters */
 extern char* strncpy(); /* copy up to $n$ string characters */
 @y
 @ For string handling we include the {\mc ANSI C} system header file instead
-of predeclaring the standard system functions |@!strlen|, |@!strcmp|,
-|@!strcpy|, |@!strncmp|, and |@!strncpy|.
+of predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
+|strncmp|, and |strncpy|.
 @^system dependencies@>
 
 @<Include files@>=
@@ -82,6 +69,13 @@ char **av; /* argument values */
 int main (@t\1\1@>
 int ac, /* argument count */
 char **av@t\2\2@>) /* argument values */
+@z
+
+@x
+  argc=ac; argv=av;
+@y
+  extern const char *use_language; /* prefix to \.{cwebmac.tex} in \TEX/ output */
+  argc=ac; argv=av;
 @z
 
 @x
@@ -138,10 +132,8 @@ char **av@t\2\2@>) /* argument values */
 
 @x
 @d max_scraps 2000 /* number of tokens in \CEE/ texts being parsed */
-@d stack_size 400 /* number of simultaneous output levels */
 @y
 @d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
-@d stack_size 2000 /* number of simultaneous output levels */
 @z
 
 @x
@@ -1923,12 +1915,6 @@ static void skip_limbo(void);@/
 static void squash(scrap_pointer,short,eight_bits,short,short);@/
 static void update_node(name_pointer p);@/
 
-@* Language setting.  This global variable is defined and set in \.{COMMON} by
-the `\.{+l}' (or `\.{-l}') command-line option.
-
-@<Global var...@>=
-extern const char *use_language; /* prefix to \.{cwebmac.tex} in \TEX/ output */
-
 @* Output file update.  Most \CEE/ projects are controlled by a
 \.{Makefile} that automatically takes care of the temporal dependecies
 between the different source modules.  It is suitable that \.{CWEB} doesn't
@@ -1940,13 +1926,13 @@ be found in the program \.{NUWEB} by Preston Briggs, to whom credit is due.
 @<Update the result...@>=
 if((tex_file=fopen(tex_file_name,"r"))!=NULL) {
   char x[BUFSIZ],y[BUFSIZ];
-  int x_size,y_size,comparison=false;
+  int x_size,y_size,comparison;
 
   if((check_file=fopen(check_file_name,"r"))==NULL)
     fatal(_("! Cannot open output file "),check_file_name);
 @.Cannot open output file@>
 
-  if (temporary_output) @<Compare the temporary output...@>@;
+  @<Compare the temporary output to the previous output@>@;
 
   fclose(tex_file); tex_file=NULL;
   fclose(check_file); check_file=NULL;
@@ -1959,7 +1945,7 @@ strcpy(check_file_name,""); /* We want to get rid of the temporary file */
 
 @ We hope that this runs fast on most systems.
 
-@<Compare the temporary output to the previous output@>=
+@<Compare the temp...@>=
 do {
   x_size = fread(x,1,BUFSIZ,tex_file);
   y_size = fread(y,1,BUFSIZ,check_file);
