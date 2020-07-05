@@ -1,0 +1,79 @@
+%#!uplatex
+\UseRawInputEncoding
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\ifdefined\kchar\usepackage[uplatex]{otf}\else\usepackage{otf}\fi
+\def\TEST#1{{\setbox0=\vbox{\noindent
+  ああああああ\scantokens{#1}}\showboxbreadth10000\showboxdepth10000\tracingonline1\showbox0}}
+\begin{document}
+\char"3058\char\kuten"0418.
+\typeout{TEST}
+
+\chardef\CR=`す
+\TEST{す{\kcatcode`す=18 す}「。}
+\TEST{\CR。}
+\ifdefined\Ucharcat
+\TEST{\Ucharcat`す 16。}
+\TEST{\Ucharcat`す 17。}
+\TEST{\Ucharcat`す 18。}
+\TEST{\Ucharcat`す 19。}
+\fi
+
+\TEST{す。}
+\TEST{す\char\kuten"0103}
+\TEST{す\UTF{3002}}
+\ifdefined\kchar\TEST{す\kchar\kuten"0103}\fi
+
+\TEST{\char\kuten"0419。}
+\TEST{\char\kuten"0419\char\kuten"0103}
+\TEST{\char\kuten"0419\UTF{3002}}
+\ifdefined\kchar\TEST{\char\kuten"0419\kchar\kuten"0103}\fi
+
+\ifdefined\kchar
+\kchardef\KR=`す
+\TEST{\KR。}
+\TEST{\kchar\kuten"0419。}
+\TEST{\kchar\kuten"0419\char\kuten"0103}
+\TEST{\kchar\kuten"0419\UTF{3002}}
+\TEST{\kchar\kuten"0419\kchar\kuten"0103}
+
+{\kcatcode`α=15
+  \typeout{KCHAR"3B1, kcatcode=15}
+  \def\S{\kchar"03B1}
+  \TEST{い\kchar"03B1。}
+  \TEST{\kchar"03B1。}
+  \TEST{\relax\kchar"03B1。}
+  \TEST{\vrule\kchar"03B1。}
+  \TEST{b\kchar"03B1。}
+  \TEST{い\S。}
+
+  \typeout{CHAR"3B1, kcatcode=15}
+  \def\S{\char"03B1}
+  \TEST{い\char"03B1。}
+  \TEST{\char"03B1。}
+  \TEST{\relax\char"03B1。}
+  \TEST{\vrule\char"03B1。}
+  \TEST{b\char"03B1。}
+  \TEST{い\S。}
+
+  \typeout{KCHARDEF"3B1, kcatcode=15}
+  \chardef\KA="3B1
+  \TEST{い\KA 。}
+  \TEST{\KA 。}
+  \TEST{\relax\KA 。}
+  \TEST{\vrule\KA 。}
+  \TEST{b\KA 。}
+  \TEST{い\S。}
+
+  \typeout{CHARDEF"3B1, kcatcode=15}
+  \chardef\CA="3B1
+  \TEST{い\CA 。}
+  \TEST{\CA 。}
+  \TEST{\relax\CA 。}
+  \TEST{\vrule\CA 。}
+  \TEST{b\CA 。}
+}
+\fi
+
+\end{document}
+
