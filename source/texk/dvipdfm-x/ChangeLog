@@ -1,3 +1,235 @@
+2020-10-14  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* tt_cmap.c: Fix a bug that checking array indices is wrong.
+	* cidtype2.c: Warning message when CID is mapped to a sequence
+	of several Unicode characters is corrected. Fix a wrong
+	assumption introduced by xdvipdfmx.
+	* configure.ac: Version 20201014.
+
+2020-10-08  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* dvi.c: Fix problems introduced by the changes on 2020/10/03.
+	Fix a possible problem of invalid access. Fix a problem that
+	non-BMP characters are not handled properly for the "unicode"
+	encoding.
+	* spc_pdfm.c: pdf:bcolor and pdf:scolor accept both fill and
+	stroke color specified at the same time. Change the behavior
+	when an indirect object is specified for pdf:pageresources.
+	* configure.ac: Version 20201008.
+
+2020-10-06  Akira Kakuto  <kakuto@w32tex.org>
+
+	* spc_dvips.c: Add an option -dALLOWPSTRANSPARENCY in
+	GS_CALCULATOR to obtain correct results in PSTrics for XeTeX
+	in the case of newer Ghostscript such as gs-9.53.3.
+	Reported in
+	https://tug.org/pipermail/dvipdfmx/2020-October/000109.html
+
+2020-10-06  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* dvipdfmx.c: Fix a bug that printing output file name is wrong.
+	* dvi.c: Change XeTeX font handling. Convert glyph metrics to
+	an internal format at load time. Don't interpret type1
+	CharStrings again and again.
+	* configure.ac: Version 20201006.
+
+2020-10-05  Karl Berry  <karl@tug.org>
+
+	* man/dvipdfmx.1: update date.
+
+2020-10-05  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* man/dvipdfmx.1: Fix a problem in the man page as reported in
+	https://tug.org/pipermail/dvipdfmx/2020-October/000107.html.
+
+2020-10-03  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* cid.c, cid.h: Add "const" attribute to arguments fontmap_rec
+	and fmap_opt.
+	* cmap.c: Correct calculation of min-bytes and max-bytes. Fix
+	indentation.
+	* dvi.c, mpost.c, pdfdev.[ch], pdffont.[ch]: Simplify input
+	text handling. The "mapc" option is handled in dvi.c.
+	* configure.ac: Version 20201003.
+
+2020-09-26  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfobj.c: Fix a bug that the max number of indirect objects
+	is wrongly set, causing a problem when too many indirect
+	objects are created.
+	* pdflimit.h: Add PDF_NUM_INDIRECT_MAX indicating the maximum
+	number of indirect objects which can be allocated as described
+	in PDF Ref. v.1.7 and ISO 32000-1.
+	* configure.ac: Version 20200926.
+
+2020-09-24  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdffont.c: Fix a bug introduced by the recent font related
+	changes which can cause a problem when there is a font
+	defined but not used.
+	* configure.ac: Version 20200924.
+
+2020-09-22  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* cid.[ch], cidtype0.[ch], cidtype2.[ch], pdfdev.c,
+	pdffont.[ch], pkfont.[ch], truetype.[ch], type0.[ch],
+	type1.[ch], type1c.[ch]: Revise font related code and largely
+	simplify it. Type0 and CIDFont now use the same struct as
+	simple fonts.
+	* Makefile.am, cid_p.h: Remove cid_p.h.
+	* pdfdraw.[ch]: Fix a bug in calculation of determinant.
+	Enable few functions for future improvement.
+	* dpxutil.c: Fix a bug in the roll operation.
+	* configure.ac: Version 20200922.
+
+2020-09-07  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* spc_misc.c: Fix a bug that the upper limit of stack id is wrong.
+	* Update copyright years and README. Remove outdated
+	information from README.
+
+2020-09-06  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* spc_pdfm.c: pdf:bcolor and pdf:scolor now accept new
+	keywords "fill" and "stroke" to indicate either of fill/stroke
+	color is specified.
+	* spc_misc.[ch], specials.[ch]: New special commands for
+	pdfcolorstack are added. This is a compatibility feature to
+	pdfcolorstack in pdftex.
+	* configure.ac: Version 20200906.
+
+2020-09-05  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* spc_pdfm.c: Workaround for an issue that occurs when an
+	indirect object (object reference) is used for a resource
+	dictionary entry in pdf:put command. The content of an already
+	existing resource dictionary is copied to the new dictionary.
+	* pdfobj.c, pdfdoc.c: pdf_indirect stores a pointer to the
+	object itself but there is no way to know if the object is
+	released. This can result in using junk pointers. To resolve
+	this issue, a list is added to record released indirect objects.
+	* configure.ac: Version 20200905.
+
+2020-09-02  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfnames.c: Fix an incompatible behavior introduced by the
+	previous changes on the named object (rev.55887).
+	* configure.ac: Version 20200902.
+
+2020-08-26  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* spc_pdfm.c: Fix a bug exposed by the previous changes on the
+	named object (rev.55887). Remove unnecessary spc_flush_object.
+	* configure.ac: Version 20200826.
+
+2020-08-16  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* dpxutil.[ch]: Add stack operation.
+	* epdf.[ch], pdfdraw.[ch]: Revise Clip path support for PSTricks.
+	Revert changes related to "rectadd" introduced in rev.31262
+	and rev.31302 which cause non-conforming behavior in "clip"
+	operatation.
+	* dvi.[c], mpost.c, pdfdev.[ch], pdfdoc.[ch], pdfdraw.[ch],
+	spc_html.c, spc_misc.c. spc_pdfm.c, spc_xtx.c, specials.[ch]:
+	Revise bcontent support. Try to resolve various inconsistent
+	behaviors when special commnads are used within pdf:bcontent
+	and pdf:econtent. dev_coords and pt_fixee are removed from pdf
+	module and moved to specials.c.
+	* mpost.h, spc_html.h, spc_misc.h, spc_pdfm.h, spc_xtx.h:
+	Update copyright years.
+	* configure.ac: Version 20200816.
+
+2020-08-08  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* fontmap.[ch], pdffont.[ch], tt_aux.[ch], tt_cmap.[ch]:
+	Use uint32_t for TTC index.
+
+2020-07-31  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* cid.c: Avoid accessing array elements exceeding max array index.
+	* spc_pdfm.c: Check array elements also for to-unicode conversion.
+	* tt_cmap.c: Additional changes are required for the previous CMap name fix.
+
+2020-07-29  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* spc_pdfm.c: Improve codes in unicode conversion and
+	annotation rect calculation.
+	* spc_xtx.c: Add missing reset_xgstate().
+	* tt_cmap.c: Add wmode to auto-generated CMap names.
+
+2020-07-28  Clerk Ma  <maqiyuan130324@vip.qq.com>
+
+	* pdfobj.c: Simple modifications for LIBDPX.
+
+2020-07-26  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* cmap_write.c: Change ariable names.
+	* dvipdfmx.c: Remove unused variables. Modify init sequence.
+	Page size specified as a command line option overwrites
+	settings specified by pagesize specials.
+	* pdfdev.[ch], pdfdoc.[ch], pdfencrypt.[ch], pdfobj.[ch]:
+	File static variables are now placed in a single struct.
+	* pdfparse.[ch], spc_pdfm.c: PDF parse object function is
+	called with a callback function to be called when an object of
+	unknown type is encountered.
+	* pdfximage.c: Do not include an unnecessary file.
+	* dpxconf.[ch], xbb.c: Add is_xbb in dpx_conf.
+	* dpxutil.[ch], dvi.c, dvipdfmx.c: Add dpx_util_read_length().
+	* configure.ac: Version 20200726.
+
+2020-07-24  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* cidtype0.c: Fix a bug introduced in rev.37144 that generated
+	CIDType0 font file is corrupt when the "force fixed-pitch"
+	option is enabled.
+	* pdfximage.c: "filename" was wrongly used for cached converted
+	PS images.
+
+2020-07-21  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfdoc.[ch], pdfnames.[ch], pdfobj.c, pdfximage.[ch],
+	spc_dvips.c, spc_html.c, spc_misc.c, spc_pdfm.c, specials.c:
+	"Forward reference" of image objects is also supported.
+	Object reference by name is now available globally but not
+	only for the "special" module.
+	* configure.ac: Version 20200721.
+
+2020-07-19  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfdraw.c: Avoid invoking gs operation for an empty ExtGState.
+
+2020-07-18  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* dvipdfmx.c, pdfximage.[ch]: Don't call ordinary functions
+	such as pdf_close_images() which can call ERROR() in
+	error_cleanup(). This can result in a recursive call of
+	error_cleanup().
+
+2020-07-11  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfdev.c, pdfdoc.c, pdfdraw.[ch], pdfobj.[ch], spc_pdfm.c:
+	ExtGState can be manipulated with a dedicated stack.
+	Add new specials pdf:bxgstate and pdf:exgstate to push/pop
+	ExtGState into/from the stack.
+	* pdfcolor.c: Fix a bug that assignment was missing
+	in pdf_color_compare().
+	* configure.ac: Version 20200711.
+
+2020-07-04  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfcolor.c, spc_util.c: Fix a bug in pdfcolor.c.
+	Add initialization of a variable and NULL pointer check.
+	* configure.ac: Version 20200704.
+
+2020-07-02  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
+
+	* pdfdoc.c, spc_pdfm.c: Possible fix for a bug that pdf:btrans
+	inside pdf:bcontent and pdf:econtent does not work correctly.
+	Extend pdf:bann to accept a reference ID which can be used
+	later to refer the annotation dictionary object. When
+	line-breaks occur, it just points to the first annotation
+	dictionary of the line-breaking annotation series.
+
 2020-06-28  Shunsaku Hirata  <shunsaku.hirata74@gmail.com>
 
 	* dvi.[ch], spc_dvipdfmx.c, spc_pdfm.c, specials.[ch]: Two new

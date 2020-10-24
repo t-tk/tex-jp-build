@@ -47,8 +47,12 @@ Changes for \MP\ by W.~Bzyl in July, 2001.
 % AIX defines `class' in <math.h>, so let's take this opportunity to
 % define that away.
 @x
+calls the `|jump_out|' procedure, which goes to the label |end_of_MFT|.
+
 @d end_of_MFT = 9999 {go here to wrap it up}
 @y
+calls the `|jump_out|' procedure.
+
 @d class == class_var
 @z
 
@@ -222,7 +226,7 @@ and exits back to the operating system.
 @<Error handling...@>=
 procedure jump_out;
 begin
-@t\4\4@>{here files should be closed if the operating system requires it}
+{here files should be closed if the operating system requires it}
   @<Print the job |history|@>;
   new_line;
   if (history <> spotless) and (history <> harmless_message) then
@@ -957,7 +961,7 @@ files, as UNIX knows them.
 @!style_name:array[0..max_style_name-1] of const_c_string;
 @!n_style_name:c_int_type;  {Number of values in |style_name| array.}
 @!i_style_name:c_int_type;  {The next |style_name|.}
-@!metapost:c_int_type;  {|true| for \MF, |false| for \MP}
+@!metapost:c_int_type;  {|true| for \MP, |false| for \MF}
 
 @ Look at the command line arguments and set the |name| variables accordingly.
 
@@ -1089,7 +1093,7 @@ long_options[current_option].flag := address_of (metapost);
 long_options[current_option].val := 1;
 incr (current_option);
 
-@ |metapost| defaults to false
+@ |metapost| defaults to |false|; will become |true| for \MP.
 
 @<Initialize the option...@> =
 metapost:=false;

@@ -1,3 +1,20 @@
+2020-08-26  Karl Berry  <karl@tug.org>
+
+	* texmf.cnf (save_size): double to 200,000. Needed with
+	long documents, tex4ht, and l3regex. Hopefully no harm in increasing.
+	https://tug.org/pipermail/tex4ht/2020q3/002710.html
+
+2020-07-05  Karl Berry  <karl@freefriends.org>
+
+	* configure.ac (snprintf): two more test programs
+	also need <stdarg.h> and <stdio.h>.
+
+2020-07-04  Karl Berry  <karl@freefriends.org>
+
+	* configure.ac (snprintf): #include <stdio.h> to placate
+	new arm64 Mac compiler, since apparently that's the standard
+	place for the [v]snprintf declaration. We'll see. Report from Dick.
+
 2020-06-22  Karl Berry  <karl@freefriends.org>
 
 	* Makefile.am (EXTRA_DIST): add COPYING.LESSERv2.
