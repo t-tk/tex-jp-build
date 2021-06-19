@@ -2152,6 +2152,34 @@ open_in_or_pipe (FILE **f_ptr, int filefmt, const_string fopen_mode)
     return open_input(f_ptr,filefmt,fopen_mode) ;
 }
 
+#ifdef FMT_COMPRESS
+boolean
+gz_wopenin(gzFile *f)
+{
+	int fd;
+	FILE *fp = NULL;
+	if (!open_input (&fp, DUMP_FORMAT, FOPEN_RBIN_MODE))
+		return false;
+	fd = dup(fileno(fp));
+	fclose(fp);
+	*f = gzdopen(fd, FOPEN_RBIN_MODE);
+	return *f != NULL;
+}
+
+boolean
+gz_wopenout(gzFile *f)
+{
+	int fd;
+	FILE *fp = NULL;
+	if (!open_output (&fp, FOPEN_WBIN_MODE))
+		return false;
+	fd = dup(fileno(fp));
+	fclose(fp);
+	*f = gzdopen(fd, FOPEN_WBIN_MODE);
+	return (*f != NULL) && (gzsetparams(*f, 1, Z_DEFAULT_STRATEGY) == Z_OK);
+}
+#endif
+
 #ifdef XeTeX
 boolean
 u_open_in_or_pipe(unicodefile* f, integer filefmt, const_string fopen_mode, integer mode, integer encodingData)
@@ -3208,7 +3236,9 @@ safe_print(const char *str)
 
    The output format of this fuction must be the same as pdf_error in
    pdftex.web! */
+#if !defined(_MSC_VER)
 __attribute__ ((noreturn, format(printf, 1, 2)))
+#endif
 void pdftex_fail(const char *fmt, ...)
 {
     va_list args;
