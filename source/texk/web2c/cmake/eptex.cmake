@@ -1,4 +1,42 @@
 
+# e-pTeX SyncTeX
+
+set(eptex_include_synctex
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/synctexdir"
+  )
+
+set(eptex_link_synctex
+  zlib
+  )
+
+set(eptex_ch_synctex
+  synctexdir/synctex-def.ch0
+  synctexdir/synctex-ep-mem.ch0
+  synctexdir/synctex-mem.ch0
+  synctexdir/synctex-e-mem.ch0
+  synctexdir/synctex-ep-mem.ch1
+  synctexdir/synctex-p-rec.ch0
+  synctexdir/synctex-rec.ch0
+  synctexdir/synctex-rec.ch1
+  synctexdir/synctex-ep-rec.ch0
+  synctexdir/synctex-e-rec.ch0
+  synctexdir/synctex-p-rec.ch1
+  )
+
+set(dist_eptex_SOURCES_synctex
+  synctexdir/synctex.c
+  synctexdir/synctex.h
+  synctexdir/synctex-common.h
+  synctexdir/synctex-eptex.h
+  )
+
+set(eptex_definitions_synctex
+  PRIVATE -D__SyncTeX__
+  PRIVATE -DSYNCTEX_ENGINE_H=\"synctex-eptex.h\"
+  )
+
+# e-pTeX
+
 set(eptex_c_h
   eptexini.c
   eptex0.c
@@ -6,22 +44,26 @@ set(eptex_c_h
   eptexd.h
   )
 
-set(eptex_SRCS
+set(nodist_eptex_SOURCES
   ${eptex_c_h}
   eptex-pool.c
+  )
+
+set(dist_eptex_SOURCES
   eptexdir/eptexextra.c
   eptexdir/eptexextra.h
   eptexdir/eptex_version.h
+  ${dist_eptex_SOURCES_synctex}
   )
 
 set(eptex_web_srcs
-	tex.web
-	etexdir/etex.ch
-	etexdir/tex.ch0
-	tex.ch
-	tracingstacklevels.ch
-	zlib-fmt.ch
-	etexdir/tex.ech
+  tex.web
+  etexdir/etex.ch
+  etexdir/tex.ch0
+  tex.ch
+  tracingstacklevels.ch
+  zlib-fmt.ch
+  etexdir/tex.ech
   )
 
 set(eptex_ch_srcs
@@ -37,6 +79,11 @@ set(eptex_ch_srcs
   tex-binpool.ch
   )
 
+set(eptex_SRCS
+  ${nodist_eptex_SOURCES}
+  ${dist_eptex_SOURCES}
+  )
+
 if(WIN32)
   set(eptex dlleptex)
   add_library(${eptex} SHARED ${eptex_SRCS})
@@ -46,16 +93,17 @@ else()
 endif()
 
 if(MSVC)
-  target_compile_definitions(${eptex} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
+  target_compile_definitions(${eptex} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1 ${eptex_definitions_synctex})
 endif()
 
 target_include_directories(${eptex}
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libmd5"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
+  ${eptex_include_synctex}
   )
 
-target_link_libraries(${eptex} libkanji web2c_libp ptexenc libmd5 zlib web2c_lib kpathsea)
+target_link_libraries(${eptex} libkanji web2c_libp ptexenc libmd5 zlib web2c_lib kpathsea ${eptex_link_synctex})
 
 web2c_convert(eptex OUTPUT ${eptex_c_h} DEPENDS eptex.p ${web2c_texmf} eptexdir/eptex.defines)
 
