@@ -65,11 +65,17 @@ include(cmake/bootstrap.cmake)
 
 include(cmake/cweb.cmake)
 
-# ptex
+# pTeX
 include(cmake/ptex.cmake)
 
-# eptex
+# e-pTeX
 include(cmake/eptex.cmake)
+
+# upTeX
+include(cmake/uptex.cmake)
+
+# e-upTeX
+include(cmake/euptex.cmake)
 
 # libmd5
 include(cmake/md5.cmake)
