@@ -78,21 +78,23 @@ target_include_directories(ctangle
 
 target_link_libraries(ctangle web2c_lib kpathsea)
 
-STRING(REPLACE "\\" "/" TEXMFCNF "${CMAKE_CURRENT_SOURCE_DIR}/../kpathsea")
-STRING(REPLACE "\\" "/" CWEBINPUTS "${CMAKE_CURRENT_SOURCE_DIR}/cwebdir")
 add_custom_command(
   OUTPUT ctangle.c
+  BYPRODUCTS ctangle.c
   DEPENDS ctangleboot cwebdir/comm-w2c.h cwebdir/ctangle.w cwebdir/ctang-w2c.ch
   COMMAND ${CMAKE_COMMAND} -E env
-    "CWEBINPUTS=${CWEBINPUTS}" "TEXMFCNF=${TEXMFCNF}"
-    "$<TARGET_FILE_DIR:tangleboot>/ctangleboot" ctangle ctang-w2c
+    "CWEBINPUTS=${CMAKE_CURRENT_SOURCE_DIR}/cwebdir"
+    "TEXMFCNF=${CMAKE_CURRENT_SOURCE_DIR}/../kpathsea"
+    "$<TARGET_FILE_DIR:ctangleboot>/ctangleboot" ctangle ctang-w2c
   )
 add_custom_command(
   OUTPUT cweb.c
+  BYPRODUCTS cweb.c
   DEPENDS ctangleboot cwebdir/common.w cwebdir/comm-w2c.ch
   COMMAND ${CMAKE_COMMAND} -E env
-    "CWEBINPUTS=${CWEBINPUTS}" "TEXMFCNF=${TEXMFCNF}"
-    "$<TARGET_FILE_DIR:tangleboot>/ctangleboot" common comm-w2c cweb.c
+    "CWEBINPUTS=${CMAKE_CURRENT_SOURCE_DIR}/cwebdir"
+    "TEXMFCNF=${CMAKE_CURRENT_SOURCE_DIR}/../kpathsea"
+    "$<TARGET_FILE_DIR:ctangleboot>/ctangleboot" common comm-w2c cweb.c
   )
 
 #
