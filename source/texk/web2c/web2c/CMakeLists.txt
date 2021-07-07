@@ -108,14 +108,3 @@ target_include_directories(makecpool
   )
 
 target_link_libraries(makecpool libweb2c kpathsea)
-
-#
-# kpathsea.dll
-#
-if(WIN32 AND NOT NO_KPSE_DLL)
-  add_custom_command(TARGET web2c POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-      "$<TARGET_FILE_DIR:kpathsea>/kpathsea.dll"
-      "$<TARGET_FILE_DIR:web2c>"
-    )
-endif()

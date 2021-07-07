@@ -47,7 +47,10 @@ configure_file(
   COPYONLY
   )
 
-web2c_convert(tangleboot)
+web2c_convert(tangleboot
+  OUTPUT tangleboot.c tangleboot.h
+  DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/tangleboot.p"
+  )
 
 add_executable(tangleboot
   tangleboot.c
@@ -68,7 +71,6 @@ add_executable(ctangle ctangle.c cweb.c)
 
 if(MSVC)
   target_compile_definitions(ctangle PRIVATE -D_CRT_DECLARE_NONSTDC_NAMES=0)
-  target_compile_definitions(ctangle PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
 endif()
 
 target_include_directories(ctangle
@@ -85,7 +87,7 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E env
     "CWEBINPUTS=${CMAKE_CURRENT_SOURCE_DIR}/cwebdir"
     "TEXMFCNF=${CMAKE_CURRENT_SOURCE_DIR}/../kpathsea"
-    "$<TARGET_FILE_DIR:ctangleboot>/ctangleboot" ctangle ctang-w2c
+    "$<TARGET_FILE:ctangleboot>" ctangle ctang-w2c
   )
 add_custom_command(
   OUTPUT cweb.c
@@ -94,7 +96,7 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E env
     "CWEBINPUTS=${CMAKE_CURRENT_SOURCE_DIR}/cwebdir"
     "TEXMFCNF=${CMAKE_CURRENT_SOURCE_DIR}/../kpathsea"
-    "$<TARGET_FILE_DIR:ctangleboot>/ctangleboot" common comm-w2c cweb.c
+    "$<TARGET_FILE:ctangleboot>" common comm-w2c cweb.c
   )
 
 #
@@ -104,7 +106,6 @@ add_executable(ctangleboot ctangleboot.c cwebboot.c)
 
 if(MSVC)
   target_compile_definitions(ctangleboot PRIVATE -D_CRT_DECLARE_NONSTDC_NAMES=0)
-  target_compile_definitions(ctangleboot PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
 endif()
 
 target_include_directories(ctangleboot
@@ -125,14 +126,3 @@ configure_file(
   "${CMAKE_CURRENT_BINARY_DIR}/cwebboot.c"
   COPYONLY
   )
-
-#
-# kpathsea.dll
-#
-if(WIN32 AND NOT NO_KPSE_DLL)
-add_custom_command(TARGET tangleboot POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy
-    "$<TARGET_FILE_DIR:kpathsea>/kpathsea.dll"
-    "$<TARGET_FILE_DIR:tangleboot>"
-  )
-endif()

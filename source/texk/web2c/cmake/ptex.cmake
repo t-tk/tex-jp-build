@@ -1,13 +1,12 @@
 
+
+## libkanji
+
 add_library(libkanji
   ptexdir/kanji.c
   ptexdir/kanji.h
   ptexdir/kanji_dump.c
   )
-
-if(MSVC)
-  target_compile_definitions(libkanji PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
-endif()
 
 target_include_directories(libkanji
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -16,7 +15,8 @@ target_include_directories(libkanji
 
 target_link_libraries(libkanji ptexenc kpathsea zlib)
 
-# pTeX SyncTeX
+
+## pTeX SyncTeX
 
 set(ptex_include_synctex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/synctexdir"
@@ -90,24 +90,20 @@ set(ptex_SRCS
   )
 
 if(WIN32)
-  set(ptex dllptex)
-  add_library(${ptex} SHARED ${ptex_SRCS})
+  add_library(ptex SHARED ${ptex_SRCS})
 else()
-  set(ptex ptex)
-  add_executable(${ptex} ${ptex_SRCS})
+  add_executable(ptex ${ptex_SRCS})
 endif()
 
-if(MSVC)
-  target_compile_definitions(${ptex} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1 ${ptex_definitions_synctex})
-endif()
+target_compile_definitions(ptex ${ptex_definitions_synctex})
 
-target_include_directories(${ptex}
+target_include_directories(ptex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   ${ptex_include_synctex}
   )
 
-target_link_libraries(${ptex} libkanji web2c_libp ptexenc zlib web2c_lib kpathsea ${ptex_link_synctex})
+target_link_libraries(ptex libkanji web2c_libp ptexenc zlib web2c_lib kpathsea ${ptex_link_synctex})
 
 web2c_convert(ptex OUTPUT ${ptex_c_h} DEPENDS ptex.p ${web2c_texmf} ptexdir/ptex.defines)
 
@@ -120,14 +116,20 @@ add_custom_command(
   OUTPUT ptex-pool.c
   DEPENDS ptex.pool ptexd.h makecpool
   COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/makecpool.py"
-    "--makecpool" "$<TARGET_FILE_DIR:makecpool>/makecpool"
+    "--makecpool" "$<TARGET_FILE:makecpool>"
     ptex ptex-pool.c
   )
 
 if(WIN32)
-  foreach(e ptex)
-    add_executable(${e} "cmake/calldll.c")
-    target_compile_definitions(${e} PRIVATE DLLPROC=dllptexmain)
-    target_link_libraries(${e} ${ptex})
+  add_executable(calldll_ptex "cmake/calldll.c")
+  target_compile_definitions(calldll_ptex PRIVATE DLLPROC=dllptexmain)
+  target_link_libraries(calldll_ptex ptex)
+
+  foreach(name ptex)
+    add_custom_command(TARGET calldll_ptex POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+        "$<TARGET_FILE:calldll_ptex>"
+        "$<TARGET_FILE_DIR:calldll_ptex>/${name}.exe"
+      )
   endforeach()
 endif()

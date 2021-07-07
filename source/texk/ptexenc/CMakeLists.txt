@@ -47,14 +47,11 @@ else()
   add_library(ptexenc SHARED ${ptexenc_SRCS})
 endif()
 
-target_compile_definitions(ptexenc
-  PRIVATE -DMAKE_PTENC_DLL
-  PRIVATE -D_CRT_SECURE_NO_WARNINGS=1
-  )
+target_compile_definitions(ptexenc PRIVATE -DMAKE_PTENC_DLL)
 
 target_include_directories(ptexenc
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
   PUBLIC "${CMAKE_CURRENT_BINARY_DIR}"
   )
 
-target_link_libraries(ptexenc kpathsea)
+target_link_libraries(ptexenc PUBLIC kpathsea)

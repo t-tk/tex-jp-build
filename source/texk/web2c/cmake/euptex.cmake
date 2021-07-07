@@ -97,25 +97,21 @@ set(euptex_SRCS
   )
 
 if(WIN32)
-  set(euptex dlleuptex)
-  add_library(${euptex} SHARED ${euptex_SRCS})
+  add_library(euptex SHARED ${euptex_SRCS})
 else()
-  set(euptex euptex)
-  add_executable(${euptex} ${euptex_SRCS})
+  add_executable(euptex ${euptex_SRCS})
 endif()
 
-if(MSVC)
-  target_compile_definitions(${euptex} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1 ${euptex_definitions_synctex})
-endif()
+target_compile_definitions(euptex ${euptex_definitions_synctex})
 
-target_include_directories(${euptex}
+target_include_directories(euptex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libmd5"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   ${euptex_include_synctex}
   )
 
-target_link_libraries(${euptex} libukanji web2c_libp ptexenc libmd5 zlib web2c_lib kpathsea ${euptex_link_synctex})
+target_link_libraries(euptex libukanji web2c_libp ptexenc libmd5 zlib web2c_lib kpathsea ${euptex_link_synctex})
 
 web2c_convert(euptex OUTPUT ${euptex_c_h} DEPENDS euptex.p ${web2c_texmf} euptexdir/euptex.defines)
 
@@ -133,9 +129,15 @@ add_custom_command(
   )
 
 if(WIN32)
-  foreach(e euptex uplatex)
-    add_executable(${e} "cmake/calldll.c")
-    target_compile_definitions(${e} PRIVATE DLLPROC=dlleuptexmain)
-    target_link_libraries(${e} ${euptex})
+  add_executable(calldll_euptex "cmake/calldll.c")
+  target_compile_definitions(calldll_euptex PRIVATE DLLPROC=dlleuptexmain)
+  target_link_libraries(calldll_euptex euptex)
+
+  foreach(name euptex uplatex uplatex-dev)
+    add_custom_command(TARGET calldll_euptex POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+        "$<TARGET_FILE:calldll_euptex>"
+        "$<TARGET_FILE_DIR:calldll_euptex>/${name}.exe"
+      )
   endforeach()
 endif()

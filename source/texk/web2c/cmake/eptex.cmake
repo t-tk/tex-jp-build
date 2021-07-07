@@ -1,5 +1,6 @@
 
-# e-pTeX SyncTeX
+
+## e-pTeX SyncTeX
 
 set(eptex_include_synctex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/synctexdir"
@@ -85,25 +86,21 @@ set(eptex_SRCS
   )
 
 if(WIN32)
-  set(eptex dlleptex)
-  add_library(${eptex} SHARED ${eptex_SRCS})
+  add_library(eptex SHARED ${eptex_SRCS})
 else()
-  set(eptex eptex)
-  add_executable(${eptex} ${eptex_SRCS})
+  add_executable(eptex ${eptex_SRCS})
 endif()
 
-if(MSVC)
-  target_compile_definitions(${eptex} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1 ${eptex_definitions_synctex})
-endif()
+target_compile_definitions(eptex ${eptex_definitions_synctex})
 
-target_include_directories(${eptex}
+target_include_directories(eptex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libmd5"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   ${eptex_include_synctex}
   )
 
-target_link_libraries(${eptex} libkanji web2c_libp ptexenc libmd5 zlib web2c_lib kpathsea ${eptex_link_synctex})
+target_link_libraries(eptex libkanji web2c_libp ptexenc libmd5 zlib web2c_lib kpathsea ${eptex_link_synctex})
 
 web2c_convert(eptex OUTPUT ${eptex_c_h} DEPENDS eptex.p ${web2c_texmf} eptexdir/eptex.defines)
 
@@ -116,14 +113,20 @@ add_custom_command(
   OUTPUT eptex-pool.c
   DEPENDS eptex.pool eptexd.h makecpool
   COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/makecpool.py"
-    "--makecpool" "$<TARGET_FILE_DIR:makecpool>/makecpool"
+    "--makecpool" "$<TARGET_FILE:makecpool>"
     eptex eptex-pool.c
   )
 
 if(WIN32)
-  foreach(e eptex platex)
-    add_executable(${e} "cmake/calldll.c")
-    target_compile_definitions(${e} PRIVATE DLLPROC=dlleptexmain)
-    target_link_libraries(${e} ${eptex})
+  add_executable(calldll_eptex "cmake/calldll.c")
+  target_compile_definitions(calldll_eptex PRIVATE DLLPROC=dlleptexmain)
+  target_link_libraries(calldll_eptex eptex)
+
+  foreach(name eptex platex platex-dev)
+    add_custom_command(TARGET calldll_eptex POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+        "$<TARGET_FILE:calldll_eptex>"
+        "$<TARGET_FILE_DIR:calldll_eptex>/${name}.exe"
+      )
   endforeach()
 endif()

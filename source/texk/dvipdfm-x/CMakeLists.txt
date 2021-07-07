@@ -4,7 +4,11 @@ set(VERSION "20210609")
 
 include(cmake/config.cmake)
 
-set(xdvipdfmx_SRCS
+get_property(KPATHSEA_INCLUDES GLOBAL PROPERTY KPATHSEA_INCLUDES)
+
+include_directories(${KPATHSEA_INCLUDES})
+
+set(xdvipdfmx_SOURCES
   agl.c
   agl.h
   bmpimage.c
@@ -157,17 +161,16 @@ set(xdvipdfmx_SRCS
   xbb.c
   )
 
-set(xdvipdfmx_SRCS ${xdvipdfmx_SRCS} config.h)
+set(xdvipdfmx_SOURCES ${xdvipdfmx_SOURCES} config.h)
 
 if(WIN32)
-  set(xdvipdfmx dlldvipdfmx)
-  add_library(${xdvipdfmx} SHARED ${xdvipdfmx_SRCS})
+  add_library(xdvipdfmx SHARED ${xdvipdfmx_SOURCES})
+  set_target_properties(xdvipdfmx PROPERTIES OUTPUT_NAME "dvipdfmx")
 else()
-  set(xdvipdfmx xdvipdfmx)
-  add_executable(${xdvipdfmx} ${xdvipdfmx_SRCS})
+  add_executable(xdvipdfmx ${xdvipdfmx_SOURCES})
 endif()
 
-target_compile_definitions(${xdvipdfmx}
+target_compile_definitions(xdvipdfmx
   PRIVATE -DHAVE_CONFIG_H=1
   PRIVATE -DHAVE_LIBPNG
   PRIVATE -DHAVE_ZLIB
@@ -175,30 +178,28 @@ target_compile_definitions(${xdvipdfmx}
   )
 
 if(MSVC)
-  target_compile_definitions(${xdvipdfmx}
+  target_compile_definitions(xdvipdfmx
     PRIVATE -D_CRT_SECURE_NO_WARNINGS=1
     PRIVATE -D_CRT_NONSTDC_NO_DEPRECATE=1
     )
 endif()
 
-target_include_directories(${xdvipdfmx}
+target_include_directories(xdvipdfmx
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   )
 
-target_link_libraries(${xdvipdfmx} kpathsea libpng zlib)
-
-if(WIN32 AND NOT NO_KPSE_DLL)
-  add_custom_command(TARGET ${xdvipdfmx} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-      "$<TARGET_FILE_DIR:kpathsea>/kpathsea.dll"
-      "$<TARGET_FILE_DIR:${xdvipdfmx}>"
-    )
-endif()
+target_link_libraries(xdvipdfmx kpathsea libpng zlib)
 
 if(WIN32)
-  foreach(e dvipdfm dvipdfmx xdvipdfmx ebb extractbb)
-    add_executable(${e} "cmake/calldll.c")
-    target_compile_definitions(${e} PRIVATE DLLPROC=dlldvipdfmxmain)
-    target_link_libraries(${e} ${xdvipdfmx})
+  add_executable(calldll_xdvipdfmx "cmake/calldll.c")
+  target_compile_definitions(calldll_xdvipdfmx PRIVATE DLLPROC=dlldvipdfmxmain)
+  target_link_libraries(calldll_xdvipdfmx xdvipdfmx)
+
+  foreach(name dvipdfm dvipdfmx xdvipdfmx ebb extractbb)
+    add_custom_command(TARGET calldll_xdvipdfmx POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+        "$<TARGET_FILE_DIR:calldll_xdvipdfmx>/calldll_xdvipdfmx.exe"
+        "$<TARGET_FILE_DIR:calldll_xdvipdfmx>/${name}.exe"
+      )
   endforeach()
 endif()

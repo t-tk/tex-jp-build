@@ -8,10 +8,6 @@ add_library(libukanji
   uptexdir/kanji_dump.c
   )
 
-if(MSVC)
-  target_compile_definitions(libukanji PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
-endif()
-
 target_include_directories(libukanji
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
@@ -94,24 +90,20 @@ set(uptex_SRCS
   )
 
 if(WIN32)
-  set(uptex dlluptex)
-  add_library(${uptex} SHARED ${uptex_SRCS})
+  add_library(uptex SHARED ${uptex_SRCS})
 else()
-  set(uptex uptex)
-  add_executable(${uptex} ${uptex_SRCS})
+  add_executable(uptex ${uptex_SRCS})
 endif()
 
-if(MSVC)
-  target_compile_definitions(${uptex} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1 ${uptex_definitions_synctex})
-endif()
+target_compile_definitions(uptex ${uptex_definitions_synctex})
 
-target_include_directories(${uptex}
+target_include_directories(uptex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   ${uptex_include_synctex}
   )
 
-target_link_libraries(${uptex} libukanji web2c_libp ptexenc zlib web2c_lib kpathsea ${uptex_link_synctex})
+target_link_libraries(uptex libukanji web2c_libp ptexenc zlib web2c_lib kpathsea ${uptex_link_synctex})
 
 web2c_convert(uptex OUTPUT ${uptex_c_h} DEPENDS uptex.p ${web2c_texmf} uptexdir/uptex.defines)
 
@@ -124,7 +116,7 @@ add_custom_command(
   OUTPUT uptex-pool.c
   DEPENDS uptex.pool uptexd.h makecpool
   COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/makecpool.py"
-    "--makecpool" "$<TARGET_FILE_DIR:makecpool>/makecpool"
+    "--makecpool" "$<TARGET_FILE:makecpool>"
     uptex uptex-pool.c
   )
 
@@ -139,9 +131,15 @@ add_custom_command(
 
 
 if(WIN32)
-  foreach(e uptex)
-    add_executable(${e} "cmake/calldll.c")
-    target_compile_definitions(${e} PRIVATE DLLPROC=dlluptexmain)
-    target_link_libraries(${e} ${uptex})
+  add_executable(calldll_uptex "cmake/calldll.c")
+  target_compile_definitions(calldll_uptex PRIVATE DLLPROC=dlluptexmain)
+  target_link_libraries(calldll_uptex uptex)
+
+  foreach(name uptex)
+    add_custom_command(TARGET calldll_uptex POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+        "$<TARGET_FILE:calldll_uptex>"
+        "$<TARGET_FILE_DIR:calldll_uptex>/${name}.exe"
+      )
   endforeach()
 endif()
