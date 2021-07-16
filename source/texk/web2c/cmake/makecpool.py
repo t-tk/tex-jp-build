@@ -27,8 +27,11 @@ def main():
     try:
         with open(output, "w") as o:
             subprocess.run([makecpool, basename], check=True, encoding="utf-8", stdout=o)
-    except:
-        os.unlink(output)
+    except Exception as e:
+        print(e, file=sys.stderr)
+        if os.path.exists(output):
+            os.unlink(output)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

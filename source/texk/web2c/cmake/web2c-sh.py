@@ -65,25 +65,34 @@ def main():
         postcmd = lambda lines: run([web2c + "/splitup", *splitup_options, basefile], lines)
         cfile = basefile + "0.c"
         output = ""
-        output_files = "$basefile[0-9].c ${basefile}ini.c ${basefile}d.h ${basefile}coerce.h"
+        output_files = [basefile + s for s in ["0.c", "1.c", "2.c", "3.c", "4.c", "5.c", "6.c", "7.c", "8.c", "9.c", "ini.c", "d.h", "coerce.h"]]
 
-    lines = cat([srcdir + "/web2c/common.defines", *more_defines, pascalfile])
-    lines = precmd(lines)
-    lines = run([web2c + "/web2c", "-h" + hfile, *web2c_options], lines)
-    lines = midcmd(lines)
-    lines = run([web2c + "/fixwrites", *fixwrites_options, basefile], lines)
-    lines = postcmd(lines)
-    if output:
-        with open(output, "w") as o:
-            o.writelines(lines)
+    try:
+        lines = cat([srcdir + "/web2c/common.defines", *more_defines, pascalfile])
+        lines = precmd(lines)
+        lines = run([web2c + "/web2c", "-h" + hfile, *web2c_options], lines)
+        lines = midcmd(lines)
+        lines = run([web2c + "/fixwrites", *fixwrites_options, basefile], lines)
+        lines = postcmd(lines)
+        if output:
+            with open(output, "w") as o:
+                o.writelines(lines)
 
-    if basefile in ["bibtex", "pbibtex", "upbibtex"]:
-        pass
-    elif basefile in ["mf", "mflua", "mfluajit", "tex", "aleph", "etex", "pdftex", "ptex", "eptex", "euptex", "uptex", "xetex"]:
-        with open(srcdir + "/web2c/coerce.h", "r") as i:
-            with open(basefile + "coerce.h", "a+") as o:
-                for line in i:
-                    o.write(line)
+        if basefile in ["bibtex", "pbibtex", "upbibtex"]:
+            pass
+        elif basefile in ["mf", "mflua", "mfluajit", "tex", "aleph", "etex", "pdftex", "ptex", "eptex", "euptex", "uptex", "xetex"]:
+            with open(srcdir + "/web2c/coerce.h", "r") as i:
+                with open(basefile + "coerce.h", "a+") as o:
+                    for line in i:
+                        o.write(line)
+    except Exception as e:
+        print(e, file=sys.stderr)
+        if output and os.path.exists(output):
+            os.unlink(output)
+        for o in output_files:
+            if  os.path.exists(o):
+                os.unlink(o)
+        sys.exit(1)
 
 def cat(files):
     for file in files:
