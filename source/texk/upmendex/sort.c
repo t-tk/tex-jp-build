@@ -267,6 +267,7 @@ static int ordering(UChar *c)
 		else if (is_hanzi(c))    return hnz;
 		else if (is_cyrillic(c)) return cyr;
 		else if (is_greek(c))    return grk;
+		else if (is_numeric(c))  return nmbr;
 		else if (is_devanagari(c)) return dvng;
 		else if (is_thai(c))     return thai;
 		else return sym;
@@ -288,6 +289,7 @@ int charset(UChar *c)
 		else if (is_hanzi(c))    return CH_HANZI;
 		else if (is_cyrillic(c)) return CH_CYRILLIC;
 		else if (is_greek(c))    return CH_GREEK;
+		else if (is_numeric(c))  return CH_NUMERIC;
 		else if (is_devanagari(c)) return CH_DEVANAGARI;
 		else if (is_thai(c))     return CH_THAI;
 		else return CH_SYMBOL;
@@ -375,6 +377,8 @@ int is_latin(UChar *c)
 int is_numeric(UChar *c)
 {
 	if ((*c>=L'0')&&(*c<=L'9')) return 1;
+	else if ((*c>=0x0966)&&(*c<=0x096F)) return 1; /* Devanagari Digit */
+	else if ((*c>=0x0E50)&&(*c<=0x0E59)) return 1; /* Thai Digit */
 	else return 0;
 }
 
@@ -461,7 +465,8 @@ int is_devanagari(UChar *c)
 
 int is_thai(UChar *c)
 {
-	if      ((*c>=0x0E00)&&(*c<=0x0E7F)) return 1; /* Thai */
+	if      ((*c==0x0E3F))               return 0; /* Thai Currency Symbol Baht */
+	else if ((*c>=0x0E00)&&(*c<=0x0E7F)) return 1; /* Thai */
 	else return 0;
 }
 

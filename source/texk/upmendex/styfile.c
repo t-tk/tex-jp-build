@@ -144,6 +144,14 @@ void styread(const char *filename)
 			multibyte_to_widechar(hanzi_head,STYBUFSIZE,tmp);
 			continue;
 		}
+		if (getparam(buff,"thai_head",tmp)) {
+			multibyte_to_widechar(thai_head,STYBUFSIZE,tmp);
+			continue;
+		}
+		if (getparam(buff,"devanagari_head",tmp)) {
+			multibyte_to_widechar(devanagari_head,STYBUFSIZE,tmp);
+			continue;
+		}
 		if (getparam(buff,"page_compositor",page_compositor)) continue;
 		if (getparam(buff,"page_precedence",page_precedence)) continue;
 		if (getparam(buff,"character_order",character_order)) continue;
