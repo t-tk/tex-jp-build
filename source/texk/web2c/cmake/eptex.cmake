@@ -63,6 +63,7 @@ set(eptex_web_srcs
   etexdir/tex.ch0
   tex.ch
   tracingstacklevels.ch
+  partoken.ch
   zlib-fmt.ch
   etexdir/tex.ech
   )

@@ -74,6 +74,7 @@ set(uptex_web_srcs
   tex.web
   tex.ch
   tracingstacklevels.ch
+  partoken.ch
   zlib-fmt.ch
   )
 
