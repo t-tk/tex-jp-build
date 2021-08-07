@@ -458,7 +458,8 @@ int is_greek(UChar *c)
 
 int is_devanagari(UChar *c)
 {
-	if      ((*c>=0x0900)&&(*c<=0x097F)) return 1; /* Devanagari */
+	if      ((*c>=0x0966)&&(*c<=0x096F)) return 0; /* Devanagari Digit */
+	else if ((*c>=0x0900)&&(*c<=0x097F)) return 1; /* Devanagari */
 	else if ((*c>=0xA8E0)&&(*c<=0xA8FF)) return 1; /* Devanagari Extended */
 	else return 0;
 }
@@ -466,6 +467,7 @@ int is_devanagari(UChar *c)
 int is_thai(UChar *c)
 {
 	if      ((*c==0x0E3F))               return 0; /* Thai Currency Symbol Baht */
+	else if ((*c>=0x0E50)&&(*c<=0x0E59)) return 0; /* Thai Digit */
 	else if ((*c>=0x0E00)&&(*c<=0x0E7F)) return 1; /* Thai */
 	else return 0;
 }
