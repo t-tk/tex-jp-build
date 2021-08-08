@@ -57,8 +57,10 @@ man_sources += ptex.man
 man1_links += ptex:eptex ptex:euptex ptex:uptex
 man_sources += ppltotf.man ptftopl.man
 man1_links += ppltotf:uppltotf ptftopl:uptftopl
+man_sources += pbibtex.man
+man1_links += pbibtex:upbibtex
 endif PTEX
-EXTRA_DIST += ptex.man ppltotf.man ptftopl.man
+EXTRA_DIST += ptex.man ppltotf.man ptftopl.man pbibtex.man
 
 if LUATEX
 man_sources += luatex.man
@@ -82,7 +84,6 @@ otangle_man_sources = ofm2opl.man opl2ofm.man ovf2ovp.man ovp2ovf.man
 
 if ALEPH
 man_sources += aleph.man
-man1_links += aleph:lamed
 endif ALEPH
 EXTRA_DIST += aleph.man
 
