@@ -4,7 +4,23 @@
 #include "exkana.h"
 #include "exvar.h"
 
-int sym,nmbr,ltn,kana,hngl,hnz,cyr,grk;
+#define RULEBUFSIZE  29210+STYBUFSIZE
+/*
+	length of collation rule in ICU 68.2
+
+	icu_locale          length
+	ja                    6410
+	ja@collation=unihan     61
+	ko                   12577
+	ko@collation=unihan     51
+	ko@collation=search    782
+	zh  (pinin)          26909
+	zh@collation=unihan     82
+	zh@collation=stroke  29208
+	zh@collation=zhuyin  28880
+*/
+
+int sym,nmbr,ltn,kana,hngl,hnz,cyr,grk,dvng,thai;
 
 static int wcomp(const void *p, const void *q);
 static int pcomp(const void *p, const void *q);
@@ -17,7 +33,9 @@ void wsort(struct index *ind, int num)
 {
 	int i,order;
 	UErrorCode status;
-	UChar rules[STYBUFSIZE];
+	UParseError parse_error;
+	UChar rules[RULEBUFSIZE] = {'\0'};
+	int32_t len;
 
 	for (order=1,i=0;;i++) {
 		switch (character_order[i]) {
@@ -57,7 +75,16 @@ void wsort(struct index *ind, int num)
 			grk=order++;
 			break;
 
+		case 'D':
+			dvng=order++;
+			break;
+
+		case 'T':
+			thai=order++;
+			break;
+
 		default:
+			verb_printf(efp,"\nWarning: Illegal input for character_order (%c).",character_order[i]);
 			break;
 		}
 	}
@@ -72,11 +99,28 @@ BREAK:
 	if (hnz==0) hnz=order++;
 	if (cyr==0) cyr=order++;
 	if (grk==0) grk=order++;
+	if (dvng==0) dvng=order++;
+	if (thai==0) thai=order++;
 
 	status = U_ZERO_ERROR;
 	if (strlen(icu_rules)>0) {
+		if (strcmp(icu_locale,"root")!=0) {
+			icu_collator = ucol_open(icu_locale, &status);
+			if (U_FAILURE(status)) {
+				verb_printf(efp, "\n[ICU] Collator creation failed.: %s\n", u_errorName(status));
+				exit(254);
+			}
+			len = ucol_getRulesEx(icu_collator, UCOL_TAILORING_ONLY, rules, RULEBUFSIZE);
+			if (u_strlen(rules)<len) {
+				verb_printf(efp, "\n[ICU] Failed to extract collation rules by locale (%s). Need buffer size %d.\n",
+					icu_locale, len);
+				exit(254);
+			}
+			ucol_close(icu_collator);
+		}
 		unescape((unsigned char *)icu_rules, rules);
-		icu_collator = ucol_openRules(rules, -1, UCOL_OFF, UCOL_TERTIARY, NULL, &status);
+		status = U_ZERO_ERROR;
+		icu_collator = ucol_openRules(rules, -1, UCOL_OFF, UCOL_TERTIARY, &parse_error, &status);
 	} else
 		icu_collator = ucol_open(icu_locale, &status);
 	if (U_FAILURE(status)) {
@@ -84,11 +128,11 @@ BREAK:
 		exit(254);
 	}
 	if (status == U_USING_DEFAULT_WARNING) {
-		warn_printf(efp, "\nWarning, [ICU] U_USING_DEFAULT_WARNING for locale %s\n",
+		warn_printf(efp, "\nWarning: [ICU] U_USING_DEFAULT_WARNING for locale %s\n",
 			    icu_locale);
 	}
 	if (status == U_USING_FALLBACK_WARNING) {
-		warn_printf(efp, "\nWarning, [ICU] U_USING_FALLBACK_WARNING for locale %s\n",
+		warn_printf(efp, "\nWarning: [ICU] U_USING_FALLBACK_WARNING for locale %s\n",
 			    icu_locale);
 	}
 	for (i=0;i<UCOL_ATTRIBUTE_COUNT;i++) {
@@ -97,7 +141,7 @@ BREAK:
 			ucol_setAttribute(icu_collator, i, icu_attributes[i], &status);
 		}
 		if (U_FAILURE(status)) {
-			warn_printf(efp, "\nWarning, [ICU] Failed to set attribute (%d): %s\n",
+			warn_printf(efp, "\nWarning: [ICU] Failed to set attribute (%d): %s\n",
 				    i, u_errorName(status));
 		}
 	}
@@ -204,12 +248,12 @@ void pagesort(struct index *ind, int num)
 static int pcomp(const void *p, const void *q)
 {
 	int i,j,cc=0,num1,num2;
-	char buff[16];
+	char buff[16],*p0,*p1;
 	const struct page *page1 = p, *page2 = q;
 
 	scount++;
 
-	for (i=0;i<3;i++) {
+	for (i=0;i<PAGE_COMPOSIT_DEPTH;i++) {
 		if ((page1->attr[i]<0)&&(page2->attr[i]<0)) return 0;
 		else if ((page1->attr[i]<0)&&(page2->attr[i]>=0)) return -1;
 		else if ((page2->attr[i]<0)&&(page1->attr[i]>=0)) return 1;
@@ -217,18 +261,18 @@ static int pcomp(const void *p, const void *q)
 		if (page1->attr[i]>page2->attr[i]) return 1;
 		if (page1->attr[i]<page2->attr[i]) return -1;
 
-		for (j=cc;j<strlen(page1->page);j++) {
-			if (strncmp(&page1->page[j],page_compositor,strlen(page_compositor))==0) break;
-		}
-		strncpy(buff,&page1->page[cc],j-cc);
-		buff[j-cc]='\0';
+		p0=&page1->page[cc];
+		p1=strstr(p0, page_compositor);
+		j=p1 ? p1-p0 : strlen(p0);
+		strncpy(buff,p0,j);
+		buff[j]='\0';
 		num1=pnumconv(buff,page1->attr[i]);
 
-		for (j=cc;j<strlen(page2->page);j++) {
-			if (strncmp(&page2->page[j],page_compositor,strlen(page_compositor))==0) break;
-		}
-		strncpy(buff,&page2->page[cc],j-cc);
-		buff[j-cc]='\0';
+		p0=&page2->page[cc];
+		p1=strstr(p0, page_compositor);
+		j=p1 ? p1-p0 : strlen(p0);
+		strncpy(buff,p0,j);
+		buff[j]='\0';
 		num2=pnumconv(buff,page2->attr[i]);
 
 		if (num1>num2) return 1;
@@ -237,7 +281,8 @@ static int pcomp(const void *p, const void *q)
 		if (page1->enc[0]=='(' || page2->enc[0]==')') return -1;
 		if (page1->enc[0]==')' || page2->enc[0]=='(') return 1;
 
-		cc=j+strlen(page_compositor);
+		if (p1) cc+=j+strlen(page_compositor);
+		else return 0;
 	}
 
 	return 0;
@@ -257,6 +302,9 @@ static int ordering(UChar *c)
 		else if (is_hanzi(c))    return hnz;
 		else if (is_cyrillic(c)) return cyr;
 		else if (is_greek(c))    return grk;
+		else if (is_numeric(c))  return nmbr;
+		else if (is_devanagari(c)) return dvng;
+		else if (is_thai(c))     return thai;
 		else return sym;
 	}
 }
@@ -276,6 +324,9 @@ int charset(UChar *c)
 		else if (is_hanzi(c))    return CH_HANZI;
 		else if (is_cyrillic(c)) return CH_CYRILLIC;
 		else if (is_greek(c))    return CH_GREEK;
+		else if (is_numeric(c))  return CH_NUMERIC;
+		else if (is_devanagari(c)) return CH_DEVANAGARI;
+		else if (is_thai(c))     return CH_THAI;
 		else return CH_SYMBOL;
 	}
 }
@@ -308,10 +359,11 @@ static int get_charset_juncture(UChar *str)
 	}
 }
 
-static int unescape(const unsigned char *src, UChar *dist)
+static int unescape(const unsigned char *src, UChar *dest)
 {
-	int i,j,k;
+	int i,j,k,ret;
 	char tmp[STYBUFSIZE];
+	UErrorCode status;
 
 	for (i=j=0;i<STYBUFSIZE;i++) {
 		if (src[i]=='\0') {
@@ -320,15 +372,24 @@ static int unescape(const unsigned char *src, UChar *dist)
 		else if (src[i]< 0x80 && (src[i+1]>=0x80 || src[i+1]=='\0')) {
 			strncpy(tmp,(char *)&src[j],i-j+1);
 			tmp[i-j+1]='\0';
-			k=u_strlen(dist);
-			u_unescape(tmp, &dist[k], STYBUFSIZE-k);
+			k=u_strlen(dest);
+			ret=u_unescape(tmp, &dest[k], RULEBUFSIZE-k);
+			if (ret==0) {
+				verb_printf(efp, "\n[ICU] Escape sequence in input seems malformed.\n");
+				exit(254);
+			}
 			j=i+1;
 		}
 		else if (src[i]>=0x80 && (src[i+1]< 0x80 || src[i+1]=='\0')) {
 			strncpy(tmp,(char *)&src[j],i-j+1);
 			tmp[i-j+1]='\0';
-			k=u_strlen(dist);
-			multibyte_to_widechar(&dist[k], STYBUFSIZE-k, tmp);
+			k=u_strlen(dest);
+			status=U_ZERO_ERROR;
+			u_strFromUTF8(&dest[k], RULEBUFSIZE-k, NULL, tmp, -1, &status);
+			if (U_FAILURE(status)) {
+				verb_printf(efp, "\n[ICU] Input string seems malformed.: %s\n", u_errorName(status));
+				exit(254);
+			}
 			j=i+1;
 		}
 	}
@@ -361,6 +422,8 @@ int is_latin(UChar *c)
 int is_numeric(UChar *c)
 {
 	if ((*c>=L'0')&&(*c<=L'9')) return 1;
+	else if ((*c>=0x0966)&&(*c<=0x096F)) return 1; /* Devanagari Digit */
+	else if ((*c>=0x0E50)&&(*c<=0x0E59)) return 1; /* Thai Digit */
 	else return 0;
 }
 
@@ -438,6 +501,22 @@ int is_greek(UChar *c)
 	else return 0;
 }
 
+int is_devanagari(UChar *c)
+{
+	if      ((*c>=0x0966)&&(*c<=0x096F)) return 0; /* Devanagari Digit */
+	else if ((*c>=0x0900)&&(*c<=0x097F)) return 1; /* Devanagari */
+	else if ((*c>=0xA8E0)&&(*c<=0xA8FF)) return 1; /* Devanagari Extended */
+	else return 0;
+}
+
+int is_thai(UChar *c)
+{
+	if      ((*c==0x0E3F))               return 0; /* Thai Currency Symbol Baht */
+	else if ((*c>=0x0E50)&&(*c<=0x0E59)) return 0; /* Thai Digit */
+	else if ((*c>=0x0E00)&&(*c<=0x0E7F)) return 1; /* Thai */
+	else return 0;
+}
+
 int is_comb_diacritical_mark(UChar *c)
 {
 	if      ((*c>=0x02B0)&&(*c<=0x02FF)) return 1; /* Spacing Modifier Letters */
@@ -450,35 +529,48 @@ int is_comb_diacritical_mark(UChar *c)
 
 int chkcontinue(struct page *p, int num)
 {
-	int i,j,cc=0,num1,num2;
-	char buff[16];
+	int i,j,cc=0,num1,num2,k1,k2;
+	char buff1[16],buff2[16],*p0,*p1;
 
-	for (i=0;i<3;i++) {
+	for (i=0;i<PAGE_COMPOSIT_DEPTH;i++) {
 		if ((p[num].attr[i]<0)&&(p[num+1].attr[i]<0)) return 1;
 		else if (p[num].attr[i]!=p[num+1].attr[i]) return 0;
 
-		for (j=cc;j<strlen(p[num].page);j++) {
-			if (strncmp(&p[num].page[j],page_compositor,strlen(page_compositor))==0) break;
+		p0=&p[num].page[cc];
+		p1=strstr(p0, page_compositor);
+		if (p1) {
+			j=p1-p0;
+			k1=j;
+		} else {
+			j=strlen(p0);
+			k1=0;
 		}
-		strncpy(buff,&p[num].page[cc],j);
-		buff[j]='\0';
-		num1=pnumconv(buff,p[num].attr[i]);
+		strncpy(buff1,p0,j);
+		buff1[j]='\0';
+		num1=pnumconv(buff1,p[num].attr[i]);
 
-		for (j=cc;j<strlen(p[num+1].page);j++) {
-			if (strncmp(&p[num+1].page[j],page_compositor,strlen(page_compositor))==0) break;
+		p0=&p[num+1].page[cc];
+		p1=strstr(p0, page_compositor);
+		if (p1) {
+			j=p1-p0;
+			k2=j;
+		} else {
+			j=strlen(p0);
+			k2=0;
 		}
-		strncpy(buff,&p[num+1].page[cc],j);
-		buff[j]='\0';
-		num2=pnumconv(buff,p[num+1].attr[i]);
+		strncpy(buff2,p0,j);
+		buff2[j]='\0';
+		num2=pnumconv(buff2,p[num+1].attr[i]);
 
-		if (num1==num2 || num1+1==num2) {
-			if (i==2) return 1;
-			if ((p[num].attr[i+1]<0)&&(p[num+1].attr[i+1]<0)) return 1;
-			else return 0;
+		if (k1>0 || k2>0) {
+			if (k1!=k2) return 0;
+			if (strcmp(buff1,buff2)) return 0;
+			cc+=k1+strlen(page_compositor);
+			continue;
 		}
-		else if (num1!=num2) return 0;
 
-		cc=j+strlen(page_compositor);
+		if (num1==num2 || num1+1==num2) return 1;
+		else return 0;
 	}
 
 	return 1;
