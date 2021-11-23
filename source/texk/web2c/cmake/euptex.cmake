@@ -70,6 +70,7 @@ set(euptex_web_srcs
   tex.ch
   tracingstacklevels.ch
   partoken.ch
+  showstream.ch
   zlib-fmt.ch
   etexdir/tex.ech
   )
