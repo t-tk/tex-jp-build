@@ -1,3 +1,57 @@
+2022-09-03  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* upbibtex.ch:
+	Check options before initialization of kpathsearch parameters.
+	This change prevents unwanted looking for texmf.cnf.
+	https://github.com/texjporg/tex-jp-build/issues/145
+	* tests/upbibtex.test, am/uptex.am:
+	Update tests for upBibTeX.
+
+2022-09-01  Hironori Kitagawa  <h_kitagawa2001@yahoo.co.jp>
+
+	* kanji.c: Initialization of infile_enc_auto is moved to ptexenc.
+	This change prevents unwanted looking for texmf.cnf.
+	https://github.com/texjporg/tex-jp-build/pull/144
+
+2022-07-23  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* uptex-m.ch, upbibtex.ch, updvitype.ch, uppltotf.ch, uptftopl.ch,
+	uptex_version.h: upTeX version u1.29.
+	* uptex-m.ch, upbibtex.ch, kanji.c:
+	Update reference of Unicode blocks to
+	"Blocks-15.0.0.txt Date: 2022-01-28, 20:58:00 GMT [KW]".
+	* tests/kcat.tex, tests/upkcat.txt: Update a test.
+
+2022-06-12  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* kanji.[ch], upbibtex.ch:
+	Support guessing input file encodings.
+	https://github.com/texjporg/tex-jp-build/issues/142
+	* tests/upbibtex.test, am/uptex.am:
+	Add tests for guess encodings & upBibTeX.
+
+2022-05-15  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* upbibtex.ch:
+	Accept multibyte characters by int.to.chr$ and chr.to.int$, i.e.
+	chr is corresponding to one single character multibyte string.
+
+2022-05-07  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* upbibtex.ch:
+	Support Latin-1, Latin Extended-A, Greek and Cyrillic on change.case$.
+	Ignore add.period$ after Interrobang ‽.
+	Make is.kanji.str$ false for Ideographic Description Characters.
+
+2022-05-06  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* upbibtex.ch: Fix bug on kpse_set_progname.
+	* upbibtex.test: Update a test.
+
+2022-03-21  Karl Berry  <karl@tug.org>
+
+	* TL'22 release.
+
 2022-02-20  Hironobu Yamashita  <h.y.acetaminophen@gmail.com>
 
 	* upbibtex.ch: Adapt to pbibtex.ch.

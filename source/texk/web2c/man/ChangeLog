@@ -1,3 +1,49 @@
+2022-09-01  Andreas Scherer  <https://ascherer.github.io>
+
+	* tie.man: Fix the recent fix.
+
+2022-08-30  Karl Berry  <karl@freefriends.org>
+
+	* ptftopl.man,
+	* tie.man: typo fixes from Hilmar Preu\ss{}e,
+	https://tug.org/pipermail/tex-live/2022-June/048227.html
+
+2022-08-21  Andreas Scherer  <https://ascherer.github.io>
+
+	* cweb.man: New option '+u' for CTANGLE.
+
+2022-06-05  Andreas Scherer  <https://ascherer.github.io>
+
+	* ctwill.man: CWEB 4.8 release.
+
+2022-03-27  Andreas Scherer  <https://ascherer.github.io>
+
+	* tangle.man,
+	* weave.man: Improved SYNOPSIS formatting.
+
+2022-03-21  Karl Berry  <karl@tug.org>
+
+	* TL'22 release.
+
+2022-03-08  Karl Berry  <karl@freefriends.org>
+
+	* ofm2opl.man,
+	* opl2ofm.man,
+	* ovf2ovp.man,
+	* ovp2ovf.man,
+	* ttf2afm.man: update contact info.
+	Report from G\"unter Essers,
+	https://tug.org/pipermail/tex-k/2022-March/003776.html
+
+2022-03-03  Andreas Scherer  <https://ascherer.github.io>
+
+	* tangle.man: Clarify the creation of the pool file name.
+
+2022-03-02  Andreas Scherer  <https://ascherer.github.io>
+
+	* tangle.man,
+	* weave.man: Describe the third file name on the commandline.
+
 2022-02-26  Karl Berry  <karl@tug.org>
 
 	* Makefile.am (web_man_sources): add twill.man.

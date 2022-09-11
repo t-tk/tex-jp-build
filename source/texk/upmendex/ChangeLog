@@ -1,3 +1,52 @@
+2022-09-11  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* version 1.03  Stable version.
+	* configure.ac: Bump version.
+	* main.c, sort.c, convert.c, fwrite.c, kana.h:
+	Support U+1B11F..1B122 Hiragana/Katakana Letter Archaic Wu, Yi, Ye.
+
+2022-09-04  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* version 1.02  Stable version.
+	* configure.ac: Bump version.
+	* fwrite.c:
+	Support U+1B132, U+1B155 Hiragana/Katakana Letter Small Ko.
+	They have not been supported yet but will be supported in ICU collator.
+	Support U+0626 Arabic Letter Yeh with Hamza Above for Uyghur.
+	Support U+0149 Latin Small Letter N Preceded By Apostrophe for Afrikaans.
+	Support digraphs dd, ff, ng, ph, rh for Welsh.
+	* sort.c: Add Latin Extended-F and -G.
+	Add CJK Unified Ideograph Extension H, Cyrillic Extended-D,
+	Devanagari Extended-A and Arabic Extended-C in Unicode 15.0.
+
+2022-09-02  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* main.c:
+	Moved calls of KP_entry_filetype() after checking options.
+	This change prevents unwanted looking for texmf.cnf.
+	https://github.com/texjporg/tex-jp-build/pull/144
+
+2022-05-22  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
+
+	* version 1.01  Stable version.
+	* configure.ac: Bump version.
+	* fread.c:
+	Modify heuristic detection of page number types
+	for ambiguous ones between roman number and alphabet.
+	* tests/upmendex.test, tests/pprec[567].ist,
+	tests/romalp[ABCD].idx, tests/romalpA-[56].ind,
+	tests/romalp[BD]-[567].ind, tests/romalpC-5.ind, Makefile.am:
+	Update tests.
+
+2022-03-21  Karl Berry  <karl@tug.org>
+
+	* TL'22 release.
+
+2022-03-07  Hironobu Yamashita  <h.y.acetaminophen@gmail.com>
+
+	* fwrite.c: output to file instead of accumulating too much.
+	https://github.com/texjporg/tex-jp-build/issues/137
+
 2022-01-18  Karl Berry  <karl@freefriends.org>
 
 	* COPYRIGHT,
