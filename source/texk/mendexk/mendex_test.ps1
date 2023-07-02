@@ -1,0 +1,3 @@
+mendex.exe --help
+
+echo ''

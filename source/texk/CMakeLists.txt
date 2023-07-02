@@ -5,5 +5,6 @@ add_subdirectory(kpathsea)
 add_subdirectory(ptexenc)
 add_subdirectory(web2c)
 add_subdirectory(makejvf)
+add_subdirectory(mendexk)
 add_subdirectory(dviout-util)
 
