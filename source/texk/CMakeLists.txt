@@ -7,4 +7,4 @@ add_subdirectory(web2c)
 add_subdirectory(makejvf)
 add_subdirectory(mendexk)
 add_subdirectory(dviout-util)
-
+add_subdirectory(dvi2tty)

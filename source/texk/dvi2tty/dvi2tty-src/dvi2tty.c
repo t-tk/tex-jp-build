@@ -162,7 +162,7 @@ int main(int argc, char **argv)
     else {
         output = stdout;
         if (pager && isatty(fileno(output))) {   /* try to pipe to a pager   */
-            if ((output = popen(path, "w")) == NULL) /* get pipe to pager    */
+            if ((output = _popen(path, "w")) == NULL) /* get pipe to pager    */
                 errorexit(pipcr);                /* make output to output    */
         }
         else
@@ -172,7 +172,7 @@ int main(int argc, char **argv)
     dvimain();
 
     if (pager)
-        pclose(output);                     /* close pipe to pager            */
+        _pclose(output);                     /* close pipe to pager            */
 
     exit(0);
 
@@ -651,7 +651,7 @@ void errorexit(int errorcode)
                       break;
     };
     if (outputtofile)
-        unlink(OUTfilename);
+        _unlink(OUTfilename);
 
     exit(errorcode);
 
