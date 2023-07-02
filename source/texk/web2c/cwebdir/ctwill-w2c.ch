@@ -35,9 +35,10 @@
 @z
 
 @x
-\def\title{CWEAVE (Version 4.8)}
+\def\title{CWEAVE (Version 4.9)}
 @y
-\def\title{CTWILL (Version 4.8 [\TeX~Live])}
+\def\Kpathsea/{{\mc KPATHSEA\spacefactor1000}} \ifacro\sanitizecommand\Kpathsea{KPATHSEA}\fi
+\def\title{CTWILL (Version 4.9 [\TeX~Live])}
 @z
 
 @x
@@ -47,9 +48,9 @@
 @z
 
 @x
-  \centerline{(Version 4.8)}
+  \centerline{(Version 4.9)}
 @y
-  \centerline{(Version 4.8 [\TeX~Live])}
+  \centerline{(Version 4.9 [\TeX~Live])}
 @z
 
 @x
@@ -76,7 +77,7 @@ Crusius, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 4.8)"
+@d banner "This is CWEAVE (Version 4.9)"
 @y
 This is the \.{CTWILL} program by D. E. Knuth, based
 on \.{CWEAVE} by Silvio Levy and D.~E. Knuth. It is also based on
@@ -100,7 +101,7 @@ Until then, \.{CWEAVE}'s sequence of sections will be preserved.
 The ``banner line'' defined here should be changed whenever \.{CTWILL} is
 modified. The version number parallels the corresponding version of \.{CWEAVE}.
 
-@d banner "This is CTWILL, Version 4.8"
+@d banner "This is CTWILL, Version 4.9"
   /* will be extended by the \TeX~Live |versionstring| */
 @z
 
@@ -276,12 +277,6 @@ part of all meanings.
       loc=buffer+10;
       title_lookup(); /* this program's title will be code zero */
     }
-@z
-
-@x
-skip_TeX(void) /* skip past pure \TEX/ code */
-@y
-skip_TeX(void)
 @z
 
 @x
@@ -1462,7 +1457,7 @@ things you don't like.
 The meaning specified by \.{@@\$...@@>} generally has four components:
 an identifier (followed by space), a program name (enclosed in braces),
 a section number (followed by space), and a \TeX\ part. The \TeX\ part
-must have fewer than 50 characters. If the \TeX\ part starts
+must have fewer than 80 characters. If the \TeX\ part starts
 with `\.=', the mini-index entry will contain an equals sign instead
 of a colon; for example,
 $$\.{@@\$buf\_size \{PROG\}10 =\\T\{200\}@@>}$$
@@ -1504,7 +1499,7 @@ which are quite different from the change files you set up for tangling.
 
 (End of user manual.)
 
-@d max_tex_chars 50 /* limit on the \TeX\ part of a meaning */
+@d max_tex_chars 80 /* limit on the \TeX\ part of a meaning */
 
 @q Section 25->273. @>
 @* Temporary and permanent meanings.
@@ -1586,7 +1581,7 @@ new_meaning(
 { char *first=id_first;
   while (xisspace(*first)) first++;
   loc=first;
-  while (xisalpha(*loc)||xisdigit(*loc)||*loc=='_') loc++;
+  while (xisalpha(*loc)||xisdigit(*loc)||isxalpha(*loc)) loc++;
   if (*loc++!=' ')
     err_print(_("! Identifier in meaning should be followed by space"));
   else {@+ int n=0;
@@ -1793,12 +1788,20 @@ memcpy(aux_file_name,tex_file_name,strlen(tex_file_name)-4);
 strcat(aux_file_name,".bux");
 include_depth=1; /* we simulate \.{@@i} */
 strcpy(cur_file_name,aux_file_name); /* first in, third out */
-if ((cur_file=fopen(cur_file_name,"r"))) { cur_line=0; include_depth++; }
+if ( (found_filename = kpse_find_cweb(cur_file_name)) @|
+    && (cur_file=fopen(found_filename,"r")) ) {
+  @<Set up |cur_file_name| for opened |cur_file|@>@;
+  cur_line=0; include_depth++;
+}
 strcpy(aux_file_name+strlen(aux_file_name)-4,".aux");@/
 strcpy(cur_file_name,aux_file_name); /* second in, second out */
 if ((cur_file=fopen(cur_file_name,"r"))) { cur_line=0; include_depth++; }
 strcpy(cur_file_name,"system.bux"); /* third in, first out */
-if ((cur_file=fopen(cur_file_name,"r"))) cur_line=0;
+if ( (found_filename = kpse_find_cweb(cur_file_name)) @|
+    && (cur_file=fopen(found_filename,"r")) ) {
+  @<Set up |cur_file_name| for opened |cur_file|@>@;
+  cur_line=0;
+}
 else include_depth--;
 if (include_depth) { /* at least one new file was opened */
   while (get_next()==meaning) ; /* new meaning is digested */
@@ -2041,6 +2044,39 @@ extern char cb_banner[];
 
 @ @<Set init...@>=
   strncpy(cb_banner,banner,max_banner-1);
+
+@* File lookup with \Kpathsea/.  The \.{CTANGLE} and \.{CWEAVE} programs from
+the original \.{CWEB} package use the compile-time default directory or the
+value of the environment variable \.{CWEBINPUTS} as an alternative place to be
+searched for files, if they could not be found in the current directory.
+
+This version uses the \Kpathsea/ mechanism for searching files.
+The directories to be searched for come from three sources:
+\smallskip
+{\parindent1em
+\item{(a)} a user-set environment variable \.{CWEBINPUTS}
+    (overridden by \.{CWEBINPUTS\_cweb});
+\item{(b)} a line in \Kpathsea/ configuration file \.{texmf.cnf},\hfil\break
+    e.g., \.{CWEBINPUTS=\$TEXMFDOTDIR:\$TEXMF/texmf/cweb//}\hfil\break
+    or \.{CWEBINPUTS.cweb=\$TEXMFDOTDIR:\$TEXMF/texmf/cweb//};
+\item{(c)} compile-time default directories (specified in
+    \.{texmf.in}),\hfil\break
+    i.e., \.{\$TEXMFDOTDIR:\$TEXMF/texmf/cweb//}.\par}
+@.CWEBINPUTS@>
+
+@d kpse_find_cweb(name) kpse_find_file(name,kpse_cweb_format,true)
+
+@<Include files@>=
+#include <kpathsea/tex-file.h> /* |@!kpse_find_file| */
+
+@ @<Set up |cur_file_name|...@>=
+if (strlen(found_filename) < max_file_name_length) {
+  if (strcmp(cur_file_name,found_filename)) {
+    strcpy(cur_file_name,found_filename + @|
+      ((strncmp(found_filename,"./",2)==0) ? 2 : 0)); /* Strip path prefix */
+  }
+  free(found_filename);
+}@+else fatal(_("! Filename too long\n"), found_filename);
 
 @** Index.
 @z

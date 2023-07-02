@@ -17,16 +17,16 @@
 @q Please send comments, suggestions, etc. to tex-k@@tug.org.            @>
 
 @x
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.8)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.9)}
 @y
-\def\Kpathsea/{{\mc KPATHSEA\spacefactor1000}} \ifpdf\sanitizecommand\Kpathsea{KPATHSEA}\fi
-\def\title{Common code for CTANGLE and CWEAVE (4.8 [\TeX~Live])}
+\def\Kpathsea/{{\mc KPATHSEA\spacefactor1000}} \ifacro\sanitizecommand\Kpathsea{KPATHSEA}\fi
+\def\title{Common code for CTANGLE and CWEAVE (4.9 [\TeX~Live])}
 @z
 
 @x
-  \centerline{(Version 4.8)}
+  \centerline{(Version 4.9)}
 @y
-  \centerline{(Version 4.8 [\TeX~Live])}
+  \centerline{(Version 4.9 [\TeX~Live])}
 @z
 
 @x
@@ -101,6 +101,7 @@ cweb program; /* \.{CTANGLE} or \.{CWEAVE} or \.{CTWILL}? */
 @x
 static char alt_web_file_name[max_file_name_length]; /* alternate name to try */
 @y
+char *found_filename; /* filename found by |kpse_find_file| */
 @z
 
 @x
@@ -572,17 +573,10 @@ cb_usage(program==ctangle ? "ctangle" : program==cweave ? "cweave" : "ctwill");
 @z
 
 @x
-FILE *scn_file; /* where list of sections from \.{CWEAVE} goes */
+FILE *active_file; /* currently active file for \.{CWEAVE} output */
 @y
-FILE *scn_file; /* where list of sections from \.{CWEAVE} goes */
+FILE *active_file; /* currently active file for \.{CWEAVE} output */
 FILE *check_file; /* temporary output file */
-@z
-
-@x
-FILE *active_file; /* currently active file for \.{CWEAVE} output */
-@y
-FILE *active_file; /* currently active file for \.{CWEAVE} output */
-char *found_filename; /* filename found by |kpse_find_file| */
 @z
 
 @x
