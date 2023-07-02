@@ -1,0 +1,2 @@
+#define VERSION "20220409"
+#define TL_VERSION "TeX Live ${TEX_LIVE_VERSION}; VC & CMake"
