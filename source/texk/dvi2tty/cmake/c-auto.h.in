@@ -16,3 +16,12 @@
 
 #define VERSION "6.0.2"
 #define TL_VERSION "TeX Live ${TEX_LIVE_VERSION}; VC & CMake"
+
+#undef popen
+#define popen _popen
+#undef pclose
+#define pclose _pclose
+#undef fileno
+#define fileno _fileno
+#undef unlink
+#define unlink _unlink
