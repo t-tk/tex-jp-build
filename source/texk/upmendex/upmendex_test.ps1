@@ -1,0 +1,3 @@
+upmendex.exe --help
+
+echo ''
