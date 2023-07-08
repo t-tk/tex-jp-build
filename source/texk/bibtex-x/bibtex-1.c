@@ -330,7 +330,7 @@ BEGIN
             case UBLOCK_LATIN_EXTENDED_C:
             case UBLOCK_LATIN_EXTENDED_D:
             case UBLOCK_LATIN_EXTENDED_E:
-#if U_ICU_VERSION_MAJOR_NUM > 69
+#if defined(UBLOCK_LATIN_EXTENDED_G)
             case UBLOCK_LATIN_EXTENDED_F:
             case UBLOCK_LATIN_EXTENDED_G:
 #endif
