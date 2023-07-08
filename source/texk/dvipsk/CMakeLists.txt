@@ -56,16 +56,16 @@ set(dvips_SOURCES
 
 set(dvips_SOURCES ${dvips_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/c-auto.h)
 
+if(WIN32)
   add_library(dvips SHARED ${dvips_SOURCES})
   set_target_properties(dvips PROPERTIES OUTPUT_NAME "dvips")
-# add_executable(dvips ${dvips_SOURCES})
+else()
+  add_executable(dvips ${dvips_SOURCES})
+endif()
 
 target_compile_definitions(dvips
   PRIVATE -DKPATHSEA
   PRIVATE -DHAVE_CONFIG_H=1
-  PRIVATE -DHAVE_LIBPNG
-  PRIVATE -DHAVE_ZLIB
-  PRIVATE -DHAVE_ZLIB_COMPRESS2
   )
 
 
@@ -75,6 +75,7 @@ target_include_directories(dvips
 
 target_link_libraries(dvips kpathsea)
 
+if(WIN32)
   add_executable(calldll_dvips "cmake/calldll.c")
   target_compile_definitions(calldll_dvips PRIVATE DLLPROC=dlldvipsmain)
   target_link_libraries(calldll_dvips dvips)
@@ -84,4 +85,4 @@ target_link_libraries(dvips kpathsea)
         "$<TARGET_FILE_DIR:calldll_dvips>/calldll_dvips.exe"
         "$<TARGET_FILE_DIR:calldll_dvips>/dvips.exe"
       )
-
+endif()
