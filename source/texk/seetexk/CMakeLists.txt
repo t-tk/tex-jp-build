@@ -1,5 +1,7 @@
 # CMakeLists.txt for seetexk directory
 
+set(VERSION "20200908")
+
 cmake_policy (SET CMP0115 NEW)
 
 include(cmake/config.cmake)
@@ -60,16 +62,16 @@ add_executable(dviselect ${dviselect_SOURCES})
 add_executable(dvitodvi ${dvitodvi_SOURCES})
 
 target_compile_definitions(dvibook
-  PUBLIC -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
   )
 target_compile_definitions(dviconcat
-  PUBLIC -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
   )
 target_compile_definitions(dviselect
-  PUBLIC -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
   )
 target_compile_definitions(dvitodvi
-  PUBLIC -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
   )
 
 target_include_directories(dvibook

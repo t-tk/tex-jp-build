@@ -14,7 +14,7 @@
 
 #endif /* !PTEXENC_C_AUTO_H */
 
-#define VERSION "6.0.2"
+#define VERSION "${VERSION}"
 #define TL_VERSION "TeX Live ${TEX_LIVE_VERSION}; VC & CMake"
 
 #undef popen

@@ -1,5 +1,7 @@
 # CMakeLists.txt for dvi2tty directory
 
+set(VERSION "6.0.2")
+
 include(cmake/config.cmake)
 
 get_property(KPATHSEA_INCLUDES GLOBAL PROPERTY KPATHSEA_INCLUDES)
@@ -24,12 +26,12 @@ add_executable(disdvi ${disdvi_SOURCES})
 add_executable(dvi2tty ${dvi2tty_SOURCES})
 
 target_include_directories(disdvi
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-  PUBLIC "${CMAKE_CURRENT_BINARY_DIR}"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
+  PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   )
 target_include_directories(dvi2tty
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-  PUBLIC "${CMAKE_CURRENT_BINARY_DIR}"
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
+  PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   )
 
 target_link_libraries(disdvi kpathsea)

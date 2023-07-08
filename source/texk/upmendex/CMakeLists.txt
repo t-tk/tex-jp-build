@@ -1,5 +1,7 @@
 # CMakeLists.txt for upmendex directory
 
+set(VERSION "1.07")
+
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 include(cmake/config.cmake)

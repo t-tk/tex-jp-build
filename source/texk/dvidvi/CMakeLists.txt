@@ -1,5 +1,7 @@
 # CMakeLists.txt for dvidvi directory
 
+set(VERSION "1.1")
+
 cmake_policy (SET CMP0115 NEW)
 
 include(cmake/config.cmake)

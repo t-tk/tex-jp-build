@@ -1,5 +1,7 @@
 # CMakeLists.txt for mendexk directory
 
+set(VERSION "3.6")
+
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 include(cmake/config.cmake)
