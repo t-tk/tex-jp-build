@@ -598,6 +598,17 @@ queryargs(void)
    qargv[qargc] = (char *)NULL;
 }
 
+#if !defined(LIBDPX)
+/* Support to make DLL in W32TeX */
+#define DLLPROC dlldvipsmain
+
+#if defined(WIN32) && !defined(__MINGW32__) && !defined(MIKTEX) && defined(DLLPROC)
+extern __declspec(dllexport) int DLLPROC (int argc, char *argv[]);
+#else
+#undef DLLPROC
+#endif
+#endif /* !LIBDPX */
+
 /*
  *   Finally, our main routine.
  */
@@ -605,8 +616,16 @@ queryargs(void)
 main(void)
 #else
 int
+#if defined(DLLPROC)
+DLLPROC (int argc, char *argv[])
+#else
+#if defined(LIBDPX)
+dvips_main (int argc, char *argv[])
+#else
 main(int argc, char **argv)
-#endif
+#endif /* LIBDPX */
+#endif /* DLLPROC */
+#endif /* VMS */
 {
    int i, lastext = -1;
 #ifdef MVSXA
