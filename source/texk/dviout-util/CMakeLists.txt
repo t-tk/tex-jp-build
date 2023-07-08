@@ -1,5 +1,7 @@
 # CMakeLists.txt for dviout-util directory
 
+cmake_policy (SET CMP0115 NEW)
+
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 include(cmake/config.cmake)
