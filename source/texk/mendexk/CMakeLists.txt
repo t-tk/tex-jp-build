@@ -1,5 +1,7 @@
 # CMakeLists.txt for mendexk directory
 
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
 include(cmake/config.cmake)
 
 get_property(KPATHSEA_INCLUDES GLOBAL PROPERTY KPATHSEA_INCLUDES)
