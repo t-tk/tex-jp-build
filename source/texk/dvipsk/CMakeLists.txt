@@ -54,35 +54,29 @@ set(dvips_SOURCES
   writet1.c
   )
 
-set(dvips_SOURCES ${dvips_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/c-auto.h)
+set(afm2tfm_SOURCES ${dvips_SOURCES} c-auto.h)
+set(dvips_SOURCES ${dvips_SOURCES} c-auto.h)
 
-if(WIN32)
-  add_library(dvips SHARED ${dvips_SOURCES})
-  set_target_properties(dvips PROPERTIES OUTPUT_NAME "dvips")
-else()
-  add_executable(dvips ${dvips_SOURCES})
-endif()
+add_executable(afm2tfm ${afm2tfm_SOURCES})
+add_executable(dvips ${dvips_SOURCES})
 
+target_compile_definitions(afm2tfm
+  PRIVATE -DKPATHSEA
+  PRIVATE -DHAVE_CONFIG_H=1
+  )
 target_compile_definitions(dvips
   PRIVATE -DKPATHSEA
   PRIVATE -DHAVE_CONFIG_H=1
   )
 
-
+target_include_directories(afm2tfm
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
+  PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
+  )
 target_include_directories(dvips
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   )
 
+target_link_libraries(afm2tfm kpathsea)
 target_link_libraries(dvips kpathsea)
-
-if(WIN32)
-  add_executable(calldll_dvips "cmake/calldll.c")
-  target_compile_definitions(calldll_dvips PRIVATE DLLPROC=dlldvipsmain)
-  target_link_libraries(calldll_dvips dvips)
-
-    add_custom_command(TARGET calldll_dvips POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy
-        "$<TARGET_FILE_DIR:calldll_dvips>/calldll_dvips.exe"
-        "$<TARGET_FILE_DIR:calldll_dvips>/dvips.exe"
-      )
-endif()
