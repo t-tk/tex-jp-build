@@ -121,6 +121,10 @@ $_dvibook -s4 <playsel.dvi >playbook.dvi \
 
 echo dvibook with stdin and stdout tests OK
 
+else
+
+echo dvibook with stdin and stdout tests **SKIPPED**
+
 fi
 
 $_dvibook -s4 playselt.dvi playbook.dvi \
@@ -179,6 +183,10 @@ $_dvitodvi '4:500@0+1(16.5cm,0)+2(0,28cm)+3(16.5cm,28cm)' -o playdvi.dvi <playse
 	|| exit 22
 
 echo dvitodvi reading stdin tests OK
+
+else
+
+echo dvitodvi reading stdin tests **SKIPPED**
 
 fi
 
