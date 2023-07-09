@@ -48,7 +48,7 @@ set(dvitodvi_SOURCES
   )
 
 add_library(seetex STATIC ${seetex_SOURCES})
-target_compile_definitions(seetex PUBLIC -DKPATHSEA -DHAVE_STRERROR)
+target_compile_definitions(seetex PUBLIC -DKPATHSEA -DHAVE_STRERROR -DASCIIPTEX)
 target_include_directories(seetex
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
@@ -62,16 +62,16 @@ add_executable(dviselect ${dviselect_SOURCES})
 add_executable(dvitodvi ${dvitodvi_SOURCES})
 
 target_compile_definitions(dvibook
-  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H -DASCIIPTEX
   )
 target_compile_definitions(dviconcat
-  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H -DASCIIPTEX
   )
 target_compile_definitions(dviselect
-  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H -DASCIIPTEX
   )
 target_compile_definitions(dvitodvi
-  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H
+  PRIVATE -DKPATHSEA -DHAVE_CONFIG_H -DASCIIPTEX
   )
 
 target_include_directories(dvibook
