@@ -31,3 +31,7 @@ target_include_directories(dvispc
 target_include_directories(chkdvifont
   PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
   )
+
+target_compile_definitions(dvispc PRIVATE -DPTEXENC)
+
+target_link_libraries(dvispc ptexenc)
