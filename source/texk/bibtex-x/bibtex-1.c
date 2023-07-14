@@ -330,7 +330,7 @@ BEGIN
             case UBLOCK_LATIN_EXTENDED_C:
             case UBLOCK_LATIN_EXTENDED_D:
             case UBLOCK_LATIN_EXTENDED_E:
-#if defined(UBLOCK_LATIN_EXTENDED_G)
+#if defined(U_ICU_VERSION_MAJOR_NUM) && (U_ICU_VERSION_MAJOR_NUM > 69)
             case UBLOCK_LATIN_EXTENDED_F:
             case UBLOCK_LATIN_EXTENDED_G:
 #endif
@@ -342,6 +342,9 @@ BEGIN
             case UBLOCK_CYRILLIC_EXTENDED_A:
             case UBLOCK_CYRILLIC_EXTENDED_B:
             case UBLOCK_CYRILLIC_EXTENDED_C:
+#if defined(U_ICU_VERSION_MAJOR_NUM) && (U_ICU_VERSION_MAJOR_NUM > 71)
+            case UBLOCK_CYRILLIC_EXTENDED_D:
+#endif
             case UBLOCK_HANGUL_SYLLABLES:
               goto Loop1_Exit; /* break line */
             break;
