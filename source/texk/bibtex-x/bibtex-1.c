@@ -276,7 +276,7 @@ BEGIN
   END
   out_buf_length = out_buf_ptr;
   unbreakable_tail = FALSE;
-  while ((out_buf_length > MAX_PRINT_LINE) && ! unbreakable_tail)
+  while ((out_buf_length > Max_Print_Line) && ! unbreakable_tail)
 
 /***************************************************************************
  * WEB section number:	 323
@@ -292,7 +292,7 @@ BEGIN
  ***************************************************************************/
   BEGIN
     end_ptr = out_buf_length;
-    out_buf_ptr = MAX_PRINT_LINE;
+    out_buf_ptr = Max_Print_Line;
     break_pt_found = FALSE;
     while ((lex_class[out_buf[out_buf_ptr]] != WHITE_SPACE)
         && (out_buf_ptr >= MIN_PRINT_LINE))
@@ -313,7 +313,7 @@ BEGIN
  * point, so we don't break the line (yet).
  ***************************************************************************/
     BEGIN
-      out_buf_ptr = MAX_PRINT_LINE + 1;
+      out_buf_ptr = Max_Print_Line + 1;
       while (out_buf_ptr < end_ptr)
       BEGIN
 #ifdef UTF_8

@@ -229,9 +229,6 @@ int                     main (int argc, char **argv)
 BEGIN
     extern Integer8_T       history;
     int			    exit_status;
-#ifdef KPATHSEA
-    char *mpl;
-#endif
 
     /*-
     **------------------------------------------------------------------------
@@ -265,19 +262,12 @@ BEGIN
     command_line_arg_strings = (char **) argv;
 
     history = SPOTLESS;
-    parse_cmd_line (argc, argv);
 
 #ifdef KPATHSEA
     kpse_set_program_name(argv[0], PROGNAME);
-    mpl = kpse_var_value("max_print_line");
-    if (mpl)
-    BEGIN
-        max_print_line = atoi(mpl);
-        free(mpl);
-    END
-    else
-        max_print_line = 79;  /* default */
 #endif
+
+    parse_cmd_line (argc, argv);
 
     set_array_sizes ();
     report_search_paths ();

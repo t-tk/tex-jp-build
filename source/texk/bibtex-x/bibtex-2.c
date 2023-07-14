@@ -2203,10 +2203,10 @@ BEGIN
     if (MIN_PRINT_LINE < 3)
         bad = 1;
 
-    if (MAX_PRINT_LINE <= MIN_PRINT_LINE)
+    if (Max_Print_Line <= MIN_PRINT_LINE)
         bad = 10 * bad + 2;
 
-    if (MAX_PRINT_LINE >= Buf_Size)
+    if (Max_Print_Line >= Buf_Size)
         bad = 10 * bad + 3;
 
     if (Hash_Prime < 128)

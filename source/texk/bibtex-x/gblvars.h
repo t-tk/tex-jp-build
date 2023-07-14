@@ -174,9 +174,6 @@ __EXTERN__ Boolean_T                    bst_seen;
 __EXTERN__ StrNumber_T                  bst_str;
 __EXTERN__ BufPointer_T                 buf_ptr1;
 __EXTERN__ BufPointer_T                 buf_ptr2;
-#ifdef KPATHSEA
-__EXTERN__ Integer_T                    max_print_line;
-#endif
 
 __EXTERN__ Boolean_T                    citation_seen;
 __EXTERN__ Boolean_T                    cite_found;
@@ -467,6 +464,7 @@ __EXTERN__ Integer_T                    Max_Bib_Files;
 __EXTERN__ Integer_T                    Max_Cites;
 __EXTERN__ Integer_T                    Max_Fields;
 __EXTERN__ Integer_T                    Max_Glob_Strs;
+__EXTERN__ Integer_T                    Max_Print_Line;
 __EXTERN__ Integer_T                    Max_Strings;
 __EXTERN__ Integer_T                    Min_Crossrefs;
 __EXTERN__ Integer_T                    Pool_Size;
