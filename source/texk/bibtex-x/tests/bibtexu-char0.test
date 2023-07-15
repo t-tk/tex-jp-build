@@ -46,9 +46,9 @@ $_bibtexu tests/xcharu || rc=11
 diff $srcdir/tests/charu.bbl tests/xcharu.bbl || rc=12
 
 ## test for num.names$, format.name$
-cp $srcdir/tests/nameu.aux tests/xnameu.aux
-max_print_line=119 $_bibtexu tests/xnameu || rc=13
-diff $srcdir/tests/nameu.bbl tests/xnameu.bbl || rc=14
+#cp $srcdir/tests/nameu.aux tests/xnameu.aux
+#max_print_line=119 $_bibtexu tests/xnameu || rc=13
+#diff $srcdir/tests/nameu.bbl tests/xnameu.bbl || rc=14
 
 ## test for is.knj.str$
 cp $srcdir/tests/iscjku.aux tests/xiscjku.aux

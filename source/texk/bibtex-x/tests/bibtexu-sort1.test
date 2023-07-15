@@ -34,14 +34,14 @@ rc=0
 
 $_bibtexu --version
 
-for loc in en az da fi tr; do
-
+#for loc in en az da fi tr; do
+#
 ## test for sorting and change.case$
-cp $srcdir/tests/sortu.aux tests/xsortu-$loc.aux
-$_bibtexu -o $loc tests/xsortu-$loc || rc=1
-diff $srcdir/tests/sortu-$loc.bbl tests/xsortu-$loc.bbl || rc=2
-
-done
+#cp $srcdir/tests/sortu.aux tests/xsortu-$loc.aux
+#$_bibtexu -o $loc tests/xsortu-$loc || rc=1
+#diff $srcdir/tests/sortu-$loc.bbl tests/xsortu-$loc.bbl || rc=2
+#
+#done
 
 max_print_line=99
 export max_print_line

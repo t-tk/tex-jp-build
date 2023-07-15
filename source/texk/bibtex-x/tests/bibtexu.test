@@ -4,6 +4,10 @@
 # Copyright 2010 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
+bin=${bin:-.}
+exe=${exe:-}
+_bibtexu=$bin/bibtexu$exe
+
 test -d tests || mkdir -p tests
 rm -f tests/uexampl.* # different filenames than bibtex8.test
 
@@ -12,5 +16,7 @@ cp $srcdir/../web2c/tests/exampl.aux tests/uexampl.aux || exit 1
 TEXMFCNF=$srcdir/../kpathsea \
   BSTINPUTS=$srcdir/../web2c/tests \
   BIBINPUTS=$srcdir/../web2c/tests \
-  ./bibtexu tests/uexampl || test $? = 1 || exit 1
+  $_bibtexu tests/uexampl || test $? = 1 || exit 1
 diff $srcdir/tests/exampl.bbl tests/uexampl.bbl || exit 2
+
+exit 0

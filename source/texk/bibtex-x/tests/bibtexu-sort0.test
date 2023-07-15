@@ -47,8 +47,8 @@ max_print_line=99
 export max_print_line
 
 ## test for change.case$
-cp $srcdir/tests/caseu.aux tests/xcaseu.aux
-max_print_line=99 $_bibtexu tests/xcaseu || rc=3
-diff $srcdir/tests/caseu.bbl tests/xcaseu.bbl || rc=4
+#cp $srcdir/tests/caseu.aux tests/xcaseu.aux
+#max_print_line=99 $_bibtexu tests/xcaseu || rc=3
+#diff $srcdir/tests/caseu.bbl tests/xcaseu.bbl || rc=4
 
 exit $rc

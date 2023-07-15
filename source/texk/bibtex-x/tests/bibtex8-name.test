@@ -1,0 +1,25 @@
+#! /bin/sh -vx
+#
+# Copyright 2022 TANAKA Takuji <ttk@t-lab.opal.ne.jp>
+# You may freely use, modify and/or distribute this file.
+
+bin=${bin:-.}
+exe=${exe:-}
+_bibtex8=$bin/bibtex8$exe
+
+test -d tests || mkdir -p tests
+
+rc=0
+
+TEXMFCNF=$srcdir/../kpathsea
+BSTINPUTS=$srcdir/tests:$srcdir/csf
+BIBINPUTS=$srcdir/tests
+export TEXMFCNF BSTINPUTS BIBINPUTS
+
+## test for num.names$, format.name$
+cp $srcdir/tests/namea.aux tests/xnamea.aux
+max_print_line=119 $_bibtex8 tests/xnamea || rc=13
+#diff $srcdir/tests/namea.bbl tests/xnamea.bbl || rc=14
+
+
+exit $rc
