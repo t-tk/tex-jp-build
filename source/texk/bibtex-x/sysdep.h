@@ -111,6 +111,12 @@
 #include <string.h>
 #include <ctype.h>
 
+#ifdef KPATHSEA
+#include <kpathsea/config.h>
+#include <kpathsea/progname.h>
+#include <kpathsea/variable.h>
+#endif
+
 
 /*-
 **============================================================================
@@ -190,7 +196,12 @@
 ** Some macros to satisfy ANSI C's strict (for C anyway) type checking.
 **============================================================================
 */
+#if defined(WIN32) && defined(KPATHSEA)
+#define FPRINTF                     (void) win32_fprintf
+#define FPUTS                       (void) win32_fputs
+#else
 #define FPRINTF                     (void) fprintf
+#endif
 #define FPUTC                       (void) fputc
 #define PRINTF                      (void) printf
 #define PUTC                        (void) putc

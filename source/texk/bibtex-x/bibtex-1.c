@@ -181,6 +181,7 @@ BEGIN
   ex_buf_ptr = ex_buf_length;
   while (p_ptr1 < p_ptr2)
   BEGIN
+    fprintf(stderr, "###DBG6000 %x\n", str_pool[p_ptr1]);
     APPEND_EX_BUF_CHAR(str_pool[p_ptr1]);
     INCR (p_ptr1);
   END

@@ -446,6 +446,7 @@ END
  ***************************************************************************/
 void          print_aux_name (void)
 BEGIN
+  win32_fprintf(stderr, "###DBG6000 %s %p %d %d\n", "aaa", CUR_AUX_STR, aux_ptr, aux_list[aux_ptr]);
   PRINT_POOL_STR (CUR_AUX_STR);
   PRINT_NEWLINE;
 END
@@ -1069,12 +1070,18 @@ END
 void          sam_wrong_file_name_print (void)
 BEGIN
   FPRINTF (TERM_OUT, "I couldn't open file name `");
+#ifdef WIN32
+            win32_fprintf(stderr, "###DBG4000 %s\n", name_of_file);
+
+    FPUTS (name_of_file, TERM_OUT);
+#else
   name_ptr = 0;
   while (name_ptr < name_length)
   BEGIN
     FPUTC (name_of_file[name_ptr], TERM_OUT);
     INCR (name_ptr);
   END
+#endif
   FPRINTF (TERM_OUT, "'\n");
 END
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION  99 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/

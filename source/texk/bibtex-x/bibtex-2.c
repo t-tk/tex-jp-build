@@ -2041,6 +2041,9 @@ BEGIN
 	name_length = aux_name_length;
 	add_extension (s_aux_extension);
 	aux_ptr = 0;
+
+win32_fprintf(stderr, "###DBG3001 %d, %s, %s, %s\n", name_length, &log_file, &bbl_file, name_of_file);
+
 	if ( ! a_open_in (&CUR_AUX_FILE, AUX_FILE_SEARCH_PATH))
 	BEGIN
 	  SAM_YOU_MADE_THE_FILE_NAME_WRON;
@@ -2060,6 +2063,7 @@ BEGIN
 	  SAM_YOU_MADE_THE_FILE_NAME_WRON;
 	END
       END
+win32_fprintf(stderr, "###DBG3002 %d, %s, %s, %s\n", name_length, &log_file, &bbl_file, name_of_file);
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION 106 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
 /***************************************************************************
@@ -2076,7 +2080,11 @@ BEGIN
 	name_ptr = 1;
 	while (name_ptr <= name_length)
 	BEGIN
+#if 0
+	  buffer[name_ptr] = name_of_file[name_ptr - 1];
+#else
 	  buffer[name_ptr] = xord[name_of_file[name_ptr - 1]];
+#endif
 	  INCR (name_ptr);
 	END
 	top_lev_str = hash_text[str_lookup (buffer, 1, aux_name_length,
@@ -2393,9 +2401,10 @@ BEGIN
 /*
 **  Full 8Bit Support Note [ASIERRA95]:
 **  BibTeX just must recognize characters greater than 127.
-**    for (i=128; i<=255; i++)
-**      xchr [i] = (unsigned char) i;
 */
+    for (i=128; i<=255; i++)
+      xchr [i] = (unsigned char) i;
+
 #endif                          /* SUPPORT_8BIT */
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION 25 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
@@ -2458,13 +2467,11 @@ BEGIN
     END
 
 #ifdef SUPPORT_8BIT
-/*
-**    if (!Flag_7bit)
-**      for (i=128; i<=LAST_ASCII_CHAR; i++)
-**      BEGIN
-**	  xord[xchr[i]] = i;
-**      END
-*/
+    if (!Flag_7bit)
+        for (i=128; i<=LAST_ASCII_CHAR; i++)
+        BEGIN
+            xord[xchr[i]] = i;
+        END
 #endif                          /* SUPPORT_8BIT */
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION 28 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
@@ -3779,10 +3786,23 @@ BEGIN
 
   if (f != NULL)
   BEGIN
+#if defined(WIN32) && defined(KPATHSEA)
+    unsigned char tmpstr[2048];
+    int j=0;
+    for (i=str_start[s]; i<=(str_start[s+1] - 1); i++, j++)
+    BEGIN
+      fprintf(stderr, "###DBG5001 s(%d) %d %d %x %x\n", s, i, j, str_pool[i], xchr[str_pool[i]]);
+      tmpstr[j] = xchr[str_pool[i]];
+    END
+    tmpstr[j] = '\0';
+win32_fprintf(stderr, "\n###DBG5000 %s (%d); %d %d\n\n", tmpstr, strlen(tmpstr), str_start[s], str_start[s+1]);
+    win32_fputs( tmpstr, f );
+#else
     for (i=str_start[s]; i<=(str_start[s+1] - 1); i++)
     BEGIN
       FPUTC (xchr[str_pool[i]], f);
     END
+#endif
   END
 END
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION 51 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/

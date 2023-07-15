@@ -100,12 +100,6 @@
 #include <config.h>
 #endif
 
-#ifdef KPATHSEA
-#include <kpathsea/config.h>
-#include <kpathsea/progname.h>
-#include <kpathsea/variable.h>
-#endif
-
 #include "sysdep.h"
 #include "bibtex.h"
 #include "datatype.h"
@@ -258,15 +252,34 @@ BEGIN
       goto Close_Up_Shop_Label;
     END
 
+#ifdef KPATHSEA
+    if (argc>1) {
+#ifdef WIN32
+        int ac;
+        char **av, *enc;
+#endif
+        kpse_set_program_name(argv[0], PROGNAME);
+
+#ifdef WIN32
+        enc = kpse_var_value("command_line_encoding");
+        if (get_command_line_args_utf8(enc, &ac, &av)) {
+            argc = ac;
+            argv = av;
+        }
+	if (argc>1) {
+	  int jjj;
+	  for(jjj=0; jjj<argc; jjj++) {
+            win32_fprintf(stderr, "###DBG000 %s (%s)\n", argv[jjj], PROGNAME);
+	  }
+	}
+#endif
+    }
+#endif
+
     number_of_command_line_args = argc;
     command_line_arg_strings = (char **) argv;
 
     history = SPOTLESS;
-
-#ifdef KPATHSEA
-    kpse_set_program_name(argv[0], PROGNAME);
-#endif
-
     parse_cmd_line (argc, argv);
 
     set_array_sizes ();
