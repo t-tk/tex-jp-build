@@ -3787,7 +3787,7 @@ BEGIN
       tmpstr[j] = xchr[str_pool[i]];
     END
     tmpstr[j] = '\0';
-    win32_fputs( tmpstr, f );
+    FPUTS (tmpstr, f);
 #else
     for (i=str_start[s]; i<=(str_start[s+1] - 1); i++)
     BEGIN
