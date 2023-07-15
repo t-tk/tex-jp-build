@@ -2041,9 +2041,6 @@ BEGIN
 	name_length = aux_name_length;
 	add_extension (s_aux_extension);
 	aux_ptr = 0;
-
-win32_fprintf(stderr, "###DBG3001 %d, %s, %s, %s\n", name_length, &log_file, &bbl_file, name_of_file);
-
 	if ( ! a_open_in (&CUR_AUX_FILE, AUX_FILE_SEARCH_PATH))
 	BEGIN
 	  SAM_YOU_MADE_THE_FILE_NAME_WRON;
@@ -2063,7 +2060,6 @@ win32_fprintf(stderr, "###DBG3001 %d, %s, %s, %s\n", name_length, &log_file, &bb
 	  SAM_YOU_MADE_THE_FILE_NAME_WRON;
 	END
       END
-win32_fprintf(stderr, "###DBG3002 %d, %s, %s, %s\n", name_length, &log_file, &bbl_file, name_of_file);
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION 106 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
 /***************************************************************************
@@ -2080,11 +2076,7 @@ win32_fprintf(stderr, "###DBG3002 %d, %s, %s, %s\n", name_length, &log_file, &bb
 	name_ptr = 1;
 	while (name_ptr <= name_length)
 	BEGIN
-#if 0
-	  buffer[name_ptr] = name_of_file[name_ptr - 1];
-#else
 	  buffer[name_ptr] = xord[name_of_file[name_ptr - 1]];
-#endif
 	  INCR (name_ptr);
 	END
 	top_lev_str = hash_text[str_lookup (buffer, 1, aux_name_length,
@@ -3787,15 +3779,14 @@ BEGIN
   if (f != NULL)
   BEGIN
 #if defined(WIN32) && defined(KPATHSEA)
-    unsigned char tmpstr[2048];
+#define  MAX_STR  780
+    unsigned char tmpstr[MAX_STR];
     int j=0;
-    for (i=str_start[s]; i<=(str_start[s+1] - 1); i++, j++)
+    for (i=str_start[s]; i<=(str_start[s+1] - 1) && j<MAX_STR-1; i++, j++)
     BEGIN
-      fprintf(stderr, "###DBG5001 s(%d) %d %d %x %x\n", s, i, j, str_pool[i], xchr[str_pool[i]]);
       tmpstr[j] = xchr[str_pool[i]];
     END
     tmpstr[j] = '\0';
-win32_fprintf(stderr, "\n###DBG5000 %s (%d); %d %d\n\n", tmpstr, strlen(tmpstr), str_start[s], str_start[s+1]);
     win32_fputs( tmpstr, f );
 #else
     for (i=str_start[s]; i<=(str_start[s+1] - 1); i++)

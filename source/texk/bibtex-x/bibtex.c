@@ -266,12 +266,6 @@ BEGIN
             argc = ac;
             argv = av;
         }
-	if (argc>1) {
-	  int jjj;
-	  for(jjj=0; jjj<argc; jjj++) {
-            win32_fprintf(stderr, "###DBG000 %s (%s)\n", argv[jjj], PROGNAME);
-	  }
-	}
 #endif
     }
 #endif

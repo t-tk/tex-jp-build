@@ -149,6 +149,8 @@
 #if defined(WIN32) && defined(KPATHSEA)
 #undef fopen
 #define fopen fsyscp_fopen
+#undef vfprintf
+#define vfprintf win32_vfprintf
 #endif
 
 /*
@@ -586,7 +588,7 @@ void debug_msg (const int status, const char *printf_fmt, ...)
     if (printf_fmt != NULL) {
         fprintf (stderr, "%s: ", prefix);
         va_start (printf_args, printf_fmt);
-        win32_vfprintf (stderr, printf_fmt, printf_args);
+        vfprintf (stderr, printf_fmt, printf_args);
         va_end (printf_args);
         fprintf (stderr, "\n");
         fflush (stderr);
@@ -819,9 +821,7 @@ FILE *open_ip_file (Integer_T search_path)
 #endif
     FILE               *fptr;
     int                 status;
-
-win32_fprintf(stderr, "###DBG2000 %s\n", filename);
-
+      
     switch (search_path) {
         case AUX_FILE_SEARCH_PATH:
 #ifdef KPATHSEA
@@ -864,8 +864,6 @@ win32_fprintf(stderr, "###DBG2000 %s\n", filename);
 #endif
             break;
     }                           /* end switch (search_path) */
-
-    win32_fprintf(stderr, "###DBG2001 %d %s\n", status, full_filespec);
 
     /*
     ** find_file() will return zero if the file was found somewhere
