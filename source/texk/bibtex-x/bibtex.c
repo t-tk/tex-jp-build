@@ -258,27 +258,6 @@ BEGIN
       goto Close_Up_Shop_Label;
     END
 
-#ifdef KPATHSEA
-    if (argc>1) {
-#ifdef WIN32
-        int ac;
-        char **av, *enc;
-#endif
-        kpse_set_program_name(argv[0], PROGNAME);
-
-#ifdef WIN32
-        enc = kpse_var_value("command_line_encoding");
-        if (get_command_line_args_utf8(enc, &ac, &av)) {
-            argc = ac;
-            argv = av;
-        }
-#endif
-    }
-#endif
-
-    number_of_command_line_args = argc;
-    command_line_arg_strings = (char **) argv;
-
     history = SPOTLESS;
     parse_cmd_line (argc, argv);
 

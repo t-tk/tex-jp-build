@@ -1130,6 +1130,22 @@ void parse_cmd_line (int argc, char **argv)
         }                       /* end switch (c) */
     }                           /* end while (1) */
 
+#ifdef KPATHSEA
+    kpse_set_program_name(argv[0], PROGNAME);
+
+#ifdef WIN32
+    {
+        int ac;
+        char **av, *enc;
+
+        enc = kpse_var_value("command_line_encoding");
+        if (get_command_line_args_utf8(enc, &ac, &av)) {
+            argc = ac;
+            argv = av;
+        }
+    }
+#endif
+#endif
 
     /*
     ** Check that a single .aux file was specified.

@@ -186,7 +186,6 @@ __EXTERN__ LongJumpBuf_T                Close_Up_Shop_Flag;
 __EXTERN__ StrNumber_T                  cmd_str_ptr;
 __EXTERN__ BufPointer_T                 comma1;
 __EXTERN__ BufPointer_T                 comma2;
-__EXTERN__ Char_T                     **command_line_arg_strings;
 __EXTERN__ Integer_T                    command_num;
 __EXTERN__ HashLoc_T                    control_seq_loc;
 __EXTERN__ Integer8_T                   conversion_type;
@@ -261,7 +260,6 @@ __EXTERN__ BibNumber_T                  num_preamble_strings;
 __EXTERN__ FieldLoc_T                   num_pre_defined_fields;
 __EXTERN__ BufPointer_T                 num_text_chars;
 __EXTERN__ BufPointer_T                 num_tokens;
-__EXTERN__ Integer8_T                   number_of_command_line_args;
 
 __EXTERN__ CiteNumber_T                 old_num_cites;
 __EXTERN__ BufPointer_T                 out_buf_length;
