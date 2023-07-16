@@ -1,6 +1,6 @@
 # CMakeLists.txt for bibtex-x directory
 
-set(VERSION "4.00")
+set(VERSION "4.01")
 
 cmake_policy (SET CMP0115 NEW)
 
