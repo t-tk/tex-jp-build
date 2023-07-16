@@ -195,6 +195,7 @@
 #define FPUTS                       (void) win32_fputs
 #else
 #define FPRINTF                     (void) fprintf
+#define FPUTS                       (void) fputs
 #endif
 #define FPUTC                       (void) fputc
 #define PRINTF                      (void) printf

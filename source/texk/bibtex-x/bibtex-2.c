@@ -2459,11 +2459,10 @@ BEGIN
     END
 
 #ifdef SUPPORT_8BIT
-    if (!Flag_7bit)
-        for (i=128; i<=LAST_ASCII_CHAR; i++)
-        BEGIN
-            xord[xchr[i]] = i;
-        END
+    for (i=128; i<=LAST_ASCII_CHAR; i++)
+    BEGIN
+        xord[xchr[i]] = i;
+    END
 #endif                          /* SUPPORT_8BIT */
 
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION 28 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/

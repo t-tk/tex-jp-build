@@ -1069,16 +1069,7 @@ END
 void          sam_wrong_file_name_print (void)
 BEGIN
   FPRINTF (TERM_OUT, "I couldn't open file name `");
-#if defined(WIN32) && defined(KPATHSEA)
-    FPUTS (name_of_file, TERM_OUT);
-#else
-  name_ptr = 0;
-  while (name_ptr < name_length)
-  BEGIN
-    FPUTC (name_of_file[name_ptr], TERM_OUT);
-    INCR (name_ptr);
-  END
-#endif
+  FPUTS (name_of_file, TERM_OUT);
   FPRINTF (TERM_OUT, "'\n");
 END
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ END OF SECTION  99 ^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
