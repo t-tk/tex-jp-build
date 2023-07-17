@@ -54,7 +54,7 @@ set(dvips_SOURCES
   writet1.c
   )
 
-set(afm2tfm_SOURCES ${dvips_SOURCES} c-auto.h)
+set(afm2tfm_SOURCES ${afm2tfm_SOURCES} c-auto.h)
 set(dvips_SOURCES ${dvips_SOURCES} c-auto.h)
 
 add_executable(afm2tfm ${afm2tfm_SOURCES})
