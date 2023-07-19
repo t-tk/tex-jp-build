@@ -13,9 +13,14 @@ cnf_dir=$srcdir/tests/cnfline
 unset maxpr
 unset othervar
 
+remove_cr() {
+  if [ $exe = ".exe" ]; then
+    val=`echo $val | sed -e 's/\\r//'`
+  fi
+}
+
 # Just for fun, let's first try the --cnf-line feature to set TEXMFCNF.
-val=`$_kpsewhich "--cnf-line=TEXMFCNF=$cnf_dir" --var-value=othervar`
-if [ $exe = ".exe" ]; then val=`echo $val | sed -e 's/\\r//'`; fi
+val=`$_kpsewhich "--cnf-line=TEXMFCNF=$cnf_dir" --var-value=othervar`; remove_cr
 test x"$val" = x300 || exit 1
 
 # But for the rest, just use the environment, to keep things simpler.
@@ -27,19 +32,15 @@ if [ $exe = ".exe" ]; then
 fi
 
 # Make sure we get expected values from the test texmf.cnf.
-val=`$_kpsewhich --var-value=maxpr`
-if [ $exe = ".exe" ]; then val=`echo $val | sed -e 's/\\r//'`; fi
+val=`$_kpsewhich --var-value=maxpr`; remove_cr
 test x"$val" = x200 || exit 1
 #
-val=`$_kpsewhich --progname=foo --var-value=maxpr`
-if [ $exe = ".exe" ]; then val=`echo $val | sed -e 's/\\r//'`; fi
+val=`$_kpsewhich --progname=foo --var-value=maxpr`; remove_cr
 test x"$val" = x100 || exit 1
 #
-val=`$_kpsewhich --var-value=othervar`
-if [ $exe = ".exe" ]; then val=`echo $val | sed -e 's/\\r//'`; fi
+val=`$_kpsewhich --var-value=othervar`; remove_cr
 test x"$val" = x300 || exit 1
 
 # Now override on cmd line -- both texmf.cnf values should get overridden.
-val=`$_kpsewhich --cnf-line=maxpr=99 --var-value=maxpr`
-if [ $exe = ".exe" ]; then val=`echo $val | sed -e 's/\\r//'`; fi
+val=`$_kpsewhich --cnf-line=maxpr=99 --var-value=maxpr`; remove_cr
 test x"$val" = x99 || exit 1
