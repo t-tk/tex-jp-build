@@ -17,15 +17,15 @@ jobs:
       - name: cmake & cmake --build
         shell: pwsh
         run: |
-          mkdir .\Work
-          cd .\Work
+          mkdir .\work
+          cd .\work
           cmake.exe ..
           cmake.exe --build .
       - name: test kpathsea
         shell: bash
         run: |
           pwd
-          cd ./Work
+          cd ./work
           export bindir=./Debug/bin exeext=.exe srcdir=../../source/texk/kpathsea
           $srcdir/tests/kpsewhich.test
           $srcdir/tests/kpsestat.test
