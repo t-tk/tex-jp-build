@@ -4,9 +4,9 @@
 # Copyright 2010 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_kpsestat=$bin/kpsestat$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_kpsestat=$bindir/kpsestat$exeext
 
 $_kpsestat = nonesuch 2>/dev/null && exit 1
 

@@ -4,10 +4,10 @@
 # Copyright 2010 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_kpseaccess=$bin/kpseaccess$exe
-_kpsewhich=$bin/kpsewhich$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_kpseaccess=$bindir/kpseaccess$exeext
+_kpsewhich=$bindir/kpsewhich$exeext
 
 ret=0
 
