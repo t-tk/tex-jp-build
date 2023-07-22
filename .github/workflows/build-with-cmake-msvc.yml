@@ -1,0 +1,40 @@
+name: Build with Cmake & MSVC
+run-name: ${{ github.actor }} is building and testing with Cmake & MSVC
+on:
+  push:
+    branches:
+      - 'work*'
+      - 'build*'
+jobs:
+  Build-with-cmake-msvc:
+    runs-on: windows-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: cmake & cmake --build
+        shell: pwsh
+        run: |
+          mkdir .\Work
+          cd .\Work
+          cmake.exe ..
+          cmake.exe --build .
+      - name: test kpathsea
+        shell: bash
+        run: |
+          pwd
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../../source/texk/kpathsea
+          $srcdir/tests/kpsewhich.test
+          $srcdir/tests/kpsestat.test
+          $srcdir/tests/cnfline.test
+          $srcdir/tests/cnfnewline.test
+          $srcdir/tests/cnfprog.test
+          # $srcdir/tests/kpseaccess.test
+          # $srcdir/tests/kpsereadlink.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - run: echo "⛄ This job's status is ${{ job.status }}."
