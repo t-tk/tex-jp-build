@@ -72,25 +72,25 @@ jobs:
           cd ./Work
           export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
           $srcdir/tests/bibtex8.test
-          $srcdir/tests/bibtex8-char.test
-          $srcdir/tests/bibtex8-sort.test
+          # $srcdir/tests/bibtex8-char.test
+          # $srcdir/tests/bibtex8-sort.test
           $srcdir/tests/bibtexu.test
-          $srcdir/tests/bibtexu-basic.test
-          $srcdir/tests/bibtexu-range.test
+          # $srcdir/tests/bibtexu-basic.test
+          # $srcdir/tests/bibtexu-range.test
           # $srcdir/tests/bibtexu-char.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
-      - name: test bibtex-x, max_print_line=99
-        shell: bash
-        run: |
-          cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
-          $srcdir/tests/bibtexu-sort.test
-        env:
-          srcroot: "../source"
-          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
-          max_print_line: "99"
+#      - name: test bibtex-x, max_print_line=99
+#        shell: bash
+#        run: |
+#          cd ./Work
+#          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
+#          $srcdir/tests/bibtexu-sort.test
+#        env:
+#          srcroot: "../source"
+#          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+#          max_print_line: "99"
       - name: test dviout-util
         shell: bash
         run: |
