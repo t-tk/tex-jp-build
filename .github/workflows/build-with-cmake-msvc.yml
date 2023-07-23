@@ -20,14 +20,14 @@ jobs:
           New-Item .\Work -ItemType Directory
           cd .\Work
           cmake.exe ..
-      - name: prepare headers
-        shell: pwsh
-        run: |
-          cd .\Work
-          python3 ..\source\texk\kpathsea\cmake\kpathsea.py .\source\texk\kpathsea\kpathsea.h config.h paths.h absolute.h c-dir.h c-fopen.h c-namemx.h c-pathch.h c-pathmx.h c-stat.h cnf.h concatn.h expand.h getopt.h line.h magstep.h pathsearch.h proginit.h readable.h tex-glyph.h tex-hush.h tex-make.h variable.h version.h
-          python3 ..\source\texk\kpathsea\cmake\cnf-to-paths.py ..\source\texk\kpathsea\texmf.cnf .\source\texk\kpathsea\paths.h
-          # type .\source\texk\kpathsea\kpathsea.h
-          # type .\source\texk\kpathsea\paths.h
+#      - name: prepare headers
+#        shell: pwsh
+#        run: |
+#          cd .\Work
+#          python3 ..\source\texk\kpathsea\cmake\kpathsea.py .\source\texk\kpathsea\kpathsea.h config.h paths.h absolute.h c-dir.h c-fopen.h c-namemx.h c-pathch.h c-pathmx.h c-stat.h cnf.h concatn.h expand.h getopt.h line.h magstep.h pathsearch.h proginit.h readable.h tex-glyph.h tex-hush.h tex-make.h variable.h version.h
+#          python3 ..\source\texk\kpathsea\cmake\cnf-to-paths.py ..\source\texk\kpathsea\texmf.cnf .\source\texk\kpathsea\paths.h
+#          # type .\source\texk\kpathsea\kpathsea.h
+#          # type .\source\texk\kpathsea\paths.h
       - name: cmake --build
         shell: pwsh
         run: |
