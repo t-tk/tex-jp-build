@@ -49,4 +49,24 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test makejvf
+        shell: bash
+        run: |
+          pwd
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/makejvf
+          $srcdir/makejvf.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test mendex
+        shell: bash
+        run: |
+          pwd
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
+          $srcdir/tests/mendex.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
       - run: echo "⛄ This job's status is ${{ job.status }}."

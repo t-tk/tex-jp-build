@@ -4,9 +4,9 @@
 # Copyright 2010-2013 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_makejvf=$bin/makejvf$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_makejvf=$bindir/makejvf$exeext
 
 $_makejvf $srcdir/tests/min10.tfm rml && \
   cmp $srcdir/tests/min10.vf min10.vf && \
