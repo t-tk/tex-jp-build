@@ -13,3 +13,11 @@
 
 # for bibtex-x
 *.bbl text eol=lf
+
+# for dvipdfm-x
+*.bb  text eol=lf
+*.xbb text eol=lf
+
+# for dvips
+*.ps  text eol=lf
+*.xps text eol=lf
