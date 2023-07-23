@@ -12,7 +12,7 @@ function(web2c_convert BASE)
   add_custom_command(
     OUTPUT ${CONVERT_OUTPUT}
     DEPENDS ${CONVERT_DEPENDS} web2c fixwrites splitup "${CMAKE_CURRENT_SOURCE_DIR}/cmake/web2c-sh.py"
-    COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/web2c-sh.py"
+    COMMAND python3.exe "${CMAKE_CURRENT_SOURCE_DIR}/cmake/web2c-sh.py"
       "--srcdir" "${CMAKE_CURRENT_SOURCE_DIR}"
       "--web2c" "$<TARGET_FILE_DIR:web2c>"
       ${BASE}
