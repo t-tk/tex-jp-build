@@ -7,3 +7,6 @@
 # for dvi2tty
 *.tty text eol=lf
 *.dis text eol=lf
+
+# for bibtex-x
+*.bbl text eol=lf
