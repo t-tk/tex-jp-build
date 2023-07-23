@@ -8,7 +8,7 @@
 *.tty text eol=lf
 *.dis text eol=lf
 
-# for mendex
+# for mendex, upmendex
 *.ind text eol=lf
 
 # for bibtex-x

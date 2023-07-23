@@ -4,15 +4,15 @@
 # Copyright 2013 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_upmendex=$bindir/upmendex$exeext
+
 TEXMFCNF=$srcdir/../kpathsea
 export TEXMFCNF
 
 rm -f foo.* uni.* range*.* pprec*.* romalp*.* locale*.* attr*.* rule*.*
 rc=0
-
-bin=${bin:-.}
-exe=${exe:-}
-_upmendex=$bin/upmendex$exe
 
 $_upmendex $srcdir/tests/foo.idx -o foo.ind1 -t foo.ilg1 \
 	&& diff $srcdir/tests/foo.ind foo.ind1 || rc=1
