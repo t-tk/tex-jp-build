@@ -12,21 +12,9 @@ TEXMFCNF=.; export TEXMFCNF
 BSTINPUTS=$srcdir/tests; export BSTINPUTS
 BIBINPUTS=$srcdir/tests; export BIBINPUTS
 
-bin=${bin:-.}
-exe=${exe:-}
-_bibtexu=$bin/bibtexu$exe
-
-$bin/kpsewhich$exe texmf.cnf
-
-$bin/kpsewhich$exe teststyle.bst
-$bin/kpsewhich$exe -format=bst teststyle.bst
-
-$bin/kpsewhich$exe testsortu.bib
-$bin/kpsewhich$exe -format=bib testsortu.bib
-
-echo $srcdir
-
-printenv BSTINPUTS
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_bibtexu=$bindir/bibtexu$exeext
 
 rm -f tests/xsortu-*.bbl tests/xcaseu.bbl
 

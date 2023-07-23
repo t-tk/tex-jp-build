@@ -7,9 +7,9 @@
 # Using test data from Philipp Lehman <lehman@gmx.net>
 
 bin=${bin:-.}
-exe=${exe:-}
-_bibtex8=$bin/bibtex8$exe
-_bibtexu=$bin/bibtexu$exe
+exeext=${exeext:-}
+_bibtex8=$bin/bibtex8$exeext
+_bibtexu=$bin/bibtexu$exeext
 
 
 test -d tests || mkdir -p tests

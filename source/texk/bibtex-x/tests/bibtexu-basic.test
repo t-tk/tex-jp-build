@@ -16,9 +16,9 @@ TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
 BSTINPUTS=$srcdir/../tests/texmf; export BSTINPUTS
 BIBINPUTS=$srcdir/tests; export BIBINPUTS
 
-bin=${bin:-.}
-exe=${exe:-}
-_bibtexu=$bin/bibtexu$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_bibtexu=$bindir/bibtexu$exeext
 
 
 if $_bibtexu -t -d all tests/x$testname; then :; else
