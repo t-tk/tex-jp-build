@@ -57,15 +57,15 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
-#      - name: test mendex
-#        shell: bash
-#        run: |
-#          cd ./Work
-#          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
-#          $srcdir/tests/mendex.test
-#        env:
-#          srcroot: "../source"
-#          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test mendex
+        shell: bash
+        run: |
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
+          $srcdir/tests/mendex.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
       - name: test bibtex-x
         shell: bash
         run: |
