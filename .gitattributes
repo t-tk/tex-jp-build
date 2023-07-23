@@ -1,0 +1,9 @@
+*.txt text eol=lf
+*.c   text eol=lf
+*.h   text eol=lf
+*.sh  text eol=lf
+*.bat text eol=crlf
+
+# for dvi2tty
+*.tty text eol=lf
+*.dis text eol=lf
