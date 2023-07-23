@@ -8,6 +8,7 @@ on:
 jobs:
   Build-with-cmake-msvc:
     runs-on: windows-latest
+    timeout-minutes: 40
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -25,6 +26,7 @@ jobs:
         run: |
           cd .\Work
           cmake.exe --build .
+
       - name: test kpathsea
         shell: bash
         run: |
@@ -40,6 +42,47 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
+      - name: test dvipdfm-x
+        shell: bash
+        run: |
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvipdfm-x
+          $srcdir/xdvipdfmx.test
+          $srcdir/xdvipdfm-ann.test
+          $srcdir/xdvipdfm-bad.test
+          $srcdir/xdvipdfm-bb.test
+          $srcdir/xdvipdfm-bkm.test
+          $srcdir/xdvipdfm-psz.test
+          $srcdir/xdvipdfm-ptx.test
+          $srcdir/xdvipdfm-res.test
+          $srcdir/xdvipdfm-rev.test
+          $srcdir/xdvipdfm-ttc.test
+          # $srcdir/dvipdfmx-upjf.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+          SOURCE_DATE_EPOCH: "1588474800"
+
+      - name: test dvips
+        shell: bash
+        run: |
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvipsk
+          $srcdir/test-dvips.test
+          $srcdir/test-afm2tfm.test
+          $srcdir/beginfontk1.test
+          $srcdir/eepic-nan.test
+          $srcdir/pfbincl.test
+          $srcdir/same-name.test
+          $srcdir/test-missing-image.test
+          $srcdir/test-overflow-buffers.test
+          $srcdir/uptex-vf.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+          SOURCE_DATE_EPOCH: "1588474800"
+
       - name: test makejvf
         shell: bash
         run: |
@@ -49,6 +92,7 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - name: test mendex
         shell: bash
         run: |
@@ -58,6 +102,7 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - name: test upmendex
         shell: bash
         run: |
@@ -67,6 +112,7 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - name: test bibtex-x
         shell: bash
         run: |
@@ -92,6 +138,7 @@ jobs:
 #          srcroot: "../source"
 #          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
 #          max_print_line: "99"
+
       - name: test dviout-util
         shell: bash
         run: |
@@ -102,6 +149,7 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - name: test dvi2tty
         shell: bash
         run: |
@@ -112,6 +160,7 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - name: test seetex
         shell: bash
         run: |
@@ -121,6 +170,7 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - name: test dvidvi
         shell: bash
         run: |
@@ -130,4 +180,5 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - run: echo "⛄ This job's status is ${{ job.status }}."

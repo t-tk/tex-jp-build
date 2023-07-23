@@ -7,9 +7,9 @@
 # make -C $wp TESTS=test-afm2tfm.test check 
 # where wp=.../Work/texk/dvipsk
 
-bin=${bin:-.}
-exe=${exe:-}
-_afm2tfm=$bin/afm2tfm$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_afm2tfm=$bindir/afm2tfm$exeext
 
 test_file=afmtest.afm
 test_dir=$srcdir/../tests/texmf

@@ -4,9 +4,9 @@
 # Copyright 2013, 2014 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_xdvipdfmx=$bin/xdvipdfmx$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_xdvipdfmx=$bindir/xdvipdfmx$exeext
 
 LC_ALL=C; export LC_ALL;  LANGUAGE=C; export LANGUAGE
 TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF

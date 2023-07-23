@@ -2,15 +2,15 @@
 # $Id$
 # Public domain.
 
-bin=${bin:-.}
-exe=${exe:-}
-_dvips=$bin/dvips$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_dvips=$bindir/dvips$exeext
 
 rm -f mtest.ps
 
 $_dvips -D 300 $srcdir/testdata/dvipstst.xdv -o dvipstst.ps
 mv dvipstst.ps mtest.ps || exit 1
-$_dvips -D 300 $srcdir/testdata/dvipstst.xdv -o || exit 1
+$_dvips -D 300 $srcdir/testdata/dvipstst.xdv -o || exit 2
 diff $srcdir/testdata/dvipstst.xps dvipstst.ps
 
 exit 0
