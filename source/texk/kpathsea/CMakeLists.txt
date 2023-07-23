@@ -169,21 +169,21 @@ target_include_directories(kpathsea PUBLIC ${KPATHSEA_INCLUDES})
 
 target_compile_definitions(kpathsea PRIVATE -DMAKE_KPSE_DLL)
 
-add_custom_command(
-  OUTPUT paths.h
-  DEPENDS texmf.cnf cmake/cnf-to-paths.py
-  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cnf-to-paths.py"
-    "${CMAKE_CURRENT_SOURCE_DIR}/texmf.cnf"
-    "${CMAKE_CURRENT_BINARY_DIR}/paths.h"
-  )
+#add_custom_command(
+#  OUTPUT paths.h
+#  DEPENDS texmf.cnf cmake/cnf-to-paths.py
+#  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cnf-to-paths.py"
+#    "${CMAKE_CURRENT_SOURCE_DIR}/texmf.cnf"
+#    "${CMAKE_CURRENT_BINARY_DIR}/paths.h"
+#  )
 
-add_custom_command(
-  OUTPUT kpathsea.h
-  DEPENDS cmake/kpathsea.py
-  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/kpathsea.py"
-    "${CMAKE_CURRENT_BINARY_DIR}/kpathsea.h"
-    config.h paths.h ${kpathsea_direct_headers}
-  )
+#add_custom_command(
+#  OUTPUT kpathsea.h
+#  DEPENDS cmake/kpathsea.py
+#  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/kpathsea.py"
+#    "${CMAKE_CURRENT_BINARY_DIR}/kpathsea.h"
+#    config.h paths.h ${kpathsea_direct_headers}
+#  )
 
 
 ## The programs

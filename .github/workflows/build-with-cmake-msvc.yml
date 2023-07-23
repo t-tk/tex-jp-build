@@ -14,18 +14,21 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: cmake & cmake --build
+      - name: cmake
         shell: pwsh
         run: |
-          mkdir .\Work
+          New-Item .\Work -ItemType Directory
           cd .\Work
           cmake.exe ..
       - name: prepare headers
         shell: pwsh
         run: |
+          New-Item .\Work\source\texk\kpathsea -ItemType Directory
           cd .\Work
           python3 ..\source\texk\kpathsea\cmake\kpathsea.py .\source\texk\kpathsea\kpathsea.h config.h paths.h absolute.h c-dir.h c-fopen.h c-namemx.h c-pathch.h c-pathmx.h c-stat.h cnf.h concatn.h expand.h getopt.h line.h magstep.h pathsearch.h proginit.h readable.h tex-glyph.h tex-hush.h tex-make.h variable.h version.h
           python3 ..\source\texk\kpathsea\cmake\cnf-to-paths.py ..\source\texk\kpathsea\texmf.cnf .\source\texk\kpathsea\path.h
+          type .\source\texk\kpathsea\kpathsea.h
+          type .\source\texk\kpathsea\path.h
       - name: cmake --build
         shell: pwsh
         run: |
