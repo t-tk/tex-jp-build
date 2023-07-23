@@ -5,9 +5,9 @@
 
 testdir=$srcdir/tests
 
-bin=${bin:-.}
-exe=${exe:-}
-_dvispc=$bin/dvispc$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_dvispc=$bindir/dvispc$exeext
 
 DIFF="diff"
 CMP="cmp"

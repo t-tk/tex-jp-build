@@ -4,14 +4,14 @@
 # Copyright 2010-2012 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_dvi2tty=$bindir/dvi2tty$exeext
+
 test_src=$srcdir/$DVI2TTY_TREE/test
 test_out=$srcdir/output
 
 unset DVI2TTY   # nullify dvi2tty options (if any)
-
-bin=${bin:-.}
-exe=${exe:-}
-_dvi2tty=$bin/dvi2tty$exe
 
 rm -f *.out
 rc=0

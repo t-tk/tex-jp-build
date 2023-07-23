@@ -4,12 +4,12 @@
 # Copyright 2011-2013 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_dviselect=$bin/dviselect$exe
-_dvibook=$bin/dvibook$exe
-_dviconcat=$bin/dviconcat$exe
-_dvitodvi=$bin/dvitodvi$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_dviselect=$bindir/dviselect$exeext
+_dvibook=$bindir/dvibook$exeext
+_dviconcat=$bindir/dviconcat$exeext
+_dvitodvi=$bindir/dvitodvi$exeext
 
 # pre-generated test results in the repository are stored in LF
 # but the output might be written in CRLF on some platform.
@@ -30,7 +30,7 @@ $_dvitodvi
 
 # check whether the binaries are Windows exe or not
 run_stdio_test=1
-if [ $exe = ".exe" ]; then
+if [ $exeext = ".exe" ]; then
   echo "*** We assume EXE on Windows."
   run_stdio_test=0
 fi

@@ -36,7 +36,6 @@ jobs:
       - name: test kpathsea
         shell: bash
         run: |
-          pwd
           cd ./Work
           export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/kpathsea
           $srcdir/tests/kpsewhich.test
@@ -52,20 +51,56 @@ jobs:
       - name: test makejvf
         shell: bash
         run: |
-          pwd
           cd ./Work
           export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/makejvf
           $srcdir/makejvf.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
-      - name: test mendex
+#      - name: test mendex
+#        shell: bash
+#        run: |
+#          cd ./Work
+#          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
+#          $srcdir/tests/mendex.test
+#        env:
+#          srcroot: "../source"
+#          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test dviout-util
         shell: bash
         run: |
-          pwd
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
-          $srcdir/tests/mendex.test
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dviout-util
+          $srcdir/dvispc.test
+          $srcdir/chkdvifont.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test dvi2tty
+        shell: bash
+        run: |
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvi2tty DVI2TTY_TREE=dvi2tty-src
+          $srcdir/disdvi.test
+          $srcdir/dvi2tty.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test seetex
+        shell: bash
+        run: |
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/seetexk
+          $srcdir/seetexk.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      - name: test dvidvi
+        shell: bash
+        run: |
+          cd ./Work
+          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvidvi
+          $srcdir/dvidvi.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"

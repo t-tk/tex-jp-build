@@ -5,9 +5,9 @@
 
 testdir=$srcdir/tests
 
-bin=${bin:-.}
-exe=${exe:-}
-_chkdvifont=$bin/chkdvifont$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_chkdvifont=$bindir/chkdvifont$exeext
 
 DIFF="diff"
 CMP="cmp"

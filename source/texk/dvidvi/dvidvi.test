@@ -4,9 +4,9 @@
 # Copyright 2011 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_dvidvi=$bin/dvidvi$exe
+bindir=${bindir:-.}
+exeext=${exeext:-}
+_dvidvi=$bindir/dvidvi$exeext
 
 # pre-generated test results in the repository are stored in LF
 # but the output might be written in CRLF on some platform.
