@@ -17,6 +17,7 @@ jobs:
       - name: cmake & cmake --build
         shell: pwsh
         run: |
+          mkdir .\Work
           cd .\Work
           cmake.exe ..
       - name: prepare headers
