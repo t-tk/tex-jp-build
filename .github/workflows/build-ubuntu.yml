@@ -131,11 +131,15 @@ jobs:
             --disable-aleph \
             --disable-luatex \
             --disable-luajittex \
+            --disable-luahbtex \
+            --disable-luajithbtex \
             --disable-mp \
             --disable-xetex \
             --disable-xetex-synctex \
             --disable-mflua \
+            --disable-mflua-nowin \
             --disable-mfluajit \
+            --disable-mfluajit-nowin \
             --disable-epsfwin \
             --disable-hp2627win \
             --disable-mftalkwin \
