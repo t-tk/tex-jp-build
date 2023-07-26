@@ -1,0 +1,57 @@
+name: Build on ubuntu
+run-name: ${{ github.actor }} is building and testing on ubuntu
+on:
+  push:
+    branches:
+      - 'build/ubuntu/*'
+jobs:
+  Build-on-ubuntu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub."
+      - run: echo "Branch [ ${{ github.ref }} ]  Repository [ ${{ github.repository }} ]"
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: make libs
+        shell: bash
+        run: |
+          mkdir -p ./Work/libs/{zlib,libpng}
+          cd ./Work
+          cd libs/zlib
+          ../../../libs/zlib/configure
+          make
+          make check
+          cd ../..
+          cd libs/libpng
+          ../../../libs/libpng/configure
+          make
+          make check
+
+      - name: make kpathsea, ptexenc
+        shell: bash
+        run: |
+          mkdir -p ./Work/texk/{kpathsea,ptexenc}
+          cd ./Work
+          cd texk/kpathsea
+          ../../../texk/kpathesea/configure
+          make
+          make check
+          cd ../..
+          cd texk/ptexenc
+          ../../../texk/ptexenc/configure
+          make
+
+      - name: dviout-util
+        shell: bash
+        run: |
+          mkdir -p ./Work/texk/dviout-util
+          cd ./Work
+          cd texk/dviout-util
+          ../../../texk/dviout-util/configure
+          make
+          make check
+
+      - run: echo "⛄ This job's status is ${{ job.status }}."
