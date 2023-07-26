@@ -40,12 +40,66 @@ jobs:
           ../../../texk/ptexenc/configure
           make
 
+      - name: dvipsk
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/dvipsk
+          cd ./source/Work/texk/dvipsk
+          ../../../texk/dvipsk/configure
+          make
+          make check
+
+      - name: makejvf
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/makejvf
+          cd ./source/Work/texk/makejvf
+          ../../../texk/makejvf/configure
+          make
+          make check
+
+      - name: mendex
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/mendexk
+          cd ./source/Work/texk/mendexk
+          ../../../texk/mendexk/configure
+          make
+          make check
+
       - name: dviout-util
         shell: bash
         run: |
           mkdir -p ./source/Work/texk/dviout-util
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
+          make
+          make check
+
+      - name: dvi2tty
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/dvi2tty
+          cd ./source/Work/texk/dvi2tty
+          ../../../texk/dvi2tty/configure
+          make
+          make check
+
+      - name: seetex
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/seetexk
+          cd ./source/Work/texk/seetexk
+          ../../../texk/seetexk/configure
+          make
+          make check
+
+      - name: dvidvi
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/dvidvi
+          cd ./source/Work/texk/dvidvi
+          ../../../texk/dvidvi/configure
           make
           make check
 
