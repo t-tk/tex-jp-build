@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir -p ./source/Work/texk/{kpathsea,ptexenc}
           cd ${{ github.workspace }}/source/Work/texk/kpathsea
-          ../../../texk/kpathesea/configure
+          ../../../texk/kpathsea/configure
           make
           make check
           cd ${{ github.workspace }}/source/Work/texk/ptexenc
