@@ -108,7 +108,8 @@ jobs:
         run: |
           mkdir -p ./source/Work/texk/web2c
           cd ./source/Work/texk/web2c
-          '../../../texk/web2c/configure
+        run: >
+          ../../../texk/web2c/configure
             --srcdir=../../../texk/web2c
             --enable-ptex
             --enable-eptex
@@ -166,7 +167,7 @@ jobs:
             --without-system-icu
             --without-system-graphite2
             --without-system-harfbuzz
-          '
+        run: |
           make
           make check
 
