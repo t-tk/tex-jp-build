@@ -105,68 +105,68 @@ jobs:
 
       - name: web2c
         shell: bash
-        run: >
-          mkdir -p ./source/Work/texk/web2c ;
-          cd ./source/Work/texk/web2c ;
-          ../../../texk/web2c/configure
-            --srcdir=../../../texk/web2c
-            --enable-ptex
-            --enable-eptex
-            --enable-uptex
-            --enable-euptex
-            --disable-pmp
-            --disable-upmp
-            --disable-ptex-synctex
-            --disable-eptex-synctex
-            --disable-uptex-synctex
-            --disable-euptex-synctex
-            --disable-pdftex
-            --disable-pdftex-synctex
-            --disable-mf
-            --disable-mf-nowin
-            --disable-tex
-            --disable-tex-synctex
-            --disable-etex
-            --disable-etex-synctex
-            --disable-aleph
-            --disable-luatex
-            --disable-luajittex
-            --disable-mp
-            --disable-xetex
-            --disable-xetex-synctex
-            --disable-mflua
-            --disable-mfluajit
-            --disable-epsfwin
-            --disable-hp2627win
-            --disable-mftalkwin
-            --disable-nextwin
-            --disable-regiswin
-            --disable-suntoolswin
-            --disable-tektronixwin
-            --disable-unitermwin
-            --disable-web-progs
-            --disable-synctex
-            --disable-missing
-            --with-gnu-ld
-            --without-x
-            --without-mf-x-toolkit
-            --without-system-kpathsea
-            --without-system-ptexenc
-            --without-system-zlib
-            --without-system-libpng
-            --without-system-freetype2
-            --without-system-pixman
-            --without-system-cairo
-            --without-system-gmp
-            --without-system-mpfr
-            --without-system-poppler
-            --without-system-xpdf
-            --without-system-zziplib
-            --without-system-teckit
-            --without-system-icu
-            --without-system-graphite2
-            --without-system-harfbuzz ;
-          make ;
+        run: |
+          mkdir -p ./source/Work/texk/web2c
+          cd ./source/Work/texk/web2c
+          ../../../texk/web2c/configure \
+            --srcdir=../../../texk/web2c \
+            --enable-ptex \
+            --enable-eptex \
+            --enable-uptex \
+            --enable-euptex \
+            --disable-pmp \
+            --disable-upmp \
+            --disable-ptex-synctex \
+            --disable-eptex-synctex \
+            --disable-uptex-synctex \
+            --disable-euptex-synctex \
+            --disable-pdftex \
+            --disable-pdftex-synctex \
+            --disable-mf \
+            --disable-mf-nowin \
+            --disable-tex \
+            --disable-tex-synctex \
+            --disable-etex \
+            --disable-etex-synctex \
+            --disable-aleph \
+            --disable-luatex \
+            --disable-luajittex \
+            --disable-mp \
+            --disable-xetex \
+            --disable-xetex-synctex \
+            --disable-mflua \
+            --disable-mfluajit \
+            --disable-epsfwin \
+            --disable-hp2627win \
+            --disable-mftalkwin \
+            --disable-nextwin \
+            --disable-regiswin \
+            --disable-suntoolswin \
+            --disable-tektronixwin \
+            --disable-unitermwin \
+            --disable-web-progs \
+            --disable-synctex \
+            --disable-missing \
+            --with-gnu-ld \
+            --without-x \
+            --without-mf-x-toolkit \
+            --without-system-kpathsea \
+            --without-system-ptexenc \
+            --without-system-zlib \
+            --without-system-libpng \
+            --without-system-freetype2 \
+            --without-system-pixman \
+            --without-system-cairo \
+            --without-system-gmp \
+            --without-system-mpfr \
+            --without-system-poppler \
+            --without-system-xpdf \
+            --without-system-zziplib \
+            --without-system-teckit \
+            --without-system-icu \
+            --without-system-graphite2 \
+            --without-system-harfbuzz
+          make
           make check
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
