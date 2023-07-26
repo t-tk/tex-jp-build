@@ -18,14 +18,12 @@ jobs:
       - name: make libs
         shell: bash
         run: |
-          mkdir -p ./Work/libs/{zlib,libpng}
-          cd ./Work
-          cd libs/zlib
+          mkdir -p ./source/Work/libs/{zlib,libpng}
+          cd ${{ github.workspace }}/source/Work/libs/zlib
           ../../../libs/zlib/configure
           make
           make check
-          cd ../..
-          cd libs/libpng
+          cd ${{ github.workspace }}/source/Work/libs/libpng
           ../../../libs/libpng/configure
           make
           make check
@@ -33,23 +31,20 @@ jobs:
       - name: make kpathsea, ptexenc
         shell: bash
         run: |
-          mkdir -p ./Work/texk/{kpathsea,ptexenc}
-          cd ./Work
-          cd texk/kpathsea
+          mkdir -p ./source/Work/texk/{kpathsea,ptexenc}
+          cd ${{ github.workspace }}/source/Work/texk/kpathsea
           ../../../texk/kpathesea/configure
           make
           make check
-          cd ../..
-          cd texk/ptexenc
+          cd ${{ github.workspace }}/source/Work/texk/ptexenc
           ../../../texk/ptexenc/configure
           make
 
       - name: dviout-util
         shell: bash
         run: |
-          mkdir -p ./Work/texk/dviout-util
-          cd ./Work
-          cd texk/dviout-util
+          mkdir -p ./source/Work/texk/dviout-util
+          cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
           make check
