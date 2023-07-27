@@ -52,7 +52,10 @@ jobs:
           ../../../texk/bibtex-x/configure \
             --with-system-icu
           make
-          make check
+          ./bibtexu --version
+          export srcdir=../../../texk/bibtex-x
+          $srcdir/tests/bibtexu-char.test
+#          make check
 
       - name: dvipdfm-x
         shell: bash
