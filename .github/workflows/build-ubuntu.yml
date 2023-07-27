@@ -142,7 +142,11 @@ jobs:
       - name: make libs
         shell: bash
         run: |
-          mkdir -p ./source/Work/libs/mpfr
+          mkdir -p ./source/Work/libs/{gmp,mpfr}
+          cd ${{ github.workspace }}/source/Work/libs/gmp
+          ../../../libs/gmp/configure
+          make
+          make check
           cd ${{ github.workspace }}/source/Work/libs/mpfr
           ../../../libs/mpfr/configure
           make
@@ -208,7 +212,7 @@ jobs:
             --without-system-freetype2 \
             --with-system-pixman \
             --with-system-cairo \
-            --with-system-gmp \
+            --without-system-gmp \
             --without-system-mpfr \
             --without-system-poppler \
             --without-system-xpdf \
