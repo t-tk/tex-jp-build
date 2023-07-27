@@ -52,6 +52,7 @@ jobs:
           ../../../texk/bibtex-x/configure \
             --with-system-icu
           make
+          ./bibtex8 --version
           ./bibtexu --version
           make check
 
@@ -65,8 +66,6 @@ jobs:
           make
           ./upmendex --help
           make check
-        env:
-          TEXMFCNF: "../../../texk/kpathsea"
 
       - name: dvipdfm-x
         shell: bash
@@ -153,8 +152,8 @@ jobs:
             --enable-eptex \
             --enable-uptex \
             --enable-euptex \
-            --disable-pmp \
-            --disable-upmp \
+            --enable-pmp \
+            --enable-upmp \
             --enable-ptex-synctex \
             --enable-eptex-synctex \
             --enable-uptex-synctex \
@@ -198,10 +197,10 @@ jobs:
             --without-system-zlib \
             --without-system-libpng \
             --without-system-freetype2 \
-            --without-system-pixman \
-            --without-system-cairo \
-            --without-system-gmp \
-            --without-system-mpfr \
+            --with-system-pixman \
+            --with-system-cairo \
+            --with-system-gmp \
+            --with-system-mpfr \
             --without-system-poppler \
             --without-system-xpdf \
             --without-system-zziplib \
