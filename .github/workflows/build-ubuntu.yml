@@ -44,6 +44,15 @@ jobs:
           ../../../texk/ptexenc/configure
           make
 
+      - name: bibtex-x
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/bibtex-x
+          cd ./source/Work/texk/bibtex-x
+          ../../../texk/bibtex-x/configure
+          make
+          make check
+
       - name: dvipdfm-x
         shell: bash
         run: |
