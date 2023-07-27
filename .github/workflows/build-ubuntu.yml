@@ -175,4 +175,24 @@ jobs:
           make
           make check
 
+      - name: make libpaper
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/libs/libpaper
+          cd ${{ github.workspace }}/source/Work/libs/libpaper
+          ../../../libs/libpaper/configure
+          make
+          make check
+
+      - name: dvipdfm-x
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/dvipdfm-x
+          cd ./source/Work/texk/dvipdfm-x
+          ../../../texk/dvipdfm-x/configure \
+            --without-system-libpaper \
+            --with-system-freetype2
+          make
+          make check
+
       - run: echo "⛄ This job's status is ${{ job.status }}."
