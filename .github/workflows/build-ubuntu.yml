@@ -139,6 +139,15 @@ jobs:
           make
           make check
 
+      - name: make libs
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/libs/mpfr
+          cd ${{ github.workspace }}/source/Work/libs/mpfr
+          ../../../libs/mpfr/configure
+          make
+          make check
+
       - name: web2c
         shell: bash
         run: |
@@ -200,7 +209,7 @@ jobs:
             --with-system-pixman \
             --with-system-cairo \
             --with-system-gmp \
-            --with-system-mpfr \
+            --without-system-mpfr \
             --without-system-poppler \
             --without-system-xpdf \
             --without-system-zziplib \
