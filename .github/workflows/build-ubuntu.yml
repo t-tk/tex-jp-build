@@ -18,13 +18,17 @@ jobs:
       - name: make libs
         shell: bash
         run: |
-          mkdir -p ./source/Work/libs/{zlib,libpng}
+          mkdir -p ./source/Work/libs/{zlib,libpng,libpaper}
           cd ${{ github.workspace }}/source/Work/libs/zlib
           ../../../libs/zlib/configure
           make
           make check
           cd ${{ github.workspace }}/source/Work/libs/libpng
           ../../../libs/libpng/configure
+          make
+          make check
+          cd ${{ github.workspace }}/source/Work/libs/libpaper
+          ../../../libs/libpaper/configure
           make
           make check
 
@@ -39,6 +43,15 @@ jobs:
           cd ${{ github.workspace }}/source/Work/texk/ptexenc
           ../../../texk/ptexenc/configure
           make
+
+      - name: dvipdfm-x
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/dvipdfm-x
+          cd ./source/Work/texk/dvipdfm-x
+          ../../../texk/dvipdfm-x/configure
+          make
+          make check
 
       - name: dvipsk
         shell: bash
@@ -172,26 +185,6 @@ jobs:
             --without-system-icu \
             --without-system-graphite2 \
             --without-system-harfbuzz
-          make
-          make check
-
-      - name: make libpaper
-        shell: bash
-        run: |
-          mkdir -p ./source/Work/libs/libpaper
-          cd ${{ github.workspace }}/source/Work/libs/libpaper
-          ../../../libs/libpaper/configure
-          make
-          make check
-
-      - name: dvipdfm-x
-        shell: bash
-        run: |
-          mkdir -p ./source/Work/texk/dvipdfm-x
-          cd ./source/Work/texk/dvipdfm-x
-          ../../../texk/dvipdfm-x/configure \
-            --without-system-libpaper \
-            --with-system-freetype2
           make
           make check
 
