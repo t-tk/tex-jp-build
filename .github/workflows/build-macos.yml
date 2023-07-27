@@ -15,17 +15,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: icu4c
-        shell: bash
-        run: |
-          brew help
-          brew search icu4c
-          brew install icu4c
+#      - name: icu4c
+#        shell: bash
+#        run: |
+#          brew help
+#          brew search icu4c
+#          brew install icu4c
 
       - name: make libs
         shell: bash
         run: |
-          mkdir -p ./source/Work/libs/{zlib,libpng,libpaper}
+          mkdir -p ./source/Work/libs/{zlib,libpng,libpaper,icu}
           cd ${{ github.workspace }}/source/Work/libs/zlib
           ../../../libs/zlib/configure
           make
@@ -36,6 +36,10 @@ jobs:
           make check
           cd ${{ github.workspace }}/source/Work/libs/libpaper
           ../../../libs/libpaper/configure
+          make
+          make check
+          cd ${{ github.workspace }}/source/Work/libs/icu
+          ../../../libs/icu/configure
           make
           make check
 
@@ -57,7 +61,7 @@ jobs:
           mkdir -p ./source/Work/texk/bibtex-x
           cd ./source/Work/texk/bibtex-x
           ../../../texk/bibtex-x/configure \
-            --with-system-icu
+            --without-system-icu
           make
           ./bibtex8 --version
           ./bibtexu --version
@@ -69,7 +73,7 @@ jobs:
           mkdir -p ./source/Work/texk/upmendex
           cd ./source/Work/texk/upmendex
           ../../../texk/upmendex/configure \
-            --with-system-icu
+            --without-system-icu
           make
           ./upmendex --help
           make check
