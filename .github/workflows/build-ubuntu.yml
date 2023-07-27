@@ -63,11 +63,10 @@ jobs:
           ../../../texk/upmendex/configure \
             --with-system-icu
           make
-          ./upmendex --version
+          ./upmendex --help
           make check
         env:
-          srcroot: "../source"
-          TEXMFCNF: "../source/texk/kpathsea"
+          TEXMFCNF: "../../../texk/kpathsea"
 
       - name: dvipdfm-x
         shell: bash
