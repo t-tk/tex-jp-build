@@ -53,8 +53,6 @@ jobs:
             --with-system-icu
           make
           ./bibtexu --version
-#          export srcdir=../../../texk/bibtex-x
-#          $srcdir/tests/bibtexu-char.test
           make check
 
       - name: upmendex
