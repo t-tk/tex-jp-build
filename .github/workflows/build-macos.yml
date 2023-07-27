@@ -15,6 +15,13 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
+      - name: icu4c
+        shell: bash
+        run: |
+          brew help
+          brew search icu4c
+          brew install icu4c
+
       - name: make libs
         shell: bash
         run: |
