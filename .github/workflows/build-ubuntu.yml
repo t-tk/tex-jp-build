@@ -65,6 +65,9 @@ jobs:
           make
           ./upmendex --version
           make check
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea"
 
       - name: dvipdfm-x
         shell: bash
