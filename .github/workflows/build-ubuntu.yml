@@ -57,6 +57,17 @@ jobs:
 #          $srcdir/tests/bibtexu-char.test
           make check
 
+      - name: upmendex
+        shell: bash
+        run: |
+          mkdir -p ./source/Work/texk/upmendex
+          cd ./source/Work/texk/upmendex
+          ../../../texk/upmendex/configure \
+            --with-system-icu
+          make
+          ./upmendex --version
+          make check
+
       - name: dvipdfm-x
         shell: bash
         run: |
