@@ -110,16 +110,18 @@ jobs:
           cd ./source/Work/texk/web2c
           ../../../texk/web2c/configure \
             --srcdir=../../../texk/web2c \
+            --disable-all-pkgs \
+            --enable-debug \
             --enable-ptex \
             --enable-eptex \
             --enable-uptex \
             --enable-euptex \
             --disable-pmp \
             --disable-upmp \
-            --disable-ptex-synctex \
-            --disable-eptex-synctex \
-            --disable-uptex-synctex \
-            --disable-euptex-synctex \
+            --enable-ptex-synctex \
+            --enable-eptex-synctex \
+            --enable-uptex-synctex \
+            --enable-euptex-synctex \
             --disable-pdftex \
             --disable-pdftex-synctex \
             --disable-mf \
