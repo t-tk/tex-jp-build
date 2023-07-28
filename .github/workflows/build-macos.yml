@@ -62,6 +62,7 @@ jobs:
           cd ./source/Work/texk/bibtex-x
           CFLAGS=-I/usr/local/Cellar/icu4c/73.2/include \
           LDFLAGS=-L/usr/local/Cellar/icu4c/73.2/lib \
+          LIBS="-licuio -licui18n -licuuc -licudata" \
           ../../../texk/bibtex-x/configure \
             --with-system-icu
           make
@@ -76,6 +77,7 @@ jobs:
           cd ./source/Work/texk/upmendex
           CFLAGS=-I/usr/local/Cellar/icu4c/73.2/include \
           LDFLAGS=-L/usr/local/Cellar/icu4c/73.2/lib \
+          LIBS="-licuio -licui18n -licuuc -licudata" \
           ../../../texk/upmendex/configure \
             --with-system-icu
           make
