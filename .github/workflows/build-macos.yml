@@ -15,13 +15,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-#      - name: icu4c
-#        shell: bash
-#        run: |
-#          brew help
-#          brew search icu4c
-#          brew install icu4c
-
       - name: make libs
         shell: bash
         run: |
@@ -58,7 +51,8 @@ jobs:
       - name: bibtex-x
         shell: bash
         run: |
-          ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
+          ICU_PREFIX=`find /usr/local -name icudataver.h | sed -e 's/\/include\/unicode\/icudataver.h\$//'`
+          # ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
           echo "ICU_PREFIX: "$ICU_PREFIX
           mkdir -p ./source/Work/texk/bibtex-x
           cd ./source/Work/texk/bibtex-x
@@ -75,7 +69,8 @@ jobs:
       - name: upmendex
         shell: bash
         run: |
-          ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
+          ICU_PREFIX=`find /usr/local -name icudataver.h | sed -e 's/\/include\/unicode\/icudataver.h\$//'`
+          # ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
           echo "ICU_PREFIX: "$ICU_PREFIX
           mkdir -p ./source/Work/texk/upmendex
           cd ./source/Work/texk/upmendex
