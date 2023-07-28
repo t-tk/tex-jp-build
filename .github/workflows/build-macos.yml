@@ -58,7 +58,7 @@ jobs:
       - name: bibtex-x
         shell: bash
         run: |
-          ICU_PREFIX=`find /usr -name icudataver.h | sed -e 's/\/include\/unicode\/icudataver.h//'`
+          ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
           echo "ICU_PREFIX: "$ICU_PREFIX
           mkdir -p ./source/Work/texk/bibtex-x
           cd ./source/Work/texk/bibtex-x
@@ -75,7 +75,7 @@ jobs:
       - name: upmendex
         shell: bash
         run: |
-          ICU_PREFIX=`find /usr -name icudataver.h | sed -e 's/\/include\/unicode\/icudataver.h//'`
+          ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
           echo "ICU_PREFIX: "$ICU_PREFIX
           mkdir -p ./source/Work/texk/upmendex
           cd ./source/Work/texk/upmendex
