@@ -25,7 +25,7 @@ jobs:
       - name: make libs
         shell: bash
         run: |
-          mkdir -p ./source/Work/libs/{zlib,libpng,libpaper,icu}
+          mkdir -p ./source/Work/libs/{zlib,libpng,libpaper}
           cd ${{ github.workspace }}/source/Work/libs/zlib
           ../../../libs/zlib/configure
           make
@@ -38,10 +38,10 @@ jobs:
           ../../../libs/libpaper/configure
           make
           make check
-          cd ${{ github.workspace }}/source/Work/libs/icu
-          ../../../libs/icu/configure
-          make
-          make check
+#          cd ${{ github.workspace }}/source/Work/libs/icu
+#          ../../../libs/icu/configure
+#          make
+#          make check
 
       - name: make kpathsea, ptexenc
         shell: bash
@@ -60,8 +60,10 @@ jobs:
         run: |
           mkdir -p ./source/Work/texk/bibtex-x
           cd ./source/Work/texk/bibtex-x
+          CFLAGS=-I/usr/local/Cellar/icu4c/73.2/include \
+          LDFLAGS=-L/usr/local/Cellar/icu4c/73.2/lib \
           ../../../texk/bibtex-x/configure \
-            --without-system-icu
+            --with-system-icu
           make
           ./bibtex8 --version
           ./bibtexu --version
@@ -72,8 +74,10 @@ jobs:
         run: |
           mkdir -p ./source/Work/texk/upmendex
           cd ./source/Work/texk/upmendex
+          CFLAGS=-I/usr/local/Cellar/icu4c/73.2/include \
+          LDFLAGS=-L/usr/local/Cellar/icu4c/73.2/lib \
           ../../../texk/upmendex/configure \
-            --without-system-icu
+            --with-system-icu
           make
           ./upmendex --help
           make check
