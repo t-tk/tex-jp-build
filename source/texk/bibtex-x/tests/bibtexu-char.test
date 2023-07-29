@@ -51,8 +51,10 @@ max_print_line=119 $_bibtexu tests/xnameu || rc=13
 diff $srcdir/tests/nameu.bbl tests/xnameu.bbl || rc=14
 
 ## test for is.knj.str$
+# U+31350 -> \360\261\215\220
+uchr='\360\261\215\220'
 cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
 $_bibtexu tests/xiscjku || rc=15
-diff --ignore-matching-lines='\360\261\215\220' $srcdir/tests/iscjku.bbl tests/xiscjku.bbl || rc=16
+diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl || rc=16
 
 exit $rc
