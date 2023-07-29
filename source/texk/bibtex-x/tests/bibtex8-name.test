@@ -3,9 +3,9 @@
 # Copyright 2022 TANAKA Takuji <ttk@t-lab.opal.ne.jp>
 # You may freely use, modify and/or distribute this file.
 
-bin=${bin:-.}
-exe=${exe:-}
-_bibtex8=$bin/bibtex8$exe
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_bibtex8=$BinDir/bibtex8$ExeExt
 
 test -d tests || mkdir -p tests
 

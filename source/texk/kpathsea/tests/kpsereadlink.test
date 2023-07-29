@@ -4,9 +4,9 @@
 # Copyright 2010 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_kpsereadlink=$bindir/kpsereadlink$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_kpsereadlink=$BinDir/kpsereadlink$ExeExt
 
 test "x$LN_S" = 'xln -s' || exit 77
 

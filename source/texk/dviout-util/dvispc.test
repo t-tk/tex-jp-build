@@ -3,11 +3,11 @@
 # Copyright 2018-2021 Japanese TeX Development Community <issue@texjp.org>
 # You may freely use, modify and/or distribute this file.
 
-testdir=$srcdir/tests
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_dvispc=$BinDir/dvispc$ExeExt
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_dvispc=$bindir/dvispc$exeext
+testdir=$srcdir/tests
 
 DIFF="diff"
 CMP="cmp"

@@ -3,9 +3,9 @@
 # Public domain.
 # Test oname == iname.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_dvips=$bindir/dvips$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_dvips=$BinDir/dvips$ExeExt
 
 rm -f same-name.dvi same-name.out
 

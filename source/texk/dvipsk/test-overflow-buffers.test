@@ -3,9 +3,9 @@
 # Public domain. Various buffer overflows, reported by
 # Andy Nguyen of ETH Zurich. The program should detect and abort.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_dvips=$bindir/dvips$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_dvips=$BinDir/dvips$ExeExt
 
 for tst in overflow-color-push overflow-epsfile \
            overflow-ifffile overflow-psbox; do

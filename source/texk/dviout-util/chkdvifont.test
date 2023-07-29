@@ -3,11 +3,11 @@
 # Copyright 2018-2021 Japanese TeX Development Community <issue@texjp.org>
 # You may freely use, modify and/or distribute this file.
 
-testdir=$srcdir/tests
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_chkdvifont=$BinDir/chkdvifont$ExeExt
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_chkdvifont=$bindir/chkdvifont$exeext
+testdir=$srcdir/tests
 
 DIFF="diff"
 CMP="cmp"

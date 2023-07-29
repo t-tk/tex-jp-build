@@ -5,9 +5,9 @@
 # 
 # Test nul (zero) bytes in texmf.cnf.
 
-bin=${bin:-.}
-exe=${exe:-}
-_kpsewhich=$bin/kpsewhich$exe
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_kpsewhich=$BinDir/kpsewhich$ExeExt
 
 cnf_dir=cnfnull
 cnf_file=$cnf_dir/texmf.cnf

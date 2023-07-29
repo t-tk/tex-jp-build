@@ -3,6 +3,10 @@
 # Copyright 2022-2023 TANAKA Takuji <ttk@t-lab.opal.ne.jp>
 # You may freely use, modify and/or distribute this file.
 
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_bibtexu=$BinDir/bibtexu$ExeExt
+
 test -d tests || mkdir tests
 test -d tests || exit 1
 
@@ -11,10 +15,6 @@ LC_ALL=C; export LC_ALL; LANGUAGE=C; export LANGUAGE
 TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
 BSTINPUTS=$srcdir/tests; export BSTINPUTS
 BIBINPUTS=$srcdir/tests; export BIBINPUTS
-
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_bibtexu=$bindir/bibtexu$exeext
 
 rm -f tests/xsortu-*.bbl tests/xcaseu.bbl
 

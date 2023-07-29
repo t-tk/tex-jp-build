@@ -2,9 +2,9 @@
 # $Id$
 # Public domain.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_dvips=$bindir/dvips$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_dvips=$BinDir/dvips$ExeExt
 
 rm -f mtest.ps
 

@@ -6,10 +6,10 @@
 
 # Using test data from Philipp Lehman <lehman@gmx.net>
 
-bin=${bin:-.}
-exeext=${exeext:-}
-_bibtex8=$bin/bibtex8$exeext
-_bibtexu=$bin/bibtexu$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_bibtex8=$BinDir/bibtex8$ExeExt
+_bibtexu=$BinDir/bibtexu$ExeExt
 
 
 test -d tests || mkdir -p tests

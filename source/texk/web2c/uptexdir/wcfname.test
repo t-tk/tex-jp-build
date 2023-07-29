@@ -3,9 +3,9 @@
 # Copyright 2022-2023 Japanese TeX Development Community <issue@texjp.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_uptex=$bindir/uptex$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_uptex=$BinDir/uptex$ExeExt
 
 test -d uptests || mkdir -p uptests
 rm -f uptests/fn*.log uptests/fn*.txt uptests/fn*.tex fn*.tex

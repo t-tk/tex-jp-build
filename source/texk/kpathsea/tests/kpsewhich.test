@@ -4,9 +4,9 @@
 # Copyright 2010-2013 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_kpsewhich=$bindir/kpsewhich$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_kpsewhich=$BinDir/kpsewhich$ExeExt
 
 TEXMFCNF=$srcdir
 export TEXMFCNF
@@ -18,7 +18,7 @@ $_kpsewhich --expand-var=\$TEXMFMAIN || exit 3
 # It turns out --all and no --all go through rather different code
 # in pathsearch.c, so try them both.
 
-if [ $exeext = ".exe" ]; then
+if [ $ExeExt = ".exe" ]; then
 
 $_kpsewhich --cnf-line=TEXINPUTS=$srcdir/../tests/texmf \
     --casefold-search --all Plain.TeX || exit 4
@@ -41,7 +41,7 @@ fi
 #TEXINPUTS=$srcdir/../tests/texmf \
 #  ./kpsewhich --no-casefold-search Plain.TeX && exit 7
 
-if [ $exeext = ".exe" ]; then
+if [ $ExeExt = ".exe" ]; then
 
 $_kpsewhich --cnf-line=TEXINPUTS=$srcdir/../tests/texmf \
     --all plain || exit 8

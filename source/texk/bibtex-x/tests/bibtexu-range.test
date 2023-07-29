@@ -2,9 +2,9 @@
 # $Id$
 # Public domain. Originally written by Karl Berry, 2021.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_bibtexu=$bindir/bibtexu$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_bibtexu=$BinDir/bibtexu$ExeExt
 
 test -d tests || mkdir -p tests
 

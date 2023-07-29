@@ -7,9 +7,9 @@
 # make -C $wp TESTS=test-missing-image.test check 
 # where wp=.../Work/texk/dvipsk
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_dvips=$bindir/dvips$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_dvips=$BinDir/dvips$ExeExt
 
 if $_dvips $srcdir/testdata/missing-image.dvi -o missing-image.ps; then
   echo "$0: found image file, but shouldn't have." >&2

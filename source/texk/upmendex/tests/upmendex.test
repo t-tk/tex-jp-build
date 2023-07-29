@@ -4,9 +4,9 @@
 # Copyright 2013 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_upmendex=$bindir/upmendex$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_upmendex=$BinDir/upmendex$ExeExt
 
 TEXMFCNF=$srcdir/../kpathsea
 export TEXMFCNF

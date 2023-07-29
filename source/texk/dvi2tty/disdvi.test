@@ -4,9 +4,9 @@
 # Copyright 2012 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_disdvi=$bindir/disdvi$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_disdvi=$BinDir/disdvi$ExeExt
 
 test_src=$srcdir/$DVI2TTY_TREE/test
 test_out=$srcdir/output

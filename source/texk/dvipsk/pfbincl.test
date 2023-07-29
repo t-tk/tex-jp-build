@@ -2,9 +2,9 @@
 # $Id$
 # Public domain.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_dvips=$bindir/dvips$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_dvips=$BinDir/dvips$ExeExt
 
 $_dvips -D 300 $srcdir/testdata/pfbincl.xdv -o pfbincl.ps || exit 1
 diff $srcdir/testdata/pfbincl.xps pfbincl.ps

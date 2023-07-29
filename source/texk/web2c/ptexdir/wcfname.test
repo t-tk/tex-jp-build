@@ -3,9 +3,9 @@
 # Copyright 2022-2023 Japanese TeX Development Community <issue@texjp.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_ptex=$bindir/ptex$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_ptex=$BinDir/ptex$ExeExt
 
 test -d ptests || mkdir -p ptests
 rm -f ptests/fn*.log ptests/fn*.txt ptests/fn*.tex fn*.tex

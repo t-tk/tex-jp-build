@@ -4,9 +4,9 @@
 # You may freely use, modify and/or distribute this file.
 # Some actual sorting needed.
 
-bin=${bin:-.}
-exe=${exe:-}
-_bibtexu=$bin/bibtexu$exe
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_bibtexu=$BinDir/bibtexu$ExeExt
 
 test -d tests || mkdir -p tests
 
