@@ -21,3 +21,6 @@
 # for dvips
 *.ps  text eol=lf
 *.xps text eol=lf
+
+# for windows_wrapper
+/texlive/windows_wrapper/* text=auto
