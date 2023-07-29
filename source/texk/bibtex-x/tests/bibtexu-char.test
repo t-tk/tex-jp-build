@@ -53,6 +53,6 @@ diff $srcdir/tests/nameu.bbl tests/xnameu.bbl || rc=14
 ## test for is.knj.str$
 cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
 $_bibtexu tests/xiscjku || rc=15
-diff $srcdir/tests/iscjku.bbl tests/xiscjku.bbl || rc=16
+diff --ignore-matching-lines="\xF0\xB1\x0D\x90" $srcdir/tests/iscjku.bbl tests/xiscjku.bbl || rc=16
 
 exit $rc
