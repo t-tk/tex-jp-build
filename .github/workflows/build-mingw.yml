@@ -29,26 +29,28 @@ jobs:
           mkdir -p ${{ github.workspace }}/source/Work/libs/zlib
           cd ${{ github.workspace }}/source/Work/libs/zlib
           pwd
-          echo "dbg00"
-          ls -l ${{ github.workspace }}
+          echo "dbg000"
+          ls -l .
           echo "dbg001"
           ls -l ..
           echo "dbg002"
           ls -l ../..
           echo "dbg003"
           ls -l ../../..
-          echo "dbg001"
-          ls -l ${{ github.workspace }}/source/libs
-          echo "dbg01"
+          echo "dbg004"
+          # ls -l ${{ github.workspace }}/source/libs
+          echo "dbg005"
           ls -l ../../..
-          echo "dbg02"
+          echo "dbg006"
           ls -l ../../../source/libs
-          echo "dbg03"
+          echo "dbg007"
           ls -l ../../../source/libs/zlib
-          echo "dbg04"
-          ../../../source/libs/zlib/configure
+          echo "dbg008"
+          ../../../libs/zlib/configure
           make
+          echo "dbg009"
           make check
+          echo "dbg010"
           mkdir -p ${{ github.workspace }}/source/Work/libs/libpng
           cd ${{ github.workspace }}/source/Work/libs/libpng
           ${{ github.workspace }}/source/libs/libpng/configure
