@@ -30,6 +30,14 @@ jobs:
           cd ${{ github.workspace }}/source/Work/libs/zlib
           pwd
           echo "dbg00"
+          ls -l ${{ github.workspace }}
+          echo "dbg001"
+          ls -l ..
+          echo "dbg002"
+          ls -l ../..
+          echo "dbg003"
+          ls -l ../../..
+          echo "dbg001"
           ls -l ${{ github.workspace }}/source/libs
           echo "dbg01"
           ls -l ../../..
