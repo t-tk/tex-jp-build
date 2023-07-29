@@ -4,9 +4,9 @@
 # Copyright 2013, 2014 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-bindir=${bindir:-.}
-exeext=${exeext:-}
-_xdvipdfmx=$bindir/xdvipdfmx$exeext
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_xdvipdfmx=$BinDir/xdvipdfmx$ExeExt
 
 TEXMFCNF=$srcdir/../kpathsea
 TEXFONTMAPS="$srcdir/tests;$srcdir/data"
