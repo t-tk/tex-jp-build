@@ -21,6 +21,7 @@
 # for dvips
 *.ps  text eol=lf
 *.xps text eol=lf
+/dvipsk/testdata/pfbincl.xps binary
 
 # for windows_wrapper
 /texlive/windows_wrapper/**/*.c   text eol=crlf
