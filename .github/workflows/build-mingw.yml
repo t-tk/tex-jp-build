@@ -28,7 +28,17 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/libs/zlib
           cd ${{ github.workspace }}/source/Work/libs/zlib
-          ${{ github.workspace }}/source/libs/zlib/configure
+          pwd
+          echo "dbg00"
+          ls -l ${{ github.workspace }}/source/libs
+          echo "dbg01"
+          ls -l ../../..
+          echo "dbg02"
+          ls -l ../../../source/libs
+          echo "dbg03"
+          ls -l ../../../source/libs/zlib
+          echo "dbg04"
+          ../../../source/libs/zlib/configure
           make
           make check
           mkdir -p ${{ github.workspace }}/source/Work/libs/libpng
