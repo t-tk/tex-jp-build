@@ -28,17 +28,17 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/libs/zlib
           cd ${{ github.workspace }}/source/Work/libs/zlib
-          ../../../libs/zlib/configure
+          ${{ github.workspace }}/source/libs/zlib/configure
           make
           make check
           mkdir -p ${{ github.workspace }}/source/Work/libs/libpng
           cd ${{ github.workspace }}/source/Work/libs/libpng
-          ../../../libs/libpng/configure
+          ${{ github.workspace }}/source/libs/libpng/configure
           make
           make check
           mkdir -p ${{ github.workspace }}/source/Work/libs/libpaper
           cd ${{ github.workspace }}/source/Work/libs/libpaper
-          ../../../libs/libpaper/configure
+          ${{ github.workspace }}/source/libs/libpaper/configure
           make
           make check
 
@@ -47,12 +47,12 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/kpathsea
           cd ${{ github.workspace }}/source/Work/texk/kpathsea
-          ../../../texk/kpathsea/configure
+          ${{ github.workspace }}/source/texk/kpathsea/configure
           make
           make check
           mkdir -p ${{ github.workspace }}/source/Work/texk/ptexenc
           cd ${{ github.workspace }}/source/Work/texk/ptexenc
-          ../../../texk/ptexenc/configure
+          ${{ github.workspace }}/source/texk/ptexenc/configure
           make
 
       - name: bibtex-x
@@ -60,13 +60,13 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/bibtex-x
           cd ${{ github.workspace }}/source/Work/texk/bibtex-x
-          ../../../texk/bibtex-x/configure \
+          ${{ github.workspace }}/source/texk/bibtex-x/configure \
             --with-system-icu
           make
           ./bibtex8 --version
           ./bibtexu --version
 
-          export srcdir=../../../texk/bibtex-x
+          export srcdir=${{ github.workspace }}/source/texk/bibtex-x
           test -d tests || mkdir tests
           TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
           BSTINPUTS=$srcdir/tests; export BSTINPUTS
@@ -82,7 +82,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/upmendex
           cd ${{ github.workspace }}/source/Work/texk/upmendex
-          ../../../texk/upmendex/configure \
+          ${{ github.workspace }}/source/texk/upmendex/configure \
             --with-system-icu
           make
           ./upmendex --help
@@ -93,7 +93,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/dvipdfm-x
           cd ${{ github.workspace }}/source/Work/texk/dvipdfm-x
-          ../../../texk/dvipdfm-x/configure
+          ${{ github.workspace }}/source/texk/dvipdfm-x/configure
           make
           make check
 
@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/dvipsk
           cd ${{ github.workspace }}/source/Work/texk/dvipsk
-          ../../../texk/dvipsk/configure
+          ${{ github.workspace }}/source/texk/dvipsk/configure
           make
           make check
 
@@ -111,7 +111,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/makejvf
           cd ${{ github.workspace }}/source/Work/texk/makejvf
-          ../../../texk/makejvf/configure
+          ${{ github.workspace }}/source/texk/makejvf/configure
           make
           make check
 
@@ -120,7 +120,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/mendexk
           cd ${{ github.workspace }}/source/Work/texk/mendexk
-          ../../../texk/mendexk/configure
+          ${{ github.workspace }}/source/texk/mendexk/configure
           make
           make check
 
@@ -129,7 +129,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/dviout-util
           cd ${{ github.workspace }}/source/Work/texk/dviout-util
-          ../../../texk/dviout-util/configure
+          ${{ github.workspace }}/source/texk/dviout-util/configure
           make
           make check
 
@@ -138,7 +138,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/dvi2tty
           cd ${{ github.workspace }}/source/Work/texk/dvi2tty
-          ../../../texk/dvi2tty/configure
+          ${{ github.workspace }}/source/texk/dvi2tty/configure
           make
           make check
 
@@ -147,7 +147,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/seetexk
           cd ${{ github.workspace }}/source/Work/texk/seetexk
-          ../../../texk/seetexk/configure
+          ${{ github.workspace }}/source/texk/seetexk/configure
           make
           make check
 
@@ -156,7 +156,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/dvidvi
           cd ${{ github.workspace }}/source/Work/texk/dvidvi
-          ../../../texk/dvidvi/configure
+          ${{ github.workspace }}/source/texk/dvidvi/configure
           make
           make check
 
@@ -165,11 +165,11 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/libs/{gmp,mpfr}
           cd ${{ github.workspace }}/source/Work/libs/gmp
-          ../../../libs/gmp/configure
+          ${{ github.workspace }}/source/libs/gmp/configure
           make
           make check
           cd ${{ github.workspace }}/source/Work/libs/mpfr
-          ../../../libs/mpfr/configure
+          ${{ github.workspace }}/source/libs/mpfr/configure
           make
           make check
 
@@ -178,8 +178,8 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/source/Work/texk/web2c
           cd ${{ github.workspace }}/source/Work/texk/web2c
-          ../../../texk/web2c/configure \
-            --srcdir=../../../texk/web2c \
+          ${{ github.workspace }}/source/texk/web2c/configure \
+            --srcdir=${{ github.workspace }}/source/texk/web2c \
             --disable-all-pkgs \
             --enable-debug \
             --enable-ptex \
