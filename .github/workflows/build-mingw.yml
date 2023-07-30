@@ -23,6 +23,7 @@ jobs:
             mingw-w64-x86_64-autotools
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
+            mingw-w64-x86_64-pkg-config
 
       - name: make libs
         shell: msys2 {0}
@@ -89,9 +90,9 @@ jobs:
       - name: upmendex
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/upmendex
-          cd ${{ github.workspace }}/source/Work/texk/upmendex
-          ${{ github.workspace }}/source/texk/upmendex/configure \
+          mkdir ./source/Work/texk/upmendex
+          cd ./source/Work/texk/upmendex
+          ../../../texk/upmendex/configure \
             --with-system-icu
           make
           ./upmendex --help
@@ -100,95 +101,95 @@ jobs:
       - name: dvipdfm-x
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/dvipdfm-x
-          cd ${{ github.workspace }}/source/Work/texk/dvipdfm-x
-          ${{ github.workspace }}/source/texk/dvipdfm-x/configure
+          mkdir ./source/Work/texk/dvipdfm-x
+          cd ./source/Work/texk/dvipdfm-x
+          ../../../texk/dvipdfm-x/configure
           make
           make check
 
       - name: dvipsk
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/dvipsk
-          cd ${{ github.workspace }}/source/Work/texk/dvipsk
-          ${{ github.workspace }}/source/texk/dvipsk/configure
+          mkdir ./source/Work/texk/dvipsk
+          cd ./source/Work/texk/dvipsk
+          ../../../texk/dvipsk/configure
           make
           make check
 
       - name: makejvf
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/makejvf
-          cd ${{ github.workspace }}/source/Work/texk/makejvf
-          ${{ github.workspace }}/source/texk/makejvf/configure
+          mkdir ./source/Work/texk/makejvf
+          cd ./source/Work/texk/makejvf
+          ../../../texk/makejvf/configure
           make
           make check
 
       - name: mendex
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/mendexk
-          cd ${{ github.workspace }}/source/Work/texk/mendexk
-          ${{ github.workspace }}/source/texk/mendexk/configure
+          mkdir ./source/Work/texk/mendexk
+          cd ./source/Work/texk/mendexk
+          ../../../texk/mendexk/configure
           make
           make check
 
       - name: dviout-util
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/dviout-util
-          cd ${{ github.workspace }}/source/Work/texk/dviout-util
-          ${{ github.workspace }}/source/texk/dviout-util/configure
+          mkdir ./source/Work/texk/dviout-util
+          cd ./source/Work/texk/dviout-util
+          ../../../texk/dviout-util/configure
           make
           make check
 
       - name: dvi2tty
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/dvi2tty
-          cd ${{ github.workspace }}/source/Work/texk/dvi2tty
-          ${{ github.workspace }}/source/texk/dvi2tty/configure
+          mkdir ./source/Work/texk/dvi2tty
+          cd ./source/Work/texk/dvi2tty
+          ../../../texk/dvi2tty/configure
           make
           make check
 
       - name: seetex
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/seetexk
-          cd ${{ github.workspace }}/source/Work/texk/seetexk
-          ${{ github.workspace }}/source/texk/seetexk/configure
+          mkdir ./source/Work/texk/seetexk
+          cd ./source/Work/texk/seetexk
+          ../../../texk/seetexk/configure
           make
           make check
 
       - name: dvidvi
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/dvidvi
-          cd ${{ github.workspace }}/source/Work/texk/dvidvi
-          ${{ github.workspace }}/source/texk/dvidvi/configure
+          mkdir ./source/Work/texk/dvidvi
+          cd ./source/Work/texk/dvidvi
+          ../../../texk/dvidvi/configure
           make
           make check
 
-      - name: make libs
-        shell: msys2 {0}
-        run: |
-          mkdir -p ${{ github.workspace }}/source/Work/libs/{gmp,mpfr}
-          cd ${{ github.workspace }}/source/Work/libs/gmp
-          ${{ github.workspace }}/source/libs/gmp/configure
-          make
-          make check
-          cd ${{ github.workspace }}/source/Work/libs/mpfr
-          ${{ github.workspace }}/source/libs/mpfr/configure
-          make
-          make check
+      #- name: make libs
+      #  shell: msys2 {0}
+      #  run: |
+      #    mkdir ./source/Work/libs/{gmp,mpfr}
+      #    cd ./source/Work/libs/gmp
+      #    ../../../libs/gmp/configure
+      #    make
+      #    make check
+      #    cd ./source/Work/libs/mpfr
+      #    ../../../source/libs/mpfr/configure
+      #    make
+      #    make check
 
       - name: web2c
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/web2c
-          cd ${{ github.workspace }}/source/Work/texk/web2c
-          ${{ github.workspace }}/source/texk/web2c/configure \
-            --srcdir=${{ github.workspace }}/source/texk/web2c \
+          mkdir ./source/Work/texk/web2c
+          cd ./source/Work/texk/web2c
+          ../../../texk/web2c/configure \
+            --srcdir=../../../texk/web2c \
             --disable-all-pkgs \
             --enable-debug \
             --enable-ptex \
@@ -242,8 +243,8 @@ jobs:
             --without-system-freetype2 \
             --with-system-pixman \
             --with-system-cairo \
-            --without-system-gmp \
-            --without-system-mpfr \
+            --with-system-gmp \
+            --with-system-mpfr \
             --without-system-poppler \
             --without-system-xpdf \
             --without-system-zziplib \
