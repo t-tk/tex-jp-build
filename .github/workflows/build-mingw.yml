@@ -32,28 +32,16 @@ jobs:
           ls -l .
           mkdir ./source/Work
           mkdir ./source/Work/libs
+
           mkdir ./source/Work/libs/zlib
           cd ./source/Work/libs/zlib
-          ls -l ../../..
-          echo "dbg005"
-          ls -l ../../../libs/
-          echo "dbg006"
-          ls -l ../../../libs/zlib
-          echo "dbg007"
-          ../../../libs/zlib/configure || cat config.log
-          echo "dbg008"
+          ../../../libs/zlib/configure
           make
-          echo "dbg009"
           make check
           echo "dbg010"
-          #mkdir -p ${{ github.workspace }}/source/Work/libs/libpng
-          #cd ${{ github.workspace }}/source/Work/libs/libpng
-          #${{ github.workspace }}/source/libs/libpng/configure
-          #make
-          #make check
+
           cd ../../..
-          mkdir -p ./source/Work/libs/libpaper
-          cd ./source/Work/libs/libpaper
+          mkdir ./source/Work/libs/libpaper
           ../../../libs/libpaper/configure
           make
           make check
@@ -61,14 +49,16 @@ jobs:
       - name: make kpathsea, ptexenc
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/kpathsea
-          cd ${{ github.workspace }}/source/Work/texk/kpathsea
-          ${{ github.workspace }}/source/texk/kpathsea/configure
+          mkdir -p ./source/Work/texk/kpathsea
+          cd ./source/Work/texk/kpathsea
+          ../../../texk/kpathsea/configure
           make
           make check
-          mkdir -p ${{ github.workspace }}/source/Work/texk/ptexenc
-          cd ${{ github.workspace }}/source/Work/texk/ptexenc
-          ${{ github.workspace }}/source/texk/ptexenc/configure
+
+          cd ../../..
+          mkdir -p ./source/Work/texk/ptexenc
+          cd ./source/Work/texk/ptexenc
+          ../../../texk/ptexenc/configure
           make
 
       - name: bibtex-x
