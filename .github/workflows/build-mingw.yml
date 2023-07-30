@@ -51,25 +51,24 @@ jobs:
           echo "dbg004"
           # ls -l ${{ github.workspace }}/source/libs
           echo "dbg005"
-          ls -l ../../..
+          ls -l ../../../libs/
           echo "dbg006"
-          ls -l ../../../source/libs
-          echo "dbg007"
-          ls -l ../../../source/libs/zlib
+          ls -l ../../../libs/zlib
           echo "dbg008"
           ../../../libs/zlib/configure
           make
           echo "dbg009"
           make check
           echo "dbg010"
-          mkdir -p ${{ github.workspace }}/source/Work/libs/libpng
-          cd ${{ github.workspace }}/source/Work/libs/libpng
-          ${{ github.workspace }}/source/libs/libpng/configure
-          make
-          make check
-          mkdir -p ${{ github.workspace }}/source/Work/libs/libpaper
-          cd ${{ github.workspace }}/source/Work/libs/libpaper
-          ${{ github.workspace }}/source/libs/libpaper/configure
+          #mkdir -p ${{ github.workspace }}/source/Work/libs/libpng
+          #cd ${{ github.workspace }}/source/Work/libs/libpng
+          #${{ github.workspace }}/source/libs/libpng/configure
+          #make
+          #make check
+          cd ../../..
+          mkdir -p ./source/Work/libs/libpaper
+          cd ./source/Work/libs/libpaper
+          ../../../libs/libpaper/configure
           make
           make check
 
