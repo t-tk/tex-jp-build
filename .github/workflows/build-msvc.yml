@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'build-msvc/**'
+      - 'build/**'
 jobs:
   Build-with-cmake-msvc:
     runs-on: windows-latest

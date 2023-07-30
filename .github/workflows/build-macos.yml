@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'build/macos/**'
+      - 'build/**'
 jobs:
   Build-on-macos:
     runs-on: macos-latest

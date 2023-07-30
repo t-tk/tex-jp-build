@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'build-mingw/**'
+      - 'build/**'
 jobs:
   Build-on-mingw:
     runs-on: windows-latest
@@ -24,6 +25,10 @@ jobs:
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
             mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-pixman
+            mingw-w64-x86_64-cairo
+            mingw-w64-x86_64-gmp
+            mingw-w64-x86_64-mpfr
             texinfo
 
       - name: make libs
