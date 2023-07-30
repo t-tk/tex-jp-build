@@ -26,8 +26,19 @@ jobs:
       - name: make libs
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/libs/zlib
-          cd ${{ github.workspace }}/source/Work/libs/zlib
+          echo "dbg000"
+          pwd
+          ls -l .
+          echo "dbg0001"
+          ls -l ./source
+          echo "dbg0002"
+          mkdir ./source/Work
+          echo "dbg0003"
+          mkdir ./source/Work/libs
+          echo "dbg0004"
+          mkdir ./source/Work/libs/zlib
+          echo "dbg0005"
+          cd ./source/Work/libs/zlib
           pwd
           echo "dbg000"
           ls -l .
