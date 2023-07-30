@@ -20,6 +20,7 @@ jobs:
         with:
           msystem: mingw64
           install: >-
+            mingw-w64-x86_64-autotools
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
 
@@ -29,33 +30,18 @@ jobs:
           echo "dbg000"
           pwd
           ls -l .
-          echo "dbg0001"
-          ls -l ./source
-          echo "dbg0002"
           mkdir ./source/Work
-          echo "dbg0003"
           mkdir ./source/Work/libs
-          echo "dbg0004"
           mkdir ./source/Work/libs/zlib
-          echo "dbg0005"
           cd ./source/Work/libs/zlib
-          pwd
-          echo "dbg000"
-          ls -l .
-          echo "dbg001"
-          ls -l ..
-          echo "dbg002"
-          ls -l ../..
-          echo "dbg003"
           ls -l ../../..
-          echo "dbg004"
-          # ls -l ${{ github.workspace }}/source/libs
           echo "dbg005"
           ls -l ../../../libs/
           echo "dbg006"
           ls -l ../../../libs/zlib
+          echo "dbg007"
+          ../../../libs/zlib/configure || cat config.log
           echo "dbg008"
-          ../../../libs/zlib/configure
           make
           echo "dbg009"
           make check
