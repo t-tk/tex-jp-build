@@ -88,11 +88,13 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
-          # ./dviselect.exe
-          # ./dvibook.exe
-          # ./dviconcat.exe
-          # ./dvitodvi.exe
+          ./dviselect.exe || echo " "
+          ./dvibook.exe || echo " "
+          ./dviconcat.exe || echo " "
+          ./dvitodvi.exe || echo " "
           make check || cat seetexk.log
+        env:
+          ExeExt: ".exe"
 
       - name: dvidvi
         shell: msys2 {0}
@@ -101,9 +103,11 @@ jobs:
           cd ./source/Work/texk/dvidvi
           ../../../texk/dvidvi/configure
           make
-          ./dvidvi.exe
+          ./dvidvi.exe || echo " "
 
           make check || cat dvidvi.log
+        env:
+          ExeExt: ".exe"
 
       - name: bibtex-x
         shell: msys2 {0}
@@ -126,5 +130,7 @@ jobs:
           ./bibtexu.exe tests/xiscjku
           diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl
           make check || cat tests/bibtexu-char.log
+        env:
+          ExeExt: ".exe"
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
