@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and testing on mingw
 on:
   push:
     branches:
-      - 'build-mingw/*'
+      - 'build-mingw/**'
 jobs:
   Build-on-mingw:
     runs-on: windows-latest
