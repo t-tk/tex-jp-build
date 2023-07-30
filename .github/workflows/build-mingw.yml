@@ -75,7 +75,9 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
-          make check || cat dvispc.log
+          ExeExt=.exe make check || cat dvispc.log
+        env:
+          ExeExt: ".exe"
 
       - name: seetex
         shell: msys2 {0}
@@ -84,7 +86,7 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
-          make check || cat seetexk.log
+          make check
 
       - name: dvidvi
         shell: msys2 {0}
@@ -93,6 +95,6 @@ jobs:
           cd ./source/Work/texk/dvidvi
           ../../../texk/dvidvi/configure
           make
-          make check || cat dvidvi.log
+           make check
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
