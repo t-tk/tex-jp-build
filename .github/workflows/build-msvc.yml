@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and testing with Cmake & MSVC
 on:
   push:
     branches:
-      - 'build/msvc/*'
+      - 'build-msvc/*'
 jobs:
   Build-with-cmake-msvc:
     runs-on: windows-latest
@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/kpathsea
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/kpathsea
           $srcdir/tests/kpsewhich.test
           $srcdir/tests/kpsestat.test
           $srcdir/tests/cnfline.test
@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvipdfm-x
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvipdfm-x
           $srcdir/xdvipdfmx.test
           $srcdir/xdvipdfm-ann.test
           $srcdir/xdvipdfm-bad.test
@@ -67,7 +67,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvipsk
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvipsk
           $srcdir/test-dvips.test
           $srcdir/test-afm2tfm.test
           $srcdir/beginfontk1.test
@@ -86,7 +86,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/makejvf
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/makejvf
           $srcdir/makejvf.test
         env:
           srcroot: "../source"
@@ -96,7 +96,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/mendexk
           $srcdir/tests/mendex.test
         env:
           srcroot: "../source"
@@ -106,7 +106,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/upmendex
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/upmendex
           $srcdir/tests/upmendex.test
         env:
           srcroot: "../source"
@@ -116,7 +116,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
           $srcdir/tests/bibtex8.test
           # $srcdir/tests/bibtex8-char.test
           # $srcdir/tests/bibtex8-sort.test
@@ -131,7 +131,7 @@ jobs:
 #        shell: bash
 #        run: |
 #          cd ./Work
-#          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
+#          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
 #          $srcdir/tests/bibtexu-sort.test
 #        env:
 #          srcroot: "../source"
@@ -142,7 +142,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dviout-util
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dviout-util
           $srcdir/dvispc.test
           $srcdir/chkdvifont.test
         env:
@@ -153,7 +153,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvi2tty DVI2TTY_TREE=dvi2tty-src
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvi2tty DVI2TTY_TREE=dvi2tty-src
           $srcdir/disdvi.test
           $srcdir/dvi2tty.test
         env:
@@ -164,7 +164,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/seetexk
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/seetexk
           $srcdir/seetexk.test
         env:
           srcroot: "../source"
@@ -174,7 +174,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvidvi
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvidvi
           $srcdir/dvidvi.test
         env:
           srcroot: "../source"
