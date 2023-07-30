@@ -23,13 +23,7 @@ jobs:
           install: >-
             mingw-w64-x86_64-autotools
             mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-icu
             mingw-w64-x86_64-pkg-config
-            mingw-w64-x86_64-pixman
-            mingw-w64-x86_64-cairo
-            mingw-w64-x86_64-gmp
-            mingw-w64-x86_64-mpfr
-            texinfo
 
       - name: make libs
         shell: msys2 {0}
@@ -74,6 +68,15 @@ jobs:
           ../../../texk/ptexenc/configure
           make
 
+      - name: dviout-util
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/dviout-util
+          cd ./source/Work/texk/dviout-util
+          ../../../texk/dviout-util/configure
+          make
+          make check || cat dvispc.log
+
       - name: seetex
         shell: msys2 {0}
         run: |
@@ -81,7 +84,7 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
-          make check || cat test*.log
+          make check || cat seetexk.log
 
       - name: dvidvi
         shell: msys2 {0}
@@ -90,6 +93,6 @@ jobs:
           cd ./source/Work/texk/dvidvi
           ../../../texk/dvidvi/configure
           make
-          make check || cat test*.log
+          make check || cat dvidvi.log
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
