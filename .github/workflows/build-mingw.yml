@@ -28,9 +28,6 @@ jobs:
       - name: make libs
         shell: msys2 {0}
         run: |
-          echo "dbg000"
-          pwd
-          ls -l .
           mkdir ./source/Work
           mkdir ./source/Work/libs
 
@@ -39,7 +36,13 @@ jobs:
           ../../../libs/zlib/configure
           make
           make check
-          echo "dbg010"
+
+          cd ../../../..
+          mkdir ./source/Work/libs/libpng
+          cd ./source/Work/libs/libpng
+          ../../../libs/libpng/configure
+          make
+          make check
 
           cd ../../../..
           mkdir ./source/Work/libs/libpaper
