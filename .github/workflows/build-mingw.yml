@@ -24,6 +24,7 @@ jobs:
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
             mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-texinfo
 
       - name: make libs
         shell: msys2 {0}
