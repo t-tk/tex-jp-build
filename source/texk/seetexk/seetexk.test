@@ -35,10 +35,6 @@ if [ $ExeExt = ".exe" ]; then
   run_stdio_test=0
 fi
 
-if [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
-  echo "*** skip test $0 on MINGW"
-  exit 0
-fi
 
 rm -rf play*
 $_dviselect =25 $srcdir/tests/play.dvi playsel.dvi \
