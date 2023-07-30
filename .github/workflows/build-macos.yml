@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and testing on macos
 on:
   push:
     branches:
-      - 'build/macos/*'
+      - 'build/macos/**'
 jobs:
   Build-on-macos:
     runs-on: macos-latest

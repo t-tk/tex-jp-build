@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and testing with Cmake & MSVC
 on:
   push:
     branches:
-      - 'build-msvc/*'
+      - 'build-msvc/**'
 jobs:
   Build-with-cmake-msvc:
     runs-on: windows-latest

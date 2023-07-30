@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and testing on ubuntu
 on:
   push:
     branches:
-      - 'build/ubuntu/*'
+      - 'build/ubuntu/**'
 jobs:
   Build-on-ubuntu:
     runs-on: ubuntu-latest
