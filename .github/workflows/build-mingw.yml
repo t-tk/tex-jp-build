@@ -40,8 +40,9 @@ jobs:
           make check
           echo "dbg010"
 
-          cd ../../..
+          cd ../../../..
           mkdir ./source/Work/libs/libpaper
+          cd ./source/Work/libs/libpaper
           ../../../libs/libpaper/configure
           make
           make check
@@ -49,14 +50,16 @@ jobs:
       - name: make kpathsea, ptexenc
         shell: msys2 {0}
         run: |
-          mkdir -p ./source/Work/texk/kpathsea
+          mkdir ./source/Work/texk
+
+          mkdir ./source/Work/texk/kpathsea
           cd ./source/Work/texk/kpathsea
           ../../../texk/kpathsea/configure
           make
           make check
 
-          cd ../../..
-          mkdir -p ./source/Work/texk/ptexenc
+          cd ../../../..
+          mkdir ./source/Work/texk/ptexenc
           cd ./source/Work/texk/ptexenc
           ../../../texk/ptexenc/configure
           make
@@ -64,22 +67,22 @@ jobs:
       - name: bibtex-x
         shell: msys2 {0}
         run: |
-          mkdir -p ${{ github.workspace }}/source/Work/texk/bibtex-x
-          cd ${{ github.workspace }}/source/Work/texk/bibtex-x
-          ${{ github.workspace }}/source/texk/bibtex-x/configure \
+          mkdir ./source/Work/texk/bibtex-x
+          cd ./source/Work/texk/bibtex-x
+          ../../../texk/bibtex-x/configure \
             --with-system-icu
           make
-          ./bibtex8 --version
-          ./bibtexu --version
+          ./bibtex8.exe --version
+          ./bibtexu.exe --version
 
-          export srcdir=${{ github.workspace }}/source/texk/bibtex-x
+          export srcdir=../../../texk/bibtex-x
           test -d tests || mkdir tests
           TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
           BSTINPUTS=$srcdir/tests; export BSTINPUTS
           BIBINPUTS=$srcdir/tests; export BIBINPUTS
           uchr='\360\261\215\220'
           cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
-          ./bibtexu tests/xiscjku
+          ./bibtexu.exe tests/xiscjku
           diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl
           make check
 
