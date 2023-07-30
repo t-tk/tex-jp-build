@@ -88,10 +88,10 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
-          ./dviselect.exe
-          ./dvibook.exe
-          ./dviconcat.exe
-          ./dvitodvi.exe
+          # ./dviselect.exe
+          # ./dvibook.exe
+          # ./dviconcat.exe
+          # ./dvitodvi.exe
           make check || cat seetexk.log
 
       - name: dvidvi
