@@ -4,6 +4,10 @@
 *.sh  text eol=lf
 *.bat text eol=crlf
 
+# for web2c
+*.gen text eol=lf
+*.tex text eol=lf
+
 # for dvi2tty
 *.tty text eol=lf
 *.dis text eol=lf

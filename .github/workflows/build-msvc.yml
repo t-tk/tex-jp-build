@@ -181,4 +181,48 @@ jobs:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
 
+      - name: web2c version check
+        shell: bash
+        run: |
+          cd ./Work/Debug/bin
+          ./tie.exe --version || echo "tie"
+          echo ""
+          ./tangleboot.exe --version || echo "tangleboot"
+          echo ""
+          ./tangle.exe --version || echo "tangle"
+          echo ""
+          ./ptex.exe --version || echo "ptex"
+          echo ""
+          ./uptex.exe --version || echo "uptex"
+          echo ""
+          ./eptex.exe --version || echo "eptex"
+          echo ""
+          ./euptex.exe --version || echo "euptex"
+          echo ""
+          ./updvitype.exe --version || echo "updvitype"
+          echo ""
+          ./uppltotf.exe --version || echo "uppltotf"
+          echo ""
+          ./uptftopl.exe --version || echo "uptftopl"
+          echo ""
+          ./upbibtex.exe --version || echo "upbibtex"
+
+      - name: test web2c
+        shell: bash
+        run: |
+          cd ./Work
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/web2c
+          # $srcdir/ctiedir/ctie.test   || echo "** failed: ctie.test"
+          # $srcdir/cwebdir/ctwill.test || echo "** failed: ctwill.test"
+          # $srcdir/cwebdir/cweave.test || echo "** failed: cweave.test"
+          $srcdir/tiedir/tie.test     || echo "** failed: tie.test"
+          $srcdir/ptexdir/pver.test     || echo "** failed: pver.test"
+          $srcdir/eptexdir/epver.test   || echo "** failed: epver.test"
+          $srcdir/uptexdir/upver.test   || echo "** failed: upver.test"
+          $srcdir/uptexdir/upkcat.test  || echo "** failed: upkcat.test"
+          $srcdir/eputexdir/eupver.test || echo "** failed: eupver.test"
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
       - run: echo "⛄ This job's status is ${{ job.status }}."
