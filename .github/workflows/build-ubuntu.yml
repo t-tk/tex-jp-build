@@ -3,7 +3,8 @@ run-name: ${{ github.actor }} is building and testing on ubuntu
 on:
   push:
     branches:
-      - 'build/ubuntu/*'
+      - 'build-ubuntu/**'
+      - 'build/**'
 jobs:
   Build-on-ubuntu:
     runs-on: ubuntu-latest
@@ -177,10 +178,15 @@ jobs:
             --enable-euptex \
             --enable-pmp \
             --enable-upmp \
+            --enable-tex \
+            --enable-tex-synctex \
+            --enable-etex \
+            --enable-etex-synctex \
             --enable-ptex-synctex \
             --enable-eptex-synctex \
             --enable-uptex-synctex \
             --enable-euptex-synctex \
+            --enable-web-progs \
             --disable-pdftex \
             --disable-pdftex-synctex \
             --disable-mf \
