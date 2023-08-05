@@ -11,6 +11,8 @@ _bibtexu=$BinDir/bibtexu$ExeExt
 
 test -d tests || mkdir -p tests
 
+rc=0
+
 rm -f tests/uex*.* # different filenames than bibtex8.test
 
 

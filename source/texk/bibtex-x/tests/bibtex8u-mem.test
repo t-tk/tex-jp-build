@@ -67,7 +67,7 @@ for t in 1 2 3; do
 
   eval $env \
     TEXMFCNF=$srcdir/../kpathsea \
-    BSTINPUTS=$srcdir/{../web2c/tests,csf} \
+    BSTINPUTS=$srcdir/../web2c/tests\;$srcdir/csf \
     BIBINPUTS=./tests \
     $_bibtex8 -s tests/memtest$t || exit 1
 
