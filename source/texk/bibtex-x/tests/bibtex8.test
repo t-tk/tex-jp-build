@@ -28,7 +28,7 @@ exit $rc
 
 LC_ALL=C; export LC_ALL; LANGUAGE=C; export LANGUAGE
 TEXMFCNF=$srcdir/../kpathsea
-BSTINPUTS=$srcdir/../web2c/tests;$srcdir/csf
+BSTINPUTS=$srcdir/../web2c/tests\;$srcdir/csf
 BIBINPUTS=$srcdir/../web2c/tests
 export TEXMFCNF BSTINPUTS BIBINPUTS
 
