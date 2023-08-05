@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and testing on ubuntu
 on:
   push:
     branches:
-      - 'build/ubuntu/**'
+      - 'build-ubuntu/**'
       - 'build/**'
 jobs:
   Build-on-ubuntu:
@@ -55,16 +55,6 @@ jobs:
           make
           ./bibtex8 --version
           ./bibtexu --version
-
-          export srcdir=../../../texk/bibtex-x
-          test -d tests || mkdir tests
-          TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
-          BSTINPUTS=$srcdir/tests; export BSTINPUTS
-          BIBINPUTS=$srcdir/tests; export BIBINPUTS
-          uchr='\360\261\215\220'
-          cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
-          ./bibtexu tests/xiscjku
-          diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl
           make check
 
       - name: upmendex
@@ -178,10 +168,15 @@ jobs:
             --enable-euptex \
             --enable-pmp \
             --enable-upmp \
+            --enable-tex \
+            --enable-tex-synctex \
+            --enable-etex \
+            --enable-etex-synctex \
             --enable-ptex-synctex \
             --enable-eptex-synctex \
             --enable-uptex-synctex \
             --enable-euptex-synctex \
+            --enable-web-progs \
             --disable-pdftex \
             --disable-pdftex-synctex \
             --disable-mf \
