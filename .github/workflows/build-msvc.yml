@@ -125,6 +125,8 @@ jobs:
           $srcdir/tests/bibtexu-basic.test || echo -e "**\n** failed: bibtexu-basic.test\n**"
           $srcdir/tests/bibtexu-range.test || echo -e "**\n** failed: bibtexu-range.test\n**"
           $srcdir/tests/bibtexu-char.test  || echo -e "**\n** failed: bibtexu-char.test\n**"
+          ./Debug/bin/kpsewhich.bin --format=bst --progname=bibtex8 --debug=8 88591lat.csf || echo ""
+          ./Debug/bin/kpsewhich.bin --format=bst --progname=bibtex8 --debug=8 testperiod.bst || echo ""
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
