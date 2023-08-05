@@ -12,9 +12,10 @@ test -d tests || mkdir -p tests
 rc=0
 
 TEXMFCNF=$srcdir/../kpathsea
-BSTINPUTS=$srcdir/tests:$srcdir/csf
+BSTINPUTS=$srcdir/{tests,csf}
 BIBINPUTS=$srcdir/tests
 export TEXMFCNF BSTINPUTS BIBINPUTS
+
 
 ## test for add.period$
 cp $srcdir/tests/perioda.aux tests/xperioda.aux
@@ -44,7 +45,7 @@ diff $srcdir/tests/chara.bbl tests/xchara.bbl || rc=12
 ## test for num.names$, format.name$
 cp $srcdir/tests/namea.aux tests/xnamea.aux
 max_print_line=119 $_bibtex8 tests/xnamea || rc=13
-#diff $srcdir/tests/namea.bbl tests/xnamea.bbl || rc=14
+diff $srcdir/tests/namea.bbl tests/xnamea.bbl || rc=14
 
 
 exit $rc
