@@ -118,15 +118,16 @@ jobs:
         run: |
           cd ./Work
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
-          $srcdir/tests/bibtex8.test       || echo -e "**\n** failed: bibtex8.test\n**"
-          $srcdir/tests/bibtexu.test       || echo -e "**\n** failed: bibtexu.test\n**"
+          $srcdir/tests/bibtex8.test
+          $srcdir/tests/bibtexu.test
           $srcdir/tests/bibtex8u-mem.test  || echo -e "**\n** failed: bibtex8u-mem.test\n**"
-          $srcdir/tests/bibtex8-char.test  || echo -e "**\n** failed: bibtex8-char.test\n**"
-          $srcdir/tests/bibtex8-sort.test  || echo -e "**\n** failed: bibtex8-sort.test\n**"
-          $srcdir/tests/bibtexu-basic.test || echo -e "**\n** failed: bibtexu-basic.test\n**"
-          $srcdir/tests/bibtexu-range.test || echo -e "**\n** failed: bibtexu-range.test\n**"
-          $srcdir/tests/bibtexu-char.test  || echo -e "**\n** failed: bibtexu-char.test\n**"
-          $srcdir/tests/bibtexu-sort.test  || echo -e "**\n** failed: bibtexu-sort.test\n**"
+          $srcdir/tests/bibtex8-char.test
+          $srcdir/tests/bibtex8-sort.test
+          $srcdir/tests/bibtexu-basic.test
+          $srcdir/tests/bibtexu-range.test
+          $srcdir/tests/bibtexu-char.test
+          $srcdir/tests/bibtexu-sort.test
+          $srcdir/tests/bibtexu-yannis.test || echo -e "**\n** failed: bibtexu-yannis.test\n**"
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
