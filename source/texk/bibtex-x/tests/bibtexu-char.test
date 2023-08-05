@@ -19,6 +19,11 @@ BIBINPUTS=$srcdir/tests; export BIBINPUTS
 
 rc=0
 
+if [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
+  echo "*** skip test $0 on MINGW"
+  exit $rc
+fi
+
 ## test for add.period$
 cp $srcdir/tests/periodu.aux tests/xperiodu.aux
 $_bibtexu tests/xperiodu || rc=3
