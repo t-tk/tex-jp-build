@@ -141,5 +141,6 @@ jobs:
         env:
           ExeExt: ".exe"
           TEXMFCNF: "../../../texk/kpathsea"
+          command_line_encoding: "utf-8"
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
