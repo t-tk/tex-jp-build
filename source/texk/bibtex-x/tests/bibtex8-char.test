@@ -45,7 +45,7 @@ diff $srcdir/tests/chara.bbl tests/xchara.bbl || rc=12
 ## test for num.names$, format.name$
 cp $srcdir/tests/namea.aux tests/xnamea.aux
 max_print_line=119 $_bibtex8 tests/xnamea || rc=13
-#diff $srcdir/tests/namea.bbl tests/xnamea.bbl || rc=14
+diff $srcdir/tests/namea.bbl tests/xnamea.bbl || rc=14
 
 
 exit $rc
