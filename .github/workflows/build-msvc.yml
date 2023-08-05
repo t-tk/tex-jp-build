@@ -128,6 +128,8 @@ jobs:
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+          BIBINPUTS: ".;$srcroot/texk/web2c/tests;$srcroot/texk/bibtex-x/tests"
+          BSTINPUTS: ".;$srcroot/texk/tests/texmf;$srcroot/texk/web2c/tests;$srcroot/texk/bibtex-x/{tests,csf}"
 #      - name: test bibtex-x, max_print_line=99
 #        shell: bash
 #        run: |
