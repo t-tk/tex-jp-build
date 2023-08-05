@@ -58,7 +58,7 @@ jobs:
           $srcdir/xdvipdfm-res.test
           $srcdir/xdvipdfm-rev.test
           $srcdir/xdvipdfm-ttc.test
-          # $srcdir/dvipdfmx-upjf.test
+          $srcdir/dvipdfmx-upjf.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
@@ -120,7 +120,7 @@ jobs:
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
           $srcdir/tests/bibtex8.test
           $srcdir/tests/bibtexu.test
-          $srcdir/tests/bibtex8u-mem.test  || echo -e "**\n** failed: bibtex8u-mem.test\n**"
+          $srcdir/tests/bibtex8u-mem.test
           $srcdir/tests/bibtex8-char.test
           $srcdir/tests/bibtex8-sort.test
           $srcdir/tests/bibtexu-basic.test
