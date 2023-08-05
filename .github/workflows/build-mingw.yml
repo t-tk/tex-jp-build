@@ -136,5 +136,6 @@ jobs:
           make check || cat tests/bibtexu-char.log
         env:
           ExeExt: ".exe"
+          TEXMFCNF: "../../../texk/kpathsea"
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
