@@ -12,7 +12,7 @@ test -d tests || mkdir -p tests
 rc=0
 
 TEXMFCNF=$srcdir/../kpathsea
-BSTINPUTS=$srcdir/tests:$srcdir/csf
+BSTINPUTS=$srcdir/tests;$srcdir/csf
 BIBINPUTS=$srcdir/tests
 export TEXMFCNF BSTINPUTS BIBINPUTS
 

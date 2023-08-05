@@ -130,6 +130,7 @@ jobs:
           ./Debug/bin/kpsewhich.exe --format=bst --progname=bibtex8 --debug=16 sort1.csf || echo ""
           ./Debug/bin/kpsewhich.exe --format=bst --progname=bibtex8 --debug=16 testperiod.bst || echo ""
           ./Debug/bin/kpsewhich.exe --format=bst --progname=bibtex8 --debug=16 testchar.bst || echo ""
+          ./Debug/bin/kpsewhich.exe --format=bst --progname=bibtex8 --debug=16 testname.bst || echo ""
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
