@@ -30,24 +30,19 @@ rc=0
 
 ## EXE2SPECIAL
 
-$_dvispc -s $testdir/oldindep.dvi x0oldindep.spc
-md5sum $testdir/oldindep.dvi
-md5sum x0oldindep.spc
-md5sum $testdir/oldindep.spc
-$DIFF $testdir/oldindep.spc x0oldindep.spc && echo || rc=1
+$_dvispc -s $testdir/oldindep.dvi x0oldindep.spc && \
+  $DIFF $testdir/oldindep.spc x0oldindep.spc && echo || rc=1
 
-$_dvispc -s $testdir/oldindep.dvi > x1oldindep.spc
-md5sum x1oldindep.spc
-md5sum $testdir/oldindep.spc
-$DIFF $testdir/oldindep.spc x1oldindep.spc && echo || rc=2
+$_dvispc -s $testdir/oldindep.dvi > x1oldindep.spc && \
+  $DIFF $testdir/oldindep.spc x1oldindep.spc && echo || rc=2
 
 ## invalid usage
 #$_dvispc -s < $testdir/oldindep.dvi x2oldindep.spc && \
-#  diff $testdir/oldindep.spc x2oldindep.spc && echo || exit 0
+#  diff $testdir/oldindep.spc x2oldindep.spc && echo || rc=3
 
 ## stdin is a DVI, random access may not be supported, no test
 #$_dvispc -s < $testdir/oldindep.dvi > x3oldindep.spc && \
-#  diff $testdir/oldindep.spc x3oldindep.spc && echo || rc=3
+#  diff $testdir/oldindep.spc x3oldindep.spc && echo || rc=4
 
 
 ## EXE2TEXT + EXE2DVI
