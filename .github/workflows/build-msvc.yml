@@ -127,7 +127,7 @@ jobs:
           $srcdir/tests/bibtexu-range.test
           $srcdir/tests/bibtexu-char.test
           $srcdir/tests/bibtexu-sort.test
-          $srcdir/tests/bibtexu-yannis.test || echo -e "**\n** failed: bibtexu-yannis.test\n**"
+          $srcdir/tests/bibtexu-yannis.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
