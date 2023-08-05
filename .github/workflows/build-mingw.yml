@@ -121,31 +121,15 @@ jobs:
           ../../../texk/bibtex-x/configure \
             --with-system-icu
           make
-          ./bibtex8.exe --version
-          ./bibtexu.exe --version
-
-          export srcdir=../../../texk/bibtex-x
-          test -d tests || mkdir tests
-          TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
-          BSTINPUTS=$srcdir/tests; export BSTINPUTS
-          BIBINPUTS=$srcdir/tests; export BIBINPUTS
-          uchr='\360\261\215\220'
-          cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
-          ./bibtexu.exe tests/xiscjku
-          diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl
-          make check || cat tests/bibtexu-char.log
-          echo
-          cat tests/bibtex8.log
-          echo
-          cat tests/bibtexu.log
-          echo -e "###\n### without libtool\n###"
+          ## link without libtool
+          echo -e "###\n### link without libtool\n###"
           gcc -Wimplicit -Wreturn-type -g -O2   -o bibtex8.exe bibtex8-bibtex-1.o bibtex8-bibtex-2.o bibtex8-bibtex-3.o bibtex8-bibtex-4.o bibtex8-bibtex.o bibtex8-utils.o ../../texk/kpathsea/.libs/libkpathsea.a
           g++  -g -O2   -o bibtexu.exe bibtexu-bibtex-1.o bibtexu-bibtex-2.o bibtexu-bibtex-3.o bibtexu-bibtex-4.o bibtexu-bibtex.o bibtexu-utils.o ../../texk/kpathsea/.libs/libkpathsea.a -L/mingw64/lib  -licuio -licuin -licuuc -licudt -lpthread -lm
-          $srcdir/tests/bibtex8.test || cat tests/bibtex8.log
-          $srcdir/tests/bibtexu.test || cat tests/bibtexu.log
+          ./bibtex8.exe --version
+          ./bibtexu.exe --version
+          make check
         env:
           ExeExt: ".exe"
           TEXMFCNF: "../../../texk/kpathsea"
-          command_line_encoding: "utf-8"
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
