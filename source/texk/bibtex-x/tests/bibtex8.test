@@ -24,7 +24,6 @@ TEXMFCNF=$srcdir/../kpathsea \
   $_bibtex8 -7 -s -d all tests/xexampl || test $? = 1 || rc=2
 diff $srcdir/tests/exampl.bbl tests/xexampl.bbl || rc=3
 
-exit $rc
 
 LC_ALL=C; export LC_ALL; LANGUAGE=C; export LANGUAGE
 TEXMFCNF=$srcdir/../kpathsea

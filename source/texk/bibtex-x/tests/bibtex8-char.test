@@ -16,6 +16,7 @@ BSTINPUTS=$srcdir/{tests,csf}
 BIBINPUTS=$srcdir/tests
 export TEXMFCNF BSTINPUTS BIBINPUTS
 
+
 ## test for add.period$
 cp $srcdir/tests/perioda.aux tests/xperioda.aux
 $_bibtex8 tests/xperioda || rc=3
