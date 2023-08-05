@@ -77,7 +77,7 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
-          ExeExt=.exe make check || cat dvispc.log
+          make check || cat dvispc.log
         env:
           ExeExt: ".exe"
 
@@ -134,6 +134,10 @@ jobs:
           ./bibtexu.exe tests/xiscjku
           diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl
           make check || cat tests/bibtexu-char.log
+          echo
+          cat tests/bibtex8.log
+          echo
+          cat tests/bibtexu.log
         env:
           ExeExt: ".exe"
           TEXMFCNF: "../../../texk/kpathsea"
