@@ -118,13 +118,13 @@ jobs:
         run: |
           cd ./Work
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
-          $srcdir/tests/bibtex8.test
-          # $srcdir/tests/bibtex8-char.test
-          # $srcdir/tests/bibtex8-sort.test
-          $srcdir/tests/bibtexu.test
-          # $srcdir/tests/bibtexu-basic.test
-          # $srcdir/tests/bibtexu-range.test
-          # $srcdir/tests/bibtexu-char.test
+          $srcdir/tests/bibtex8.test       || echo -e "**\n** failed: bibtex8.test\n**"
+          $srcdir/tests/bibtex8-char.test  || echo -e "**\n** failed: bibtex8-char.test\n**"
+          $srcdir/tests/bibtex8-sort.test  || echo -e "**\n** failed: bibtex8-sort.test\n**"
+          $srcdir/tests/bibtexu.test       || echo -e "**\n** failed: bibtexu.test\n**"
+          $srcdir/tests/bibtexu-basic.test || echo -e "**\n** failed: bibtexu-basic.test\n**"
+          $srcdir/tests/bibtexu-range.test || echo -e "**\n** failed: bibtexu-range.test\n**"
+          $srcdir/tests/bibtexu-char.test  || echo -e "**\n** failed: bibtexu-char.test\n**"
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
@@ -216,15 +216,16 @@ jobs:
         run: |
           cd ./Work
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/web2c
-          # $srcdir/ctiedir/ctie.test   || echo "** failed: ctie.test"
-          # $srcdir/cwebdir/ctwill.test || echo "** failed: ctwill.test"
-          # $srcdir/cwebdir/cweave.test || echo "** failed: cweave.test"
-          $srcdir/tiedir/tie.test     || echo "** failed: tie.test"
-          $srcdir/ptexdir/pver.test     || echo "** failed: pver.test"
-          # $srcdir/eptexdir/epver.test   || echo "** failed: epver.test"
-          $srcdir/uptexdir/upver.test   || echo "** failed: upver.test"
-          $srcdir/uptexdir/upkcat.test  || echo "** failed: upkcat.test"
-          # $srcdir/eputexdir/eupver.test || echo "** failed: eupver.test"
+          # $srcdir/ctiedir/ctie.test   || echo -e "**\n** failed: ctie.test\n**"
+          # $srcdir/cwebdir/ctwill.test || echo -e "**\n** failed: ctwill.test\n**"
+          # $srcdir/cwebdir/cweave.test || echo -e "**\n** failed: cweave.test\n**"
+          $srcdir/tiedir/tie.test       || echo -e "**\n** failed: tie.test\n**"
+          $srcdir/tangle.test           || echo -e "**\n** failed: tangle.test\n**"
+          $srcdir/ptexdir/pver.test     || echo -e "**\n** failed: pver.test\n**"
+          # $srcdir/eptexdir/epver.test   || echo -e "**\n** failed: epver.test\n**"
+          $srcdir/uptexdir/upver.test   || echo -e "**\n** failed: upver.test\n**"
+          $srcdir/uptexdir/upkcat.test  || echo -e "**\n** failed: upkcat.test\n**"
+          # $srcdir/eputexdir/eupver.test || echo -e "**\n** failed: eupver.test\n**"
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
