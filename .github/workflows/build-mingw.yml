@@ -139,8 +139,8 @@ jobs:
           echo
           cat tests/bibtexu.log
           echo -e "###\n### without libtool\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o bibtex8.exe bibtex8-bibtex-1.o bibtex8-bibtex-2.o bibtex8-bibtex-3.o bibtex8-bibtex-4.o bibtex8-bibtex.o bibtex8-utils.o ../../texk/kpathsea/libkpathsea.la
-          g++  -g -O2   -o bibtexu.exe bibtexu-bibtex-1.o bibtexu-bibtex-2.o bibtexu-bibtex-3.o bibtexu-bibtex-4.o bibtexu-bibtex.o bibtexu-utils.o ../../texk/kpathsea/libkpathsea.la -L/mingw64/lib  -licuio -licuin -licuuc -licudt -lpthread -lm
+          gcc -Wimplicit -Wreturn-type -g -O2   -o bibtex8.exe bibtex8-bibtex-1.o bibtex8-bibtex-2.o bibtex8-bibtex-3.o bibtex8-bibtex-4.o bibtex8-bibtex.o bibtex8-utils.o ../../texk/kpathsea/.libs/libkpathsea.a
+          g++  -g -O2   -o bibtexu.exe bibtexu-bibtex-1.o bibtexu-bibtex-2.o bibtexu-bibtex-3.o bibtexu-bibtex-4.o bibtexu-bibtex.o bibtexu-utils.o ../../texk/kpathsea/.libs/libkpathsea.a -L/mingw64/lib  -licuio -licuin -licuuc -licudt -lpthread -lm
           $srcdir/tests/bibtex8.test || cat tests/bibtex8.log
           $srcdir/tests/bibtexu.test || cat tests/bibtexu.log
         env:
