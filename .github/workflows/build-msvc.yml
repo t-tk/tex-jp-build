@@ -3,7 +3,8 @@ run-name: ${{ github.actor }} is building and testing with Cmake & MSVC
 on:
   push:
     branches:
-      - 'build/msvc/*'
+      - 'build-msvc/**'
+      - 'build/**'
 jobs:
   Build-with-cmake-msvc:
     runs-on: windows-latest
@@ -30,7 +31,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/kpathsea
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/kpathsea
           $srcdir/tests/kpsewhich.test
           $srcdir/tests/kpsestat.test
           $srcdir/tests/cnfline.test
@@ -46,7 +47,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvipdfm-x
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvipdfm-x
           $srcdir/xdvipdfmx.test
           $srcdir/xdvipdfm-ann.test
           $srcdir/xdvipdfm-bad.test
@@ -57,7 +58,7 @@ jobs:
           $srcdir/xdvipdfm-res.test
           $srcdir/xdvipdfm-rev.test
           $srcdir/xdvipdfm-ttc.test
-          # $srcdir/dvipdfmx-upjf.test
+          $srcdir/dvipdfmx-upjf.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
@@ -67,7 +68,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvipsk
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvipsk
           $srcdir/test-dvips.test
           $srcdir/test-afm2tfm.test
           $srcdir/beginfontk1.test
@@ -86,7 +87,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/makejvf
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/makejvf
           $srcdir/makejvf.test
         env:
           srcroot: "../source"
@@ -96,7 +97,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/mendexk
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/mendexk
           $srcdir/tests/mendex.test
         env:
           srcroot: "../source"
@@ -106,7 +107,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/upmendex
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/upmendex
           $srcdir/tests/upmendex.test
         env:
           srcroot: "../source"
@@ -116,33 +117,26 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
           $srcdir/tests/bibtex8.test
-          # $srcdir/tests/bibtex8-char.test
-          # $srcdir/tests/bibtex8-sort.test
           $srcdir/tests/bibtexu.test
-          # $srcdir/tests/bibtexu-basic.test
-          # $srcdir/tests/bibtexu-range.test
-          # $srcdir/tests/bibtexu-char.test
+          $srcdir/tests/bibtex8u-mem.test
+          $srcdir/tests/bibtex8-char.test
+          $srcdir/tests/bibtex8-sort.test
+          $srcdir/tests/bibtexu-basic.test
+          $srcdir/tests/bibtexu-range.test
+          $srcdir/tests/bibtexu-char.test
+          $srcdir/tests/bibtexu-sort.test
+          $srcdir/tests/bibtexu-yannis.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
-#      - name: test bibtex-x, max_print_line=99
-#        shell: bash
-#        run: |
-#          cd ./Work
-#          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/bibtex-x
-#          $srcdir/tests/bibtexu-sort.test
-#        env:
-#          srcroot: "../source"
-#          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
-#          max_print_line: "99"
 
       - name: test dviout-util
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dviout-util
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dviout-util
           $srcdir/dvispc.test
           $srcdir/chkdvifont.test
         env:
@@ -153,7 +147,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvi2tty DVI2TTY_TREE=dvi2tty-src
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvi2tty DVI2TTY_TREE=dvi2tty-src
           $srcdir/disdvi.test
           $srcdir/dvi2tty.test
         env:
@@ -164,7 +158,7 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/seetexk
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/seetexk
           $srcdir/seetexk.test
         env:
           srcroot: "../source"
@@ -174,8 +168,57 @@ jobs:
         shell: bash
         run: |
           cd ./Work
-          export bindir=./Debug/bin exeext=.exe srcdir=../source/texk/dvidvi
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dvidvi
           $srcdir/dvidvi.test
+        env:
+          srcroot: "../source"
+          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+
+      - name: web2c version check
+        shell: bash
+        run: |
+          cd ./Work/Debug/bin
+          ./tie.exe --version || echo "tie"
+          echo ""
+          ./tangleboot.exe --version || echo "tangleboot"
+          echo ""
+          ./tangle.exe --version || echo "tangle"
+          echo ""
+          ./ctangle.exe --version || echo "ctangle"
+          echo ""
+          ./ptex.exe --version || echo "ptex"
+          echo ""
+          ./uptex.exe --version || echo "uptex"
+          echo ""
+          ls -lR
+          #echo ""
+          #./eptex.exe --version || echo "eptex"
+          #echo ""
+          #./euptex.exe --version || echo "euptex"
+          #echo ""
+          #./updvitype.exe --version || echo "updvitype"
+          #echo ""
+          #./uppltotf.exe --version || echo "uppltotf"
+          #echo ""
+          #./uptftopl.exe --version || echo "uptftopl"
+          #echo ""
+          #./upbibtex.exe --version || echo "upbibtex"
+
+      - name: test web2c
+        shell: bash
+        run: |
+          cd ./Work
+          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/web2c
+          # $srcdir/ctiedir/ctie.test   || echo -e "**\n** failed: ctie.test\n**"
+          # $srcdir/cwebdir/ctwill.test || echo -e "**\n** failed: ctwill.test\n**"
+          # $srcdir/cwebdir/cweave.test || echo -e "**\n** failed: cweave.test\n**"
+          $srcdir/tiedir/tie.test       || echo -e "**\n** failed: tie.test\n**"
+          $srcdir/tangle.test           || echo -e "**\n** failed: tangle.test\n**"
+          $srcdir/ptexdir/pver.test     || echo -e "**\n** failed: pver.test\n**"
+          # $srcdir/eptexdir/epver.test   || echo -e "**\n** failed: epver.test\n**"
+          $srcdir/uptexdir/upver.test   || echo -e "**\n** failed: upver.test\n**"
+          $srcdir/uptexdir/upkcat.test  || echo -e "**\n** failed: upkcat.test\n**"
+          # $srcdir/eputexdir/eupver.test || echo -e "**\n** failed: eupver.test\n**"
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
