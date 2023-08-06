@@ -6,6 +6,10 @@ TEXMFMAIN = $TEXMFCNF
 TEXINPUTS = .;$srcroot/texk/bibtex-x/tests
 TEXFONTS = .;$srcroot/texk/dvipsk/testdata
 
+# for web2c
+CWEBINPUTS = $srcroot/texk/web2c/ctiedir;$srcroot/texk/web2c/cwebdir//
+WEBINPUTS = $srcroot/texk/web2c/tiedir
+
 # for dvips
 TEXFONTMAPS.dvips = $srcroot/texk/dvipsk/testdata
 VFFONTS.dvips = .;$srcroot/texk/dvipsk/testdata
