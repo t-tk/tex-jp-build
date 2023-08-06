@@ -70,6 +70,53 @@ jobs:
           ../../../texk/ptexenc/configure
           make
 
+      - name: upmendex
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/upmendex
+          cd ./source/Work/texk/upmendex
+          ../../../texk/upmendex/configure \
+            --with-system-icu
+          make
+          ./upmendex --help
+          make check
+
+      - name: dvipdfm-x
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/dvipdfm-x
+          cd ./source/Work/texk/dvipdfm-x
+          ../../../texk/dvipdfm-x/configure
+          make
+          make check
+
+      - name: dvipsk
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/dvipsk
+          cd ./source/Work/texk/dvipsk
+          ../../../texk/dvipsk/configure
+          make
+          make check
+
+      - name: makejvf
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/makejvf
+          cd ./source/Work/texk/makejvf
+          ../../../texk/makejvf/configure
+          make
+          make check
+
+      - name: mendex
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/mendexk
+          cd ./source/Work/texk/mendexk
+          ../../../texk/mendexk/configure
+          make
+          make check
+
       - name: dviout-util
         shell: msys2 {0}
         run: |
@@ -80,6 +127,15 @@ jobs:
           make check || cat dvispc.log
         env:
           ExeExt: ".exe"
+
+      - name: dvi2tty
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/dvi2tty
+          cd ./source/Work/texk/dvi2tty
+          ../../../texk/dvi2tty/configure
+          make
+          make check
 
       - name: seetex
         shell: msys2 {0}
