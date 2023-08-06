@@ -1,5 +1,5 @@
-name: Build on macos
-run-name: ${{ github.actor }} is building and testing on macos
+name: Build on MacOS
+run-name: ${{ github.actor }} is building and testing on MacOS
 on:
   push:
     branches:
@@ -10,8 +10,8 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 40
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub."
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
       - run: echo "Branch [ ${{ github.ref }} ]  Repository [ ${{ github.repository }} ]"
       - name: Check out repository code
         uses: actions/checkout@v3
