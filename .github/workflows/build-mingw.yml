@@ -149,6 +149,8 @@ jobs:
           make check || cat seetexk.log
         env:
           ExeExt: ".exe"
+          srcroot: "../../.."
+          TEXMFCNF: "../../../texk/kpathsea/tests/windows"
 
       - name: dvidvi
         shell: msys2 {0}
