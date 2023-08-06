@@ -125,8 +125,6 @@ jobs:
           ../../../texk/dviout-util/configure
           make
           make check || cat dvispc.log
-        env:
-          ExeExt: ".exe"
 
       - name: dvi2tty
         shell: msys2 {0}
@@ -149,10 +147,6 @@ jobs:
           ./dviconcat.exe || echo " "
           ./dvitodvi.exe || echo " "
           make check || cat seetexk.log
-        env:
-          ExeExt: ".exe"
-          srcroot: "../../.."
-          TEXMFCNF: "../../../texk/kpathsea/tests/windows"
 
       - name: dvidvi
         shell: msys2 {0}
@@ -164,10 +158,6 @@ jobs:
           ./dvidvi.exe || echo " "
 
           make check || cat dvidvi.log
-        env:
-          ExeExt: ".exe"
-          srcroot: "../../.."
-          TEXMFCNF: "../../../texk/kpathsea"
 
       - name: bibtex-x
         shell: msys2 {0}
@@ -184,8 +174,5 @@ jobs:
           ./bibtex8.exe --version
           ./bibtexu.exe --version
           make check
-        env:
-          ExeExt: ".exe"
-          TEXMFCNF: "../../../texk/kpathsea"
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
