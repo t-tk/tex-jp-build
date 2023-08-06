@@ -1,5 +1,5 @@
-name: Build on mingw
-run-name: ${{ github.actor }} is building and testing on mingw
+name: Build on MinGW
+run-name: ${{ github.actor }} is building and testing on MinGW
 on:
   push:
     branches:
@@ -10,8 +10,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 60
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub."
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
       - run: echo "Branch [ ${{ github.ref }} ]  Repository [ ${{ github.repository }} ]"
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -207,8 +207,8 @@ jobs:
             --disable-mf-nowin \
             --enable-tex \
             --enable-tex-synctex \
-            --enable-etex \
-            --enable-etex-synctex \
+            --disable-etex \
+            --disable-etex-synctex \
             --disable-aleph \
             --disable-luatex \
             --disable-luajittex \
@@ -272,9 +272,9 @@ jobs:
           make uptftopl.exe
           make tex.p
           make tex.exe
-          make etex.web
-          make etex.p
-          make etex.exe
+          # make etex.web
+          # make etex.p
+          # make etex.exe
           make ptex.web
           make ptex.p
           make ptex.exe
