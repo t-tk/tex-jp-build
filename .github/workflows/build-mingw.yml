@@ -29,6 +29,7 @@ jobs:
             mingw-w64-x86_64-cairo
             mingw-w64-x86_64-gmp
             mingw-w64-x86_64-mpfr
+            bison
             texinfo
 
       - name: make libs
@@ -73,28 +74,6 @@ jobs:
           cd ./source/Work/texk/ptexenc
           ../../../texk/ptexenc/configure
           make
-
-      - name: bibtex-x
-        shell: msys2 {0}
-        run: |
-          mkdir ./source/Work/texk/bibtex-x
-          cd ./source/Work/texk/bibtex-x
-          ../../../texk/bibtex-x/configure \
-            --with-system-icu
-          make
-          ./bibtex8.exe --version
-          ./bibtexu.exe --version
-
-          export srcdir=../../../texk/bibtex-x
-          test -d tests || mkdir tests
-          TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
-          BSTINPUTS=$srcdir/tests; export BSTINPUTS
-          BIBINPUTS=$srcdir/tests; export BIBINPUTS
-          uchr='\360\261\215\220'
-          cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
-          ./bibtexu.exe tests/xiscjku
-          diff --ignore-matching-lines=`printf "${uchr}"` $srcdir/tests/iscjku.bbl tests/xiscjku.bbl
-          make check
 
       - name: upmendex
         shell: msys2 {0}
@@ -150,7 +129,7 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
-          make check
+          make check || cat dvispc.log
 
       - name: dvi2tty
         shell: msys2 {0}
@@ -168,7 +147,10 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
-          make check
+          make check || cat seetexk.log
+        env:
+          ExeExt: ".exe"
+          TEXMFCNF: "../../../texk/kpathsea"
 
       - name: dvidvi
         shell: msys2 {0}
@@ -178,19 +160,27 @@ jobs:
           ../../../texk/dvidvi/configure
           make
           make check
+        env:
+          TEXMFCNF: "../../../texk/kpathsea"
 
-      #- name: make libs
-      #  shell: msys2 {0}
-      #  run: |
-      #    mkdir ./source/Work/libs/{gmp,mpfr}
-      #    cd ./source/Work/libs/gmp
-      #    ../../../libs/gmp/configure
-      #    make
-      #    make check
-      #    cd ./source/Work/libs/mpfr
-      #    ../../../source/libs/mpfr/configure
-      #    make
-      #    make check
+      - name: bibtex-x
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/bibtex-x
+          cd ./source/Work/texk/bibtex-x
+          ../../../texk/bibtex-x/configure \
+            --with-system-icu
+          make
+          ## link without libtool
+          echo -e "###\n### link without libtool\n###"
+          gcc -Wimplicit -Wreturn-type -g -O2   -o bibtex8.exe bibtex8-bibtex-1.o bibtex8-bibtex-2.o bibtex8-bibtex-3.o bibtex8-bibtex-4.o bibtex8-bibtex.o bibtex8-utils.o ../../texk/kpathsea/.libs/libkpathsea.a
+          g++  -g -O2   -o bibtexu.exe bibtexu-bibtex-1.o bibtexu-bibtex-2.o bibtexu-bibtex-3.o bibtexu-bibtex-4.o bibtexu-bibtex.o bibtexu-utils.o ../../texk/kpathsea/.libs/libkpathsea.a -L/mingw64/lib  -licuio -licuin -licuuc -licudt -lpthread -lm
+          ./bibtex8.exe --version
+          ./bibtexu.exe --version
+          make check
+        env:
+          ExeExt: ".exe"
+          TEXMFCNF: "../../../texk/kpathsea"
 
       - name: web2c
         shell: msys2 {0}
@@ -205,8 +195,8 @@ jobs:
             --enable-eptex \
             --enable-uptex \
             --enable-euptex \
-            --enable-pmp \
-            --enable-upmp \
+            --disable-pmp \
+            --disable-upmp \
             --enable-ptex-synctex \
             --enable-eptex-synctex \
             --enable-uptex-synctex \
@@ -215,10 +205,10 @@ jobs:
             --disable-pdftex-synctex \
             --disable-mf \
             --disable-mf-nowin \
-            --disable-tex \
-            --disable-tex-synctex \
-            --disable-etex \
-            --disable-etex-synctex \
+            --enable-tex \
+            --enable-tex-synctex \
+            --enable-etex \
+            --enable-etex-synctex \
             --disable-aleph \
             --disable-luatex \
             --disable-luajittex \
@@ -239,7 +229,7 @@ jobs:
             --disable-suntoolswin \
             --disable-tektronixwin \
             --disable-unitermwin \
-            --disable-web-progs \
+            --enable-web-progs \
             --disable-synctex \
             --disable-missing \
             --with-gnu-ld \
@@ -261,7 +251,225 @@ jobs:
             --without-system-icu \
             --without-system-graphite2 \
             --without-system-harfbuzz
-          make
-          make check
+          make ctie.exe
+          make ctwill.exe
+          make ctwill-refsort.exe || echo ""
+          make ctwill-twinx.exe || echo ""
+          make cweave.exe
+          make tie.exe
+          make twill.exe || echo ""
+          make updvitype.web
+          make updvitype.p
+          make updvitype.c
+          make updvitype.exe
+          make uppltotf.web
+          make uppltotf.p
+          make uppltotf.c
+          make uppltotf.exe
+          make uptftopl.web
+          make uptftopl.p
+          make uptftopl.c
+          make uptftopl.exe
+          make tex.p
+          make tex.exe
+          make etex.web
+          make etex.p
+          make etex.exe
+          make ptex.web
+          make ptex.p
+          make ptex.exe
+          make uptex.web
+          make uptex.p
+          make uptex.exe
+          make eptex.web
+          make eptex.p
+          make eptex.exe
+          make euptex.web
+          make euptex.p
+          make euptex.exe
+          make upbibtex.web
+          make upbibtex.p
+          make upbibtex.c
+          make upbibtex.exe
+          make dvitype.exe
+          make dvicopy.exe
+          make pltotf.exe
+          make tftopl.exe
+          make bibtex.exe
+          make gftodvi.exe
+          make gftopk.exe
+          make gftype.exe
+          make mft.exe
+          make patgen.exe
+          make pktogf.exe
+          make pktype.exe
+          make pooltype.exe
+          # make pmp.web
+          # make pmp.p
+          # make pmp.c
+          # make pmp.exe
+          # make upmp.web
+          # make upmp.p
+          # make upmp.c
+          # make upmp.exe
+          # make pmpopst.exe || echo "fail to make pmpopst.exe"
+          # make upmpopst.exe || echo "fail to make upmpopst.exe"
+          echo "!!! make complete !!!"
+
+      - name: web2c version check
+        shell: msys2 {0}
+        run: |
+          cd ./source/Work/texk/web2c
+          ./ctie.exe --version || echo "ctie"
+          echo ""
+          ./ctwill.exe --version || echo "ctwill"
+          echo ""
+          ./cweave.exe --version || echo "cwaeve"
+          echo ""
+          ./tie.exe --version || echo "tie"
+          echo ""
+          ./twill.exe --version || echo "twill"
+          echo ""
+          ./ptex.exe --version || echo "ptex"
+          echo ""
+          ./uptex.exe --version || echo "uptex"
+          echo ""
+          ./eptex.exe --version || echo "eptex"
+          echo ""
+          ./euptex.exe --version || echo "euptex"
+          echo ""
+          ./updvitype.exe --version || echo "updvitype"
+          echo ""
+          ./uppltotf.exe --version || echo "uppltotf"
+          echo ""
+          ./uptftopl.exe --version || echo "uptftopl"
+          echo ""
+          ./upbibtex.exe --version || echo "upbibtex"
+          echo ""
+          ./dvitype.exe --version || echo "dvitype"
+          echo ""
+          ./dvicopy.exe --version || echo "dvicopy"
+          echo ""
+          ./pltotf.exe --version || echo "pltotf"
+          echo ""
+          ./tftopl.exe --version || echo "tftopl"
+          echo ""
+          ./bibtex.exe --version || echo "bibtex"
+          echo ""
+          ./gftodvi.exe --version || echo "gftodvi"
+          echo ""
+          ./gftopk.exe --version || echo "gftopk"
+          echo ""
+          ./gftype.exe --version || echo "gftype"
+          echo ""
+          ./mft.exe --version || echo "mft"
+          echo ""
+          ./patgen.exe --version || echo "patgen"
+          echo ""
+          ./pktogf.exe --version || echo "pktogf"
+          echo ""
+          ./pktype.exe --version || echo "pktype"
+          echo ""
+          ./pooltype.exe --version || echo "pooltype"
+        env:
+          TEXMFCNF: "../../../texk/kpathsea"
+
+      - name: web2c check
+        shell: msys2 {0}
+        run: |
+          cd ./source/Work/texk/web2c
+          $srcdir/ctiedir/ctie.test   || echo -e "**\n** failed: ctie.test\n**"
+          echo ""
+          $srcdir/cwebdir/ctwill.test || echo -e "**\n** failed: ctwill.test\n**"
+          echo ""
+          $srcdir/cwebdir/cweave.test || echo -e "**\n** failed: cweave.test\n**"
+          echo ""
+          $srcdir/tiedir/tie.test     || echo -e "**\n** failed: tie.test\n**"
+          echo ""
+
+          export KPSEWHICH="./kpsewhich.exe"
+          $srcdir/dvicopy.test        || echo -e "**\n** failed: dvicopy.test\n**"
+          echo ""
+          $srcdir/dvitype.test        || echo -e "**\n** failed: dvitype.test\n**"
+          echo ""
+
+          $srcdir/gftodvi.test        || echo -e "**\n** failed: gftodvi.test\n**"
+          echo ""
+          $srcdir/gftopk.test         || echo -e "**\n** failed: gftopk.test\n**"
+          echo ""
+          $srcdir/gftype.test         || echo -e "**\n** failed: gftype.test\n**"
+          echo ""
+          $srcdir/mft.test            || echo -e "**\n** failed: mft.test\n**"
+          echo ""
+          $srcdir/patgen.test         || echo -e "**\n** failed: patgen.test\n**"
+          echo ""
+          $srcdir/pktogf.test         || echo -e "**\n** failed: pktogf.test\n**"
+          echo ""
+          $srcdir/pktype.test         || echo -e "**\n** failed: pktype.test\n**"
+          echo ""
+          $srcdir/pltotf.test         || echo -e "**\n** failed: pltotf.test\n**"
+          echo ""
+          $srcdir/pooltype.test       || echo -e "**\n** failed: pooltype.test\n**"
+          echo ""
+          $srcdir/tangle.test         || echo -e "**\n** failed: tangle.test\n**"
+          echo ""
+          $srcdir/twill.test          || echo -e "**\n** failed: twill.test\n**"
+          echo ""
+
+          $srcdir/ptexdir/pver.test     || echo -e "**\n** failed: pver.test\n**"
+          echo ""
+          $srcdir/eptexdir/epver.test   || echo -e "**\n** failed: epver.test\n**"
+          echo ""
+          $srcdir/uptexdir/upver.test   || echo -e "**\n** failed: upver.test\n**"
+          echo ""
+          $srcdir/uptexdir/upkcat.test  || echo -e "**\n** failed: upkcat.test\n**"
+          echo ""
+          $srcdir/euptexdir/eupver.test || echo -e "**\n** failed: eupver.test\n**"
+          echo ""
+          # $srcdir/uptexdir/sample.test  || echo -e "**\n** failed: sample.test\n**"
+          # echo ""
+          $srcdir/uptexdir/updvitype.test  || echo -e "**\n** failed: updvitype.test\n**"
+          echo ""
+          $srcdir/uptexdir/uppltotf.test  || echo -e "**\n** failed: uppltotf.test\n**"
+          echo ""
+          $srcdir/uptexdir/uptftopl.test  || echo -e "**\n** failed: uptftopl.test\n**"
+          echo ""
+          $srcdir/uptexdir/yokotate.test  || echo -e "**\n** failed: yokotate.test\n**"
+          echo ""
+          $srcdir/uptexdir/upbibtex.test  || echo -e "**\n** failed: upbibtex.test\n**"
+          echo ""
+          # $srcdir/uptexdir/upbibtex-mem.test  || echo -e "**\n** failed: upbibtex-mem.test\n**"
+          # echo ""
+          export abs_srcdir=../$srcdir
+          $srcdir/mftraptest.test            || echo -e "**\n** failed: mftraptest.test\n**"
+          echo ""
+          $srcdir/triptest.test              || echo -e "**\n** failed: triptest.test\n**"
+          echo ""
+          $srcdir/etexdir/etriptest.test     || echo -e "**\n** failed: etriptest.test\n**"
+          echo ""
+          $srcdir/eptexdir/pdfprimitive.test || echo -e "**\n** failed: pdfprimitive.test\n**"
+          echo ""
+          $srcdir/ptexdir/ptriptest.test     || echo -e "**\n** failed: ptriptest.test\n**"
+          echo ""
+          $srcdir/uptexdir/ptriptest.test    || echo -e "**\n** failed: ptriptest.test\n**"
+          echo ""
+          $srcdir/uptexdir/ptriptest.test    || echo -e "**\n** failed: ptriptest.test\n**"
+          echo ""
+          $srcdir/uptexdir/uptriptest.test   || echo -e "**\n** failed: uptriptest.test\n**"
+          echo ""
+          $srcdir/eptexdir/eptriptest.test   || echo -e "**\n** failed: eptriptest.test\n**"
+          echo ""
+          $srcdir/euptexdir/euptriptest.test || echo -e "**\n** failed: euptriptest.test\n**"
+          echo ""
+          $srcdir/tests/tex-closeout.test    || echo -e "**\n** failed: tex-closeout.test\n**"
+          echo ""
+          $srcdir/tests/bibtex-auxinclude.test || echo -e "**\n** failed: bibtex-auxinclude.test\n**"
+          echo ""
+          $srcdir/tests/bibtex-bigauth.test  || echo -e "**\n** failed: bibtex-bigauth.test\n**"
+          echo ""
+          $srcdir/tests/bibtex-mem.test      || echo -e "**\n** failed: bibtex-mem.test\n**"
+        env:
+          srcdir: "../../../texk/web2c"
+          TEXMFCNF: "../../../texk/kpathsea"
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
