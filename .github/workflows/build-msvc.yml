@@ -10,8 +10,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 40
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
       - run: echo "Branch [ ${{ github.ref }} ]  Repository [ ${{ github.repository }} ]"
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -32,13 +32,14 @@ jobs:
         run: |
           cd ./Work
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/kpathsea
-          $srcdir/tests/kpsewhich.test
-          $srcdir/tests/kpsestat.test
           $srcdir/tests/cnfline.test
           $srcdir/tests/cnfnewline.test
+          $srcdir/tests/cnfnull.test || echo "**\n** failed: cnfnull.test\n**"
           $srcdir/tests/cnfprog.test
           # $srcdir/tests/kpseaccess.test
           # $srcdir/tests/kpsereadlink.test
+          $srcdir/tests/kpsestat.test
+          $srcdir/tests/kpsewhich.test
         env:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"

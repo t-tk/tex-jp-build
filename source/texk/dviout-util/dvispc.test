@@ -18,6 +18,15 @@ CMP="cmp"
 $DIFF --strip-trailing-cr $0 $0 \
   && DIFF="diff --strip-trailing-cr" || echo
 
+#if [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
+#  echo "*** skip test $0 on MINGW"
+#  exit 0
+#fi
+
+## show banner
+$_dvispc
+
+rc=0
 
 ## show banner
 $_dvispc
