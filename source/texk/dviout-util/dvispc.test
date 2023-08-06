@@ -28,11 +28,6 @@ $_dvispc
 
 rc=0
 
-## show banner
-$_dvispc
-
-rc=0
-
 ## EXE2SPECIAL
 
 $_dvispc -s $testdir/oldindep.dvi x0oldindep.spc && \
