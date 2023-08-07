@@ -470,7 +470,8 @@ usage:
 #if defined(WIN32)
 		struct stat st;
 		int fd = fileno(stdin);
-		if (isatty(fd) == 0 && fstat(fd, &st) == 0 && S_ISFIFO(st.st_mode)) {
+		if (isatty(fd) == 0 && fstat(fd, &st) == 0 && S_ISFIFO(st.st_mode)
+			&& outf == stdout && isatty(fileno(stdout)) == 0) {
 			goto usage;
 		}
 #endif
