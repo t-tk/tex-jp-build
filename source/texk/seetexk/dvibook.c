@@ -492,6 +492,13 @@ Usage: %s [-s signature] [-q] [-i infile] [-o outfile] [infile [outfile]]\n",
 			goto usage;
 	}
 	if (DVIFileName == NULL) {
+#if defined(WIN32)
+		struct stat st;
+		int fd = fileno(stdin);
+		if (isatty(fd) == 0 && fstat(fd, &st) == 0 && S_ISFIFO(st.st_mode)) {
+			goto usage;
+		}
+#endif
 		DVIFileName = "`stdin'";
 		inf = stdin;
 		if (!isatty(fileno(inf)))
