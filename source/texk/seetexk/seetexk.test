@@ -113,6 +113,12 @@ cat playsel.dvi | $_dvibook -s4 >playbook.dvi \
 	&& $DIFF playbook.2 $srcdir/tests/playbook.2 \
 	|| exit 14
 
+else
+
+echo dvibook with stdin via pipe and stdout tests **SKIPPED**
+
+fi
+
 rm -f playbook.2
 $_dvibook -s4 <playsel.dvi >playbook.dvi \
 	2>playbook.2 \
@@ -120,12 +126,6 @@ $_dvibook -s4 <playsel.dvi >playbook.dvi \
 	|| exit 15
 
 echo dvibook with stdin and stdout tests OK
-
-else
-
-echo dvibook with stdin and stdout tests **SKIPPED**
-
-fi
 
 $_dvibook -s4 playselt.dvi playbook.dvi \
 	2>playbook.3 \
