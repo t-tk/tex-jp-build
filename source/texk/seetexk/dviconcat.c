@@ -467,6 +467,16 @@ usage:
 	 * We write a preamble based on the first input file.
 	 */
 	if (optind >= argc) {
+#if defined(WIN32)
+		if (outf == stdout) {
+			struct stat sti, sto;
+			int fdi = fileno(stdin), fdo = fileno(stdout);
+			if (isatty(fdi) == 0 && fstat(fdi, &st) == 0 && S_ISFIFO(sti.st_mode)
+				&& isatty(fdo) == 0 && fstat(fdo, &sto) == 0 && S_ISFIFO(sto.st_mode)) {
+				goto usage;
+			}
+		}
+#endif
 	  if (!isatty(fileno(stdin)))
 	    SET_BINARY(fileno(stdin));
 	  else

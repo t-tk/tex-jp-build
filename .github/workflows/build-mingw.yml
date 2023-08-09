@@ -148,9 +148,6 @@ jobs:
           ../../../texk/seetexk/configure
           make
           make check || cat seetexk.log
-        env:
-          ExeExt: ".exe"
-          TEXMFCNF: "../../../texk/kpathsea"
 
       - name: dvidvi
         shell: msys2 {0}
