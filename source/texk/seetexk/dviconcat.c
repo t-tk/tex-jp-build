@@ -471,7 +471,7 @@ usage:
 		if (outf == stdout) {
 			struct stat sti, sto;
 			int fdi = fileno(stdin), fdo = fileno(stdout);
-			if (isatty(fdi) == 0 && fstat(fdi, &st) == 0 && S_ISFIFO(sti.st_mode)
+			if (isatty(fdi) == 0 && fstat(fdi, &sti) == 0 && S_ISFIFO(sti.st_mode)
 				&& isatty(fdo) == 0 && fstat(fdo, &sto) == 0 && S_ISFIFO(sto.st_mode)) {
 				goto usage;
 			}
