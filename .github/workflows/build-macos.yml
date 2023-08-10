@@ -52,7 +52,7 @@ jobs:
       - name: icu
         shell: bash
         run: |
-          ICU_PREFIX=`find /usr/local -name icudataver.h | sed -e 's/\/include\/unicode\/icudataver.h\$//'`
+          ICU_PREFIX=`find /usr/local/Cellar -name icudataver.h | sed -e 's/\/include\/unicode\/icudataver.h\$//'`
           # ICU_PREFIX="/usr/local/Cellar/icu4c/73.2"
           echo "ICU_PREFIX: "$ICU_PREFIX
           echo "ICU_PREFIX=$ICU_PREFIX" >> $GITHUB_ENV

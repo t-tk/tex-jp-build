@@ -7,8 +7,8 @@
 BinDir=${BinDir:-.}
 ExeExt=${ExeExt:-}
 _dviselect=$BinDir/dviselect$ExeExt
-#_dvibook=$BinDir/dvibook$ExeExt
-#_dviconcat=$BinDir/dviconcat$ExeExt
+_dvibook=$BinDir/dvibook$ExeExt
+_dviconcat=$BinDir/dviconcat$ExeExt
 _dvitodvi=$BinDir/dvitodvi$ExeExt
 
 # pre-generated test results in the repository are stored in LF
@@ -23,8 +23,8 @@ $DIFF --strip-trailing-cr $0 $0 \
 # for check version
 echo "*** Start seetex tests with::"
 $_dviselect
-$_dvibook
-$_dviconcat
+#$_dvibook
+#$_dviconcat
 $_dvitodvi
 
 TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
