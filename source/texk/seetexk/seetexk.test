@@ -7,8 +7,8 @@
 BinDir=${BinDir:-.}
 ExeExt=${ExeExt:-}
 _dviselect=$BinDir/dviselect$ExeExt
-_dvibook=$BinDir/dvibook$ExeExt
-_dviconcat=$BinDir/dviconcat$ExeExt
+#_dvibook=$BinDir/dvibook$ExeExt
+#_dviconcat=$BinDir/dviconcat$ExeExt
 _dvitodvi=$BinDir/dvitodvi$ExeExt
 
 # pre-generated test results in the repository are stored in LF

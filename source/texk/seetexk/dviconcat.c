@@ -42,6 +42,9 @@
 extern char *optarg;
 extern int optind;
 #endif
+#if defined(WIN32)
+#include <sys/stat.h>
+#endif
 
 #include "types.h"
 #include "dviclass.h"
