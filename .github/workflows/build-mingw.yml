@@ -147,6 +147,7 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
+          export ExeExt=.exe
           make check || cat seetexk.log
 
       - name: dvidvi
