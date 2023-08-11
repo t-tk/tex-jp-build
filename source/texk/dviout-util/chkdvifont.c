@@ -41,16 +41,13 @@
  *
  */
 
-#ifdef __GNUC__
-/* Validate in case of UNIX */
-#define GCC 1
-#endif
 #ifndef WIN32
 #define UNIX 1
 #endif
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #ifndef UNIX
 #include <dos.h>
 #ifdef WIN32
@@ -60,9 +57,8 @@
 #endif
 #include <io.h>
 #endif
-#include <string.h>
 
-#ifdef GCC
+#ifdef __GNUC__
 #include <ctype.h>
 #endif
 

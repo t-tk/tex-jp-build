@@ -98,15 +98,12 @@
 #define Long  int
 
 #ifdef UNIX
-#define PATH_SEP     '/'
 #define READ_TEXT    "r"
 #define READ_BINARY  "r"
 #define WRITE_BINARY "w"
 #define WRITE_TEXT   "w"
 #define StrCmp strcmp
 #else
-#define PATH_SEP     '\\'
-#define PATH_SEPU    '/'
 #define READ_TEXT    "rt"
 #define READ_BINARY  "rb"
 #define WRITE_BINARY "wb"
