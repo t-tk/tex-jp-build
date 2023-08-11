@@ -129,7 +129,7 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
-          make check || cat dvispc.log
+          make check
 
       - name: dvi2tty
         shell: msys2 {0}
@@ -148,7 +148,7 @@ jobs:
           ../../../texk/seetexk/configure
           make
           export ExeExt=.exe
-          make check || cat seetexk.log
+          make check
 
       - name: dvidvi
         shell: msys2 {0}
