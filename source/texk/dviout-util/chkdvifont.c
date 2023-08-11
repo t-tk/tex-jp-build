@@ -43,19 +43,17 @@
 
 #ifdef __GNUC__
 /* Validate in case of UNIX */
-#define UNIX 1
 #define GCC 1
-#else
-/* Win32 MSVC is assumed */
-#define WIN32 1
-#define MSVC 1
+#endif
+#ifndef WIN32
+#define UNIX 1
 #endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #ifndef UNIX
 #include <dos.h>
-#ifdef MSVC
+#ifdef WIN32
 #include "msvcdir.h"
 #else
 #include <dir.h>
