@@ -62,6 +62,11 @@ char	*stpcpy(char *, const char *);
 
 #ifdef  UNIX
 #define MAXPATH 256
+#define MAXDRIVE 1
+#define MAXDIR  256
+#define MAXFILE 128
+#define MAXEXT  128
+#define O_BINARY 0
 #endif
 
 #ifndef	max
