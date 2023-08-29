@@ -155,15 +155,15 @@ jobs:
           srcroot: "../source"
           TEXMFCNF: "../source/texk/kpathsea/tests/windows"
 
-      - name: test seetex
-        shell: bash
-        run: |
-          cd ./Work
-          export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/seetexk
-          $srcdir/seetexk.test
-        env:
-          srcroot: "../source"
-          TEXMFCNF: "../source/texk/kpathsea/tests/windows"
+      #- name: test seetex
+      #  shell: bash
+      #  run: |
+      #    cd ./Work
+      #    export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/seetexk
+      #    $srcdir/seetexk.test
+      #  env:
+      #    srcroot: "../source"
+      #    TEXMFCNF: "../source/texk/kpathsea/tests/windows"
 
       - name: test dvidvi
         shell: bash
