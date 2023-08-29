@@ -6,6 +6,14 @@
 
 test -d tests || mkdir -p tests
 
+# pre-generated test results in the repository are stored in LF
+# but the output might be written in CRLF on some platform.
+# if 'diff --strip-trailing-cr' is available, exploit it.
+# (useful for tests on win32 binaries run on MSYS shell)
+DIFF="diff"
+$DIFF --strip-trailing-cr $0 $0 \
+  && DIFF="diff --strip-trailing-cr" || echo
+
 ./vftovp -char=bar -help  || exit 1
 
 ./vftovp -version  || exit 1
@@ -22,5 +30,5 @@ diff $srcdir/tests/ptmr.vpl tests/xptmra.vpl || exit 1
 
 ./vftovp -verbose $srcdir/tests/ptmr ptmr >tests/xptmrb.vpl || exit 1
 
-diff $srcdir/tests/ptmr.vpl tests/xptmrb.vpl || exit 1
+$DIFF $srcdir/tests/ptmr.vpl tests/xptmrb.vpl || exit 1
 

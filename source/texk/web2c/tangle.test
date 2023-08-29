@@ -4,12 +4,8 @@
 # Copyright 2009 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_tangle=$BinDir/tangle$ExeExt
-
 TEXMFCNF=$srcdir/../kpathsea WEBINPUTS=$srcdir/cftests \
-  $_tangle  cftest cftest || exit 1
+  ./tangle  cftest cftest || exit 1
 
 diff cftest.p $srcdir/cftests/cftest.p || exit 1
 
