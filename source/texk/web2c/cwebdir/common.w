@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.9 --- May 2023
+% Version 4.10 --- August 2023
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -22,12 +22,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.9)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.10)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.9)}
+  \centerline{(Version 4.10)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -313,7 +313,7 @@ check_change(void) /* switches to |change_file| if the buffers match */
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
-      char xyz_code=xisupper(buffer[1])? tolower((int)buffer[1]): buffer[1];
+      if (xisupper(buffer[1])) buffer[1]=tolower((int)buffer[1]);
       @<If the current line starts with \.{@@y},
         report any discrepancies and |return|@>@;
     }
@@ -334,11 +334,11 @@ check_change(void) /* switches to |change_file| if the buffers match */
 @ @<Predecl...@>=@+static void check_change(void);
 
 @ @<If the current line starts with \.{@@y}...@>=
-if (xyz_code=='x' || xyz_code=='z') {
+if (buffer[1]=='x' || buffer[1]=='z') {
   loc=buffer+2; err_print("! Where is the matching @@y?");
 @.Where is the match...@>
   }
-else if (xyz_code=='y') {
+else if (buffer[1]=='y') {
   if (n>0) {
     loc=buffer+2;
     printf("\n! Hmm... %d ",n);
@@ -394,7 +394,7 @@ boolean get_line(void) /* inputs the next line */
 stop reading it and start reading from the named include file.  The
 \.{@@i} line should give a complete file name with or without
 double quotes.
-If the environment variable \.{CWEBINPUTS} is set, or if the compiler flag
+If the environment variable |CWEBINPUTS| is set, or if the compiler flag
 of the same name was defined at compile time,
 \.{CWEB} will look for include files in the directory thus named, if
 it cannot find them in the current directory.
@@ -424,7 +424,6 @@ The remainder of the \.{@@i} line after the file name is ignored.
     goto restart; /* success */
   }
   if ((kk=getenv("CWEBINPUTS"))!=NULL) {
-@qCWEBINPUTS@>
     if ((l=strlen(kk))>max_file_name_length-2) too_long();
     strcpy(temp_file_name,kk);
   }
@@ -442,6 +441,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     for (; k>=cur_file_name; k--) *(k+l+1)=*k;
     strcpy(cur_file_name,temp_file_name);
     cur_file_name[l]='/'; /* \UNIX/ pathname separator */
+@^system dependencies@>
     if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
       cur_line=0; print_where=true;
       goto restart; /* success */
@@ -670,15 +670,14 @@ if (p==NULL) {
 }
 
 @ The information associated with a new identifier must be initialized
-in a slightly different way in \.{CWEAVE} than in \.{CTANGLE}; hence the
-|init_p| procedure.
+in a slightly different way in \.{CWEAVE} than in \.{CTANGLE}.
 
 @<Enter a new name...@>= {
   if (byte_ptr+l>byte_mem_end) overflow("byte memory");
   if (name_ptr>=name_dir_end) overflow("name");
   strncpy(byte_ptr,first,l);
   (++name_ptr)->byte_start=byte_ptr+=l;
-  init_p(p,t);
+  if (program==cweave) p->ilk=t, init_node(p);
 }
 
 @ If |p| is a |name_pointer| variable, as we have seen,
@@ -977,7 +976,7 @@ name_pointer r) /* section name being compared */
           *pfirst=first+(ptrdiff_t)(ss-s);
           return extension; /* null extension */
         } else return equal;
-      else return (q->byte_start==(q+1)->byte_start)? equal: prefix;
+      else return length(q)==0? equal: prefix;
     case extension:
       if (!ispref) return bad_extension;
       first += ss-s;
@@ -1017,7 +1016,7 @@ const char *s)
 {
   *s=='!'? printf("\n%s",s) : printf("%s",s);
   if (web_file_open) @<Print error location based on input buffer@>@;
-  update_terminal; mark_error;
+  update_terminal(); mark_error();
 }
 
 @ The error locations can be indicated by using the global variables
@@ -1040,7 +1039,7 @@ if (l>buffer) {
   for (k=buffer; k<l; k++)
     if (*k=='\t') putchar(' ');
     else putchar(*k); /* print the characters already read */
-  new_line;
+  new_line();
   for (k=buffer; k<l; k++) putchar(' '); /* space out the next line */
 }
 for (k=l; k<limit; k++) putchar(*k); /* print the part not yet read */
@@ -1064,7 +1063,7 @@ a status of |EXIT_SUCCESS| if and only if only harmless messages were printed.
 
 @c
 int wrap_up(void) {
-  if (show_progress) new_line;
+  if (show_progress) new_line();
   if (show_stats)
     print_stats(); /* print statistics about memory usage */
   @<Print the job |history|@>@;

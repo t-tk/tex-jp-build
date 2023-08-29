@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.9 --- May 2023
+% Version 4.10 --- August 2023
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 4.9)}
+\def\title{CTANGLE (Version 4.10)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 4.9)}
+  \centerline{(Version 4.10)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 4.9)"
+@d banner "This is CTANGLE (Version 4.10)"
 
 @c
 @<Include files@>@/
@@ -162,10 +162,8 @@ eight_bits t) /* not used by \.{CTANGLE} */
   return length(p)==l && strncmp(first,p->byte_start,l)==0;
 }
 
-@ The common lookup routine |id_lookup| refers to separate routines |init_node|
-and |init_p| when the data structure grows. Actually |init_p| is called only by
-\.{CWEAVE}, but we need to declare a dummy version so that
-the loader won't complain of its absence.
+@ The common lookup routine |id_lookup| refers to a separate routine
+|init_node| when the data structure grows.
 
 @c
 void
@@ -174,8 +172,6 @@ name_pointer node)
 {
     node->equiv=(void *)text_info;
 }
-void
-init_p(name_pointer p,eight_bits t) {@+(void)p;@+(void)t;@+}
 
 @* Tokens.
 Replacement texts, which represent \CEE/ code in a compressed format,
@@ -340,7 +336,7 @@ boolean flag) /* |flag==false| means we are in |output_defs| */
     cur_byte=cur_repl->tok_start; return;
   }
   stack_ptr--; /* go down to the previous level */
-  if (stack_ptr>stack) cur_state=*stack_ptr;
+  if (stack_ptr>stack) cur_state=*stack_ptr;@^system dependencies@>
 }
 
 @ The heart of the output procedure is the function |get_output|,
@@ -466,7 +462,7 @@ flush_buffer(void) /* writes one line to output file */
   if (cur_line % 100 == 0 && show_progress) {
     putchar('.');
     if (cur_line % 500 == 0) printf("%d",cur_line);
-    update_terminal; /* progress report */
+    update_terminal(); /* progress report */
   }
   cur_line++;
 }
@@ -519,30 +515,24 @@ phase_two (void) {
   @<Initialize the output stacks@>@;
   @<Output macro definitions if appropriate@>@;
   if (text_info->text_link==macro && cur_out_file==end_output_files) {
-    fputs("\n! No program text was specified.",stdout); mark_harmless;
+    fputs("\n! No program text was specified.",stdout); mark_harmless();
 @.No program text...@>
   }
   else {
-    if (cur_out_file==end_output_files) {
-      if (show_progress) {
-        printf("\nWriting the output file (%s):",C_file_name);
-        update_terminal;
-      }
-    }
-    else {
-      if (show_progress) {
-        fputs("\nWriting the output files:",stdout);
+    if (show_progress) {
+      printf(cur_out_file==end_output_files ? @|
+        "\nWriting the output file (%s):" : @|
+        "\nWriting the output files: (%s)",C_file_name);
 @.Writing the output...@>
-        printf(" (%s)",C_file_name);
-        update_terminal;
-      }
-      if (text_info->text_link==macro) goto writeloop;
+      update_terminal();
     }
-    while (stack_ptr>stack) get_output();
-    flush_buffer();
-writeloop:   @<Write all the named output files@>@;
+    if (text_info->text_link!=macro) {
+      while (stack_ptr>stack) get_output();
+      flush_buffer();
+    }
+    @<Write all the named output files@>@;
     if (show_happiness) {
-      if (show_progress) new_line;
+      if (show_progress) new_line();
       fputs("Done.",stdout);
     }
   }
@@ -562,7 +552,7 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
     if ((C_file=fopen(output_file_name,"wb"))==NULL)
       fatal("! Cannot open output file ",output_file_name);
 @.Cannot open output file@>
-    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal; }
+    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal(); }
     cur_line=1;
     stack_ptr=stack+1;
     cur_name=*an_output_file;
@@ -587,10 +577,10 @@ static boolean output_defs_seen=false;
 static void output_defs(void);@/
 static void out_char(eight_bits);
 
-@ @d C_printf(c,a) fprintf(C_file,c,a)
-@d C_putc(c) putc((int)(c),C_file) /* isn't \CEE/ wonderfully consistent? */
+@ @d macro_end (cur_text+1)->tok_start /* end of |macro| replacement text */
 @#
-@d macro_end (cur_text+1)->tok_start /* end of |macro| replacement text */
+@d C_printf(c,a) fprintf(C_file,c,a)
+@d C_putc(c) fputc((int)(c),C_file) /* isn't \CEE/ wonderfully consistent? */
 
 @c
 static void
@@ -640,7 +630,7 @@ static void
 out_char(
 eight_bits cur_char)
 {
-  char *j, *k; /* pointer into |byte_mem| */
+  char *j; /* pointer into |byte_mem| */
 restart:
     switch (cur_char) {
       case '\n': if (protect && out_state!=verbatim) C_putc(' ');
@@ -698,16 +688,16 @@ This makes debugging a lot less confusing.
 static char translit[0200][translit_length];
 
 @ @<Set init...@>=
-{
-  int i;
-  for (i=0;i<0200;i++) sprintf(translit[i],"X%02X",(unsigned int)(0200+i));
+{ int i;
+  for (i=0;i<0200;i++)
+     snprintf(translit[i],translit_length,"X%02X",(unsigned int)(0200+i));
 }
 
 @ @<Case of an identifier@>=@t\1\quad@>
 case identifier:
   if (out_state==num_or_id) C_putc(' ');
-  for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
-       j<k; j++)
+  for (j=(cur_val+name_dir)->byte_start;
+       j<(cur_val+name_dir+1)->byte_start; j++)
     if ((eight_bits)(*j)<0200) C_putc(*j);
 @^high-bit character handling@>
     else C_printf("%s",translit[(eight_bits)(*j)-0200]);
@@ -729,8 +719,8 @@ case section_number:
 @:line}{\.{\#line}@>
     cur_val=(int)(*cur_byte++-0200)*0400;
     cur_val+=*cur_byte++; /* points to the file name */
-    for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
-         j<k; j++) {
+    for (j=(cur_val+name_dir)->byte_start;
+         j<(cur_val+name_dir+1)->byte_start; j++) {
       if (*j=='\\' || *j=='"') C_putc('\\');
       C_putc(*j);
     }
@@ -1126,7 +1116,7 @@ if (k>=section_text_end) {
   fputs("\n! Section name too long: ",stdout);
 @.Section name too long@>
   term_write(section_text+1,25);
-  printf("..."); mark_harmless;
+  printf("..."); mark_harmless();
 }
 if (*k==' ' && k>section_text) k--;
 
@@ -1378,7 +1368,7 @@ scan_section(void)
   sixteen_bits a; /* token for left-hand side of definition */
   section_count++; @+ no_where=true;
   if (*(loc-1)=='*' && show_progress) { /* starred section */
-    printf("*%d",(int)section_count); update_terminal;
+    printf("*%d",(int)section_count); update_terminal();
   }
   next_control=ignore;
   while (true) {
@@ -1544,7 +1534,7 @@ but not an |int|, we use \.{\%td} to print these quantities.
 void
 print_stats(void) {
   puts("\nMemory usage statistics:");
-  printf("%td names (out of %ld)\n",
+  printf("%td names (out of %ld)\n",@^system dependencies@>
           (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
   printf("%td replacement texts (out of %ld)\n",
           (ptrdiff_t)(text_ptr-text_info),(long)max_texts);

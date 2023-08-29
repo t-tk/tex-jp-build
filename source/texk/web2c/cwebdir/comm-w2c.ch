@@ -17,16 +17,16 @@
 @q Please send comments, suggestions, etc. to tex-k@@tug.org.            @>
 
 @x
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.9)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.10)}
 @y
 \def\Kpathsea/{{\mc KPATHSEA\spacefactor1000}} \ifacro\sanitizecommand\Kpathsea{KPATHSEA}\fi
-\def\title{Common code for CTANGLE and CWEAVE (4.9 [\TeX~Live])}
+\def\title{Common code for CTANGLE and CWEAVE (4.10 [\TeX~Live])}
 @z
 
 @x
-  \centerline{(Version 4.9)}
+  \centerline{(Version 4.10)}
 @y
-  \centerline{(Version 4.9 [\TeX~Live])}
+  \centerline{(Version 4.10 [\TeX~Live])}
 @z
 
 @x
@@ -76,7 +76,7 @@ cweb program; /* \.{CTANGLE} or \.{CWEAVE} or \.{CTWILL}? */
   @<Initialize pointers@>@;
 @y
   @<Initialize pointers@>@;
-  @<Set up |PROGNAME| feature and initialize the search path mechanism@>@;
+  @<Set up \.{PROGNAME} feature and initialize the search path mechanism@>@;
 @z
 
 @x
@@ -157,7 +157,7 @@ char *found_filename; /* filename found by |kpse_find_file| */
 stop reading it and start reading from the named include file.  The
 \.{@@i} line should give a complete file name with or without
 double quotes.
-If the environment variable \.{CWEBINPUTS} is set, or if the compiler flag
+If the environment variable |CWEBINPUTS| is set, or if the compiler flag
 of the same name was defined at compile time,
 \.{CWEB} will look for include files in the directory thus named, if
 it cannot find them in the current directory.
@@ -206,7 +206,6 @@ The remainder of the \.{@@i} line after the file name is ignored.
 
 @x
   if ((kk=getenv("CWEBINPUTS"))!=NULL) {
-@qCWEBINPUTS@>
     if ((l=strlen(kk))>max_file_name_length-2) too_long();
     strcpy(temp_file_name,kk);
   }
@@ -224,6 +223,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     for (; k>=cur_file_name; k--) *(k+l+1)=*k;
     strcpy(cur_file_name,temp_file_name);
     cur_file_name[l]='/'; /* \UNIX/ pathname separator */
+@^system dependencies@>
     if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
       cur_line=0; print_where=true;
       goto restart; /* success */
@@ -299,6 +299,12 @@ else if (strlen(found_filename) < max_file_name_length) {
 @y
   if (byte_ptr+l>byte_mem_end) overflow(_("byte memory"));
   if (name_ptr>=name_dir_end) overflow(_("name"));
+@z
+
+@x
+  if (program==cweave) p->ilk=t, init_node(p);
+@y
+  if (program!=ctangle) p->ilk=t, init_node(p);
 @z
 
 @x
@@ -487,12 +493,10 @@ systems the contents of the compile-time variable |DEV_NULL| (\TeX~Live) or
 @z
 
 @x
-      while (*s)
         if (*s=='.') dot_pos=s++;
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
         else s++;
 @y
-      while (*s)
         if (*s=='.') dot_pos=s++;
         else if (*s==DIR_SEPARATOR || *s==DEVICE_SEPARATOR || *s=='/')
           dot_pos=NULL,name_pos=++s;
@@ -637,7 +641,7 @@ const char *use_language=""; /* prefix of \.{cwebmac.tex} in \TEX/ output */
 char cb_banner[max_banner];@/
 string texmf_locale;@/
 #ifndef SEPARATORS
-#define SEPARATORS "://"
+#define SEPARATORS "://"@^system dependencies@>
 #endif
 char separators[]=SEPARATORS;
 
@@ -789,7 +793,7 @@ in the environment) its value will be used as the search path for filenames.
 This allows different flavors of \.{CWEB} to have different search paths.
 @.CWEBINPUTS@>
 
-@<Set up |PROGNAME| feature and initialize the search path mechanism@>=
+@<Set up \.{PROGNAME} feature and initialize the search path mechanism@>=
 kpse_set_program_name(argv[0], "cweb");
 
 @ When the files you expect are not found, the thing to do is to enable
@@ -814,7 +818,7 @@ Debugging output is always written to |stderr|, and begins with the string
 
 Modules for dealing with help messages and version info.
 
-@<Include files@>=
+@<Include files@>=@^system dependencies@>
 #define CWEB
 #include "help.h" /* |@!CTANGLEHELP|, |@!CWEAVEHELP|, |@!CTWILLHELP| */
 

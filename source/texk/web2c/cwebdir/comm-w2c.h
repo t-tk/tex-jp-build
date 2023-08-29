@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.9 --- May 2023 (works also with later versions)
+% Version 4.10 --- August 2023 (works also with later versions)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -30,7 +30,7 @@ First comes general stuff:
 @i iso_types.w
 
 @s boolean bool
-@<Common code...@>=
+@<Common code...@>=@^system dependencies@>
 typedef uint8_t eight_bits;
 typedef uint16_t sixteen_bits;
 typedef enum {
@@ -42,9 +42,6 @@ extern int phase; /* which phase are we in? */
 @ The procedure that gets everything rolling:
 @<Predecl...@>=
 extern void common_init(void);@/
-extern void cb_show_banner(void);
-@#
-extern void print_stats(void); /* defined in \.{ctangle.w} and \.{cweave.w} */
 
 @ You may have noticed that almost all \.{"strings"} in the \.{CWEB} sources
 are placed in the context of the `|_|'~macro.  This is just a shortcut for the
@@ -52,7 +49,7 @@ are placed in the context of the `|_|'~macro.  This is just a shortcut for the
 not have this library installed, we wrap things for neutral behavior without
 internationalization.
 For backward compatibility with pre-{\mc ANSI} compilers, we replace the
-``standard'' header file `\.{stdbool.h}' with the
+``standard'' header file `\.{stdbool.h}' with the@^system dependencies@>
 {\mc KPATHSEA\spacefactor1000} interface `\.{simpletypes.h}'.
 
 @d _(s) gettext(s)
@@ -166,6 +163,7 @@ extern boolean print_where; /* tells \.{CTANGLE} to print line and file info */
 @d rlink dummy.Rlink /* right link in binary search tree for section names */
 @d root name_dir->rlink /* the root of the binary search tree
   for section names */
+@d ilk dummy.Ilk /* used by \.{CWEAVE} only */
 
 @<Common code...@>=
 typedef struct name_info {
@@ -174,7 +172,7 @@ typedef struct name_info {
   union {
     struct name_info *Rlink; /* right link in binary search tree for section
       names */
-    char Ilk; /* used by identifiers in \.{CWEAVE} only */
+    eight_bits Ilk; /* used by identifiers in \.{CWEAVE} only */
   } dummy;
   void *equiv_or_xref; /* info corresponding to names */
 } name_info; /* contains information about an identifier or section name */
@@ -198,18 +196,17 @@ extern void print_prefix_name(name_pointer);@/
 extern void print_section_name(name_pointer);@/
 extern void sprint_section_name(char *,name_pointer);
 @#
-extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
-/* three routines defined in \.{ctangle.w} and \.{cweave.w} */
-extern void init_node(name_pointer);@/
-extern void init_p(name_pointer,eight_bits);@/
+extern boolean names_match(name_pointer,const char *,size_t,eight_bits);
+/* two routines defined in \.{ctangle.w} and \.{cweave.w} */
+extern void init_node(name_pointer);
 
 @ Code related to error handling:
 @d spotless 0 /* |history| value for normal jobs */
 @d harmless_message 1 /* |history| value when non-serious info was printed */
 @d error_message 2 /* |history| value when an error was noted */
 @d fatal_message 3 /* |history| value when we had to stop prematurely */
-@d mark_harmless if (history==spotless) history=harmless_message
-@d mark_error history=error_message
+@d mark_harmless() if (history==spotless) history=harmless_message
+@d mark_error() history=error_message
 @d confusion(s) fatal(_("! This can't happen: "),s)
 @.This can't happen@>
 
@@ -221,6 +218,10 @@ extern int wrap_up(void); /* indicate |history| and exit */
 extern void err_print(const char *); /* print error message and context */
 extern void fatal(const char *,const char *); /* issue error message and die */
 extern void overflow(const char *); /* succumb because a table has overflowed */
+@#
+extern void cb_show_banner(void); /* copy |banner| back to \.{common.w} */
+@#
+extern void print_stats(void); /* defined in \.{ctangle.w} and \.{cweave.w} */
 
 @ Code related to command line arguments:
 @d show_banner flags['b'] /* should the banner line be printed? */
@@ -242,8 +243,8 @@ extern boolean flags[]; /* an option for each 7-bit code */
 extern const char *use_language; /* prefix to \.{cwebmac.tex} in \TEX/ output */
 
 @ Code related to output:
-@d update_terminal fflush(stdout) /* empty the terminal output buffer */
-@d new_line putchar('\n')
+@d update_terminal() fflush(stdout) /* empty the terminal output buffer */
+@d new_line() putchar('\n')
 @d term_write(a,b) fflush(stdout),fwrite(a,sizeof(char),b,stdout)
 
 @<Common code...@>=
