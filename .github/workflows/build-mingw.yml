@@ -25,8 +25,6 @@ jobs:
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
             mingw-w64-x86_64-pkg-config
-            mingw-w64-x86_64-pixman
-            mingw-w64-x86_64-cairo
             mingw-w64-x86_64-gmp
             mingw-w64-x86_64-mpfr
             bison
@@ -55,6 +53,20 @@ jobs:
           mkdir ./source/Work/libs/libpaper
           cd ./source/Work/libs/libpaper
           ../../../libs/libpaper/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir ./source/Work/libs/pixman
+          cd ./source/Work/libs/pixman
+          ../../../libs/pixman/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir ./source/Work/libs/cairo
+          cd ./source/Work/cairo/libpaper
+          ../../../libs/cairo/configure
           make
           make check
 
@@ -217,8 +229,8 @@ jobs:
             --without-system-zlib \
             --without-system-libpng \
             --without-system-freetype2 \
-            --with-system-pixman \
-            --with-system-cairo \
+            --without-system-pixman \
+            --without-system-cairo \
             --with-system-gmp \
             --with-system-mpfr \
             --without-system-poppler \
@@ -252,9 +264,9 @@ jobs:
           make uptftopl.exe
           make tex.p
           make tex.exe
-          # make etex.web
-          # make etex.p
-          # make etex.exe
+          make etex.web
+          make etex.p
+          make etex.exe
           make ptex.web
           make ptex.p
           make ptex.exe
@@ -293,10 +305,11 @@ jobs:
           # make upmp.p
           # make upmp.c
           # make upmp.exe
-          make etex.exe || echo "fail to make etex.exe"
+          # make etex.exe || echo "fail to make etex.exe"
           make mpopst.exe || echo "fail to make mpopst.exe"
           make pmpopst.exe || echo "fail to make pmpopst.exe"
           make upmpopst.exe || echo "fail to make upmpopst.exe"
+          make synctex.exe || echo "fail to make synctex.exe"
           echo "!!! make complete !!!"
 
       - name: web2c version check
