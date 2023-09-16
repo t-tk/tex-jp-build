@@ -129,7 +129,7 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
-          make check || cat dvispc.log
+          make check
 
       - name: dvi2tty
         shell: msys2 {0}
@@ -147,7 +147,7 @@ jobs:
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
-          make check || cat seetexk.log
+          make check
         env:
           ExeExt: ".exe"
           TEXMFCNF: "../../../texk/kpathsea"
@@ -191,46 +191,23 @@ jobs:
             --srcdir=../../../texk/web2c \
             --disable-all-pkgs \
             --enable-debug \
-            --enable-ptex \
-            --enable-eptex \
-            --enable-uptex \
-            --enable-euptex \
-            --disable-pmp \
-            --disable-upmp \
-            --enable-ptex-synctex \
-            --enable-eptex-synctex \
-            --enable-uptex-synctex \
-            --enable-euptex-synctex \
-            --disable-pdftex \
-            --disable-pdftex-synctex \
-            --disable-mf \
-            --disable-mf-nowin \
-            --disable-tex \
-            --disable-tex-synctex \
-            --disable-etex \
-            --disable-etex-synctex \
-            --disable-aleph \
-            --disable-luatex \
-            --disable-luajittex \
-            --disable-luahbtex \
-            --disable-luajithbtex \
-            --disable-mp \
-            --disable-xetex \
-            --disable-xetex-synctex \
-            --disable-mflua \
-            --disable-mflua-nowin \
-            --disable-mfluajit \
-            --disable-mfluajit-nowin \
-            --disable-epsfwin \
-            --disable-hp2627win \
-            --disable-mftalkwin \
-            --disable-nextwin \
-            --disable-regiswin \
-            --disable-suntoolswin \
-            --disable-tektronixwin \
-            --disable-unitermwin \
+            --enable-tex  --enable-tex-synctex \
+            --enable-etex  --enable-etex-synctex \
+            --enable-ptex  --enable-ptex-synctex \
+            --enable-uptex  --enable-uptex-synctex \
+            --enable-eptex  --enable-eptex-synctex \
+            --enable-euptex  --enable-euptex-synctex \
+            --enable-mp  --enable-pmp  --enable-upmp \
+            --disable-pdftex  --disable-pdftex-synctex \
             --enable-web-progs \
-            --disable-synctex \
+            --enable-synctex \
+            --disable-mf  --disable-mf-nowin \
+            --disable-aleph \
+            --disable-luatex  --disable-luajittex  --disable-luahbtex  --disable-luajithbtex \
+            --disable-xetex  --disable-xetex-synctex \
+            --disable-mflua  --disable-mflua-nowin  --disable-mfluajit  --disable-mfluajit-nowin \
+            --disable-epsfwin  --disable-hp2627win  --disable-mftalkwin  --disable-nextwin \
+            --disable-regiswin  --disable-suntoolswin  --disable-tektronixwin  --disable-unitermwin \
             --disable-missing \
             --with-gnu-ld \
             --without-x \
@@ -251,6 +228,8 @@ jobs:
             --without-system-icu \
             --without-system-graphite2 \
             --without-system-harfbuzz
+          make tangle.exe
+          make ctangle.exe
           make ctie.exe
           make ctwill.exe
           make ctwill-refsort.exe
@@ -258,6 +237,7 @@ jobs:
           make cweave.exe
           make tie.exe
           make twill.exe
+
           make updvitype.web
           make updvitype.p
           make updvitype.c
@@ -291,6 +271,7 @@ jobs:
           make upbibtex.p
           make upbibtex.c
           make upbibtex.exe
+
           make dvitype.exe
           make dvicopy.exe
           make pltotf.exe
@@ -312,8 +293,10 @@ jobs:
           # make upmp.p
           # make upmp.c
           # make upmp.exe
-          # make pmpopst.exe || echo "fail to make pmpopst.exe"
-          # make upmpopst.exe || echo "fail to make upmpopst.exe"
+          make etex.exe || echo "fail to make etex.exe"
+          make mpopst.exe || echo "fail to make mpopst.exe"
+          make pmpopst.exe || echo "fail to make pmpopst.exe"
+          make upmpopst.exe || echo "fail to make upmpopst.exe"
           echo "!!! make complete !!!"
 
       - name: web2c version check

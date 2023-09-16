@@ -180,51 +180,23 @@ jobs:
             --srcdir=../../../texk/web2c \
             --disable-all-pkgs \
             --enable-debug \
-            --enable-ptex \
-            --enable-eptex \
-            --enable-uptex \
-            --enable-euptex \
-            --enable-pmp \
-            --enable-upmp \
-            --enable-tex \
-            --enable-tex-synctex \
-            --enable-etex \
-            --enable-etex-synctex \
-            --enable-ptex-synctex \
-            --enable-eptex-synctex \
-            --enable-uptex-synctex \
-            --enable-euptex-synctex \
+            --enable-tex  --enable-tex-synctex \
+            --enable-etex  --enable-etex-synctex \
+            --enable-ptex  --enable-ptex-synctex \
+            --enable-uptex  --enable-uptex-synctex \
+            --enable-eptex  --enable-eptex-synctex \
+            --enable-euptex  --enable-euptex-synctex \
+            --enable-mp  --enable-pmp  --enable-upmp \
+            --disable-pdftex  --disable-pdftex-synctex \
             --enable-web-progs \
-            --disable-pdftex \
-            --disable-pdftex-synctex \
-            --disable-mf \
-            --disable-mf-nowin \
-            --disable-tex \
-            --disable-tex-synctex \
-            --disable-etex \
-            --disable-etex-synctex \
+            --enable-synctex \
+            --disable-mf  --disable-mf-nowin \
             --disable-aleph \
-            --disable-luatex \
-            --disable-luajittex \
-            --disable-luahbtex \
-            --disable-luajithbtex \
-            --disable-mp \
-            --disable-xetex \
-            --disable-xetex-synctex \
-            --disable-mflua \
-            --disable-mflua-nowin \
-            --disable-mfluajit \
-            --disable-mfluajit-nowin \
-            --disable-epsfwin \
-            --disable-hp2627win \
-            --disable-mftalkwin \
-            --disable-nextwin \
-            --disable-regiswin \
-            --disable-suntoolswin \
-            --disable-tektronixwin \
-            --disable-unitermwin \
-            --disable-web-progs \
-            --disable-synctex \
+            --disable-luatex  --disable-luajittex  --disable-luahbtex  --disable-luajithbtex \
+            --disable-xetex  --disable-xetex-synctex \
+            --disable-mflua  --disable-mflua-nowin  --disable-mfluajit  --disable-mfluajit-nowin \
+            --disable-epsfwin  --disable-hp2627win  --disable-mftalkwin  --disable-nextwin \
+            --disable-regiswin  --disable-suntoolswin  --disable-tektronixwin  --disable-unitermwin \
             --disable-missing \
             --with-gnu-ld \
             --without-x \
