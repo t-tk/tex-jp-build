@@ -65,7 +65,7 @@ jobs:
 
           cd ../../../..
           mkdir ./source/Work/libs/cairo
-          cd ./source/Work/cairo/libpaper
+          cd ./source/Work/libs/cairo
           ../../../libs/cairo/configure
           make
           make check
@@ -464,6 +464,20 @@ jobs:
           $srcdir/tests/bibtex-bigauth.test  || echo -e "**\n** failed: bibtex-bigauth.test\n**"
           echo ""
           $srcdir/tests/bibtex-mem.test      || echo -e "**\n** failed: bibtex-mem.test\n**"
+          echo ""
+          $srcdir/mplibdir/dvitomp.test      || echo -e "**\n** failed: dvitomp.test\n**"
+          echo ""
+          $srcdir/mplibdir/mptraptest.test   || echo -e "**\n** failed: mptraptest.test\n**"
+          echo ""
+          $srcdir/pmpostdir/pmpost.test      || echo -e "**\n** failed: pmpost.test\n**"
+          echo ""
+          $srcdir/pmpostdir/pmpsamp.test     || echo -e "**\n** failed: pmpsamp.test\n**"
+          echo ""
+          $srcdir/pmpostdir/upmpost.test     || echo -e "**\n** failed: upmpost.test\n**"
+          echo ""
+          $srcdir/pmpostdir/upmpsamp.test    || echo -e "**\n** failed: upmpsamp.test\n**"
+          echo ""
+          $srcdir/synctexdir/synctex.test    || echo -e "**\n** failed: synctex.test\n**"
         env:
           srcdir: "../../../texk/web2c"
           TEXMFCNF: "../../../texk/kpathsea"
