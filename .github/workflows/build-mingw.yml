@@ -203,7 +203,7 @@ jobs:
             --srcdir=../../../texk/web2c \
             --disable-all-pkgs \
             --enable-debug \
-            --enable-tex  --enable-tex-synctex \
+            --enable-tex  --disable-tex-synctex \
             --enable-etex  --enable-etex-synctex \
             --enable-ptex  --enable-ptex-synctex \
             --enable-uptex  --enable-uptex-synctex \
@@ -288,6 +288,7 @@ jobs:
           make dvicopy.exe
           make pltotf.exe
           make tftopl.exe
+
           make bibtex.exe
           make gftodvi.exe
           make gftopk.exe
@@ -297,6 +298,9 @@ jobs:
           make pktogf.exe
           make pktype.exe
           make pooltype.exe
+          make vftovp.exe
+          make vptovf.exe
+          make weave.exe
           # make pmp.web
           # make pmp.p
           # make pmp.c
@@ -305,10 +309,9 @@ jobs:
           # make upmp.p
           # make upmp.c
           # make upmp.exe
-          # make etex.exe || echo "fail to make etex.exe"
-          make mpopst.exe || echo "fail to make mpopst.exe"
-          make pmpopst.exe || echo "fail to make pmpopst.exe"
-          make upmpopst.exe || echo "fail to make upmpopst.exe"
+          make mpost.exe || echo "fail to make mpost.exe"
+          make pmpost.exe || echo "fail to make pmpost.exe"
+          make upmpost.exe || echo "fail to make upmpost.exe"
           make synctex.exe || echo "fail to make synctex.exe"
           echo "!!! make complete !!!"
 
@@ -382,6 +385,8 @@ jobs:
           echo ""
           $srcdir/tiedir/tie.test     || echo -e "**\n** failed: tie.test\n**"
           echo ""
+          $srcdir/tangle.test         || echo -e "**\n** failed: tangle.test\n**"
+          echo ""
 
           export KPSEWHICH="./kpsewhich.exe"
           $srcdir/dvicopy.test        || echo -e "**\n** failed: dvicopy.test\n**"
@@ -407,7 +412,13 @@ jobs:
           echo ""
           $srcdir/pooltype.test       || echo -e "**\n** failed: pooltype.test\n**"
           echo ""
-          $srcdir/tangle.test         || echo -e "**\n** failed: tangle.test\n**"
+          $srcdir/tftopl.test         || echo -e "**\n** failed: tftopl.test\n**"
+          echo ""
+          $srcdir/vftovp.test         || echo -e "**\n** failed: vftovp.test\n**"
+          echo ""
+          $srcdir/vptovf.test         || echo -e "**\n** failed: vptovf.test\n**"
+          echo ""
+          $srcdir/weave.test          || echo -e "**\n** failed: weave.test\n**"
           echo ""
           $srcdir/twill.test          || echo -e "**\n** failed: twill.test\n**"
           echo ""
@@ -471,11 +482,13 @@ jobs:
           echo ""
           $srcdir/pmpostdir/pmpost.test      || echo -e "**\n** failed: pmpost.test\n**"
           echo ""
-          $srcdir/pmpostdir/pmpsamp.test     || echo -e "**\n** failed: pmpsamp.test\n**"
+          $srcdir/pmpostdir/pmpsamp.test     || \
+            { if [ "$?" = "77" ]; then echo "** SKIP: pmpsamp.test\n" ; else echo -e "**\n** failed: pmpsamp.test\n**" ; fi }
           echo ""
           $srcdir/pmpostdir/upmpost.test     || echo -e "**\n** failed: upmpost.test\n**"
           echo ""
-          $srcdir/pmpostdir/upmpsamp.test    || echo -e "**\n** failed: upmpsamp.test\n**"
+          $srcdir/pmpostdir/upmpsamp.test    || \
+            { if [ "$?" = "77" ]; then echo "** SKIP: upmpsamp.test\n" ; else echo -e "**\n** failed: upmpsamp.test\n**" ; fi }
           echo ""
           $srcdir/synctexdir/synctex.test    || echo -e "**\n** failed: synctex.test\n**"
         env:

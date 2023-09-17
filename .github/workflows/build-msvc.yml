@@ -75,6 +75,7 @@ jobs:
           $srcdir/beginfontk1.test
           $srcdir/eepic-nan.test
           $srcdir/pfbincl.test
+          $srcdir/quotecmd-test.pl || echo "quotecmd-test.pl"
           $srcdir/same-name.test
           $srcdir/test-missing-image.test
           $srcdir/test-overflow-buffers.test
@@ -126,7 +127,8 @@ jobs:
           $srcdir/tests/bibtex8-sort.test
           $srcdir/tests/bibtexu-basic.test
           $srcdir/tests/bibtexu-range.test
-          $srcdir/tests/bibtexu-char.test || echo "SKIP bibtexu-char.test"
+          $srcdir/tests/bibtexu-char.test || \
+            { if [ "$?" = "77" ]; then r="SKIP" ; else r="FAIL" ; fi && echo "$r: bibtexu-char.test" }
           $srcdir/tests/bibtexu-sort.test
           $srcdir/tests/bibtexu-yannis.test
         env:
