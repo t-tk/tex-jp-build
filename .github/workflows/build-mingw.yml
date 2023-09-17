@@ -344,6 +344,7 @@ jobs:
         run: |
           cd ./source/Work/texk/web2c
           export KPSEWHICH="../kpathsea/kpsewhich.exe"
+          export LN_S=cp
 
           $srcdir/ptexdir/pver.test             || echo -e "**\n** failed: p/pver.test\n**"
           echo ""
@@ -376,7 +377,6 @@ jobs:
           echo ""
 
           export abs_srcdir=../$srcdir
-          export LN_S=cp
           export DIFF=diff
           export DIFFFLAGS="--strip-trailing-cr --ignore-matching-lines 'DVItype'"
           $srcdir/ptexdir/ptriptest.test
