@@ -240,73 +240,10 @@ jobs:
             --without-system-icu \
             --without-system-graphite2 \
             --without-system-harfbuzz
-          make tangle.exe
-          make ctangle.exe
-          make ctie.exe
-          make ctwill.exe
-          make ctwill-refsort.exe
-          make ctwill-twinx.exe
-          make cweave.exe
-          make tie.exe
-          make twill.exe
-
-          make updvitype.web
-          make updvitype.p
-          make updvitype.c
-          make updvitype.exe
-          make uppltotf.web
-          make uppltotf.p
-          make uppltotf.c
-          make uppltotf.exe
-          make uptftopl.web
-          make uptftopl.p
-          make uptftopl.c
-          make uptftopl.exe
-          make tex.p
-          make tex.exe
-          make etex.web
-          make etex.p
-          make etex.exe
-          make ptex.web
-          make ptex.p
-          make ptex.exe
-          make uptex.web
-          make uptex.p
-          make uptex.exe
-          make eptex.web
-          make eptex.p
-          make eptex.exe
-          make euptex.web
-          make euptex.p
-          make euptex.exe
-          make upbibtex.web
-          make upbibtex.p
-          make upbibtex.c
-          make upbibtex.exe
-
-          make dvitype.exe
-          make dvicopy.exe
-          make pltotf.exe
-          make tftopl.exe
-
-          make bibtex.exe
-          make gftodvi.exe
-          make gftopk.exe
-          make gftype.exe
-          make mft.exe
-          make patgen.exe
-          make pktogf.exe
-          make pktype.exe
-          make pooltype.exe
-          make vftovp.exe
-          make vptovf.exe
-          make weave.exe
-          make mpost.exe
-          make pmpost.exe
-          make upmpost.exe
-          make synctex.exe
-          echo "!!! make complete !!!"
           make || echo "fail to make"
+          echo "!!! make complete !!!"
+          make check || echo "fail to make check"
+          echo "!!! make check complete !!!"
 
       - name: web2c version check
         shell: msys2 {0}
@@ -391,6 +328,8 @@ jobs:
           $srcdir/tiedir/tie.test     || echo -e "**\n** failed: tie.test\n**"
           echo ""
           $srcdir/tangle.test         || echo -e "**\n** failed: tangle.test\n**"
+          echo ""
+          $srcdir/bibtex.test         || echo -e "**\n** failed: bibtex.test\n**"
           echo ""
 
           export KPSEWHICH="../kpathsea/kpsewhich.exe"
