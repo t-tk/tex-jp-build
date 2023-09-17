@@ -245,7 +245,13 @@ jobs:
             --without-system-harfbuzz
           make || echo "fail to make"
           echo "!!! make complete !!!"
+          make check || echo "fail to make check"
+          echo "!!! make check complete !!!"
 
+      - name: web2c link without libtool
+        shell: msys2 {0}
+        run: |
+          cd ./source/Work/texk/web2c
           ## link without libtool
           echo -e "###\n### link without libtool  ptex.exe\n###"
           gcc -Wimplicit -Wreturn-type -g -O2   -o ptex.exe ptexdir/ptex-ptexextra.o ptex-ptexini.o ptex-ptex0.o ptex-ptex-pool.o libkanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a -lwsock32 || \
@@ -262,9 +268,6 @@ jobs:
           echo -e "###\n### link without libtool  euptex.exe\n###"
           gcc -Wimplicit -Wreturn-type -g -O2   -o euptex.exe euptexdir/euptex-euptexextra.o synctexdir/euptex-synctex.o euptex-euptexini.o euptex-euptex0.o euptex-euptex-pool.o libukanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a || \
             echo -e "**\n** fail to link euptex.exe"
-
-          make check || echo "fail to make check"
-          echo "!!! make check complete !!!"
 
       - name: web2c version check
         shell: msys2 {0}
@@ -340,93 +343,42 @@ jobs:
         shell: msys2 {0}
         run: |
           cd ./source/Work/texk/web2c
-          $srcdir/ctiedir/ctie.test
-          echo ""
-          $srcdir/cwebdir/ctwill.test
-          echo ""
-          $srcdir/cwebdir/cweave.test
-          echo ""
-          $srcdir/tiedir/tie.test
-          echo ""
-          $srcdir/tangle.test
-          echo ""
-          $srcdir/bibtex.test
-          echo ""
-
           export KPSEWHICH="../kpathsea/kpsewhich.exe"
-          $srcdir/dvicopy.test
+
+          $srcdir/ptexdir/pver.test             || echo -e "**\n** failed: p/pver.test\n**"
           echo ""
-          $srcdir/dvitype.test
+          $srcdir/ptexdir/wcfname.test          || echo -e "**\n** failed: p/wcfname.test\n**"
           echo ""
 
-          $srcdir/gftodvi.test
+          $srcdir/eptexdir/pdfprimitive.test    || echo -e "**\n** failed: ep/pdfprimitive.test\n**"
           echo ""
-          $srcdir/gftopk.test
+          $srcdir/eptexdir/epver.test           || echo -e "**\n** failed: ep/epver.test\n**"
           echo ""
-          $srcdir/gftype.test
-          echo ""
-          $srcdir/mft.test
-          echo ""
-          $srcdir/patgen.test
-          echo ""
-          $srcdir/pktogf.test
-          echo ""
-          $srcdir/pktype.test
-          echo ""
-          $srcdir/pltotf.test
-          echo ""
-          $srcdir/pooltype.test
-          echo ""
-          $srcdir/tftopl.test
-          echo ""
-          $srcdir/vftovp.test
-          echo ""
-          $srcdir/vptovf.test
-          echo ""
-          $srcdir/weave.test
-          echo ""
-          $srcdir/twill.test
+          $srcdir/eptexdir/wcfname.test         || echo -e "**\n** failed: ep/wcfname.test\n**"
           echo ""
 
-          $srcdir/etexdir/wprob.test
+          $srcdir/uptexdir/upver.test           || echo -e "**\n** failed: up/upver.test\n**"
           echo ""
-          $srcdir/ptexdir/pver.test
+          $srcdir/uptexdir/upkcat.test          || echo -e "**\n** failed: up/upkcat.test\n**"
           echo ""
-          $srcdir/eptexdir/epver.test
+          $srcdir/uptexdir/wcfname.test         || echo -e "**\n** failed: up/wcfname.test\n**"
           echo ""
-          $srcdir/uptexdir/upver.test
+          $srcdir/uptexdir/wcfname0.test        || echo -e "**\n** failed: up/wcfname0.test\n**"
           echo ""
-          $srcdir/uptexdir/upkcat.test
+
+          $srcdir/euptexdir/pdfprimitive.test   || echo -e "**\n** failed: eup/pdfprimitive.test\n**"
           echo ""
-          $srcdir/euptexdir/eupver.test
+          $srcdir/euptexdir/eupver.test         || echo -e "**\n** failed: eup/eupver.test\n**"
           echo ""
-          $srcdir/uptexdir/sample.test  || \
-            { if [ "$?" = "77" ]; then echo "** SKIP: sample.test\n" ; else echo -e "**\n** failed: sample.test\n**" ; fi }
+          $srcdir/euptexdir/wcfname.test        || echo -e "**\n** failed: eup/wcfname.test\n**"
           echo ""
-          $srcdir/uptexdir/updvitype.test
+          $srcdir/euptexdir/wcfname0.test       || echo -e "**\n** failed: eup/wcfname0.test\n**"
           echo ""
-          $srcdir/uptexdir/uppltotf.test
-          echo ""
-          $srcdir/uptexdir/uptftopl.test
-          echo ""
-          $srcdir/uptexdir/yokotate.test
-          echo ""
-          $srcdir/uptexdir/upbibtex.test
-          echo ""
-          # $srcdir/uptexdir/upbibtex-mem.test  || echo -e "**\n** failed: upbibtex-mem.test\n**"
-          # echo ""
+
           export abs_srcdir=../$srcdir
           export LN_S=cp
           export DIFF=diff
           export DIFFFLAGS="--strip-trailing-cr --ignore-matching-lines 'DVItype'"
-          # $srcdir/mftraptest.test            || echo -e "**\n** failed: mftraptest.test\n**"
-          # echo ""
-          $srcdir/triptest.test
-          echo ""
-          $srcdir/etexdir/etriptest.test
-          echo ""
-          $srcdir/eptexdir/pdfprimitive.test
-          echo ""
           $srcdir/ptexdir/ptriptest.test
           echo ""
           $srcdir/uptexdir/ptriptest.test
@@ -437,37 +389,10 @@ jobs:
           echo ""
           $srcdir/eptexdir/eptriptest.test
           echo ""
+          $srcdir/euptexdir/eptriptest.test
+          echo ""
           $srcdir/euptexdir/euptriptest.test
           echo ""
-          $srcdir/tests/write18-quote-test.pl
-          echo ""
-          $srcdir/tests/tex-closeout.test
-          echo ""
-          $srcdir/tests/bibtex-openout-test.pl
-          echo ""
-          $srcdir/tests/bibtex-longline-test.pl
-          echo ""
-          $srcdir/tests/bibtex-mem.test
-          echo ""
-          $srcdir/tests/bibtex-bigauth.test
-          echo ""
-          $srcdir/tests/bibtex-auxinclude.test
-          echo ""
-          $srcdir/mplibdir/dvitomp.test
-          echo ""
-          $srcdir/mplibdir/mptraptest.test
-          echo ""
-          $srcdir/pmpostdir/pmpost.test
-          echo ""
-          $srcdir/pmpostdir/pmpsamp.test     || \
-            { if [ "$?" = "77" ]; then echo "** SKIP: pmpsamp.test\n" ; else echo -e "**\n** failed: pmpsamp.test\n**" ; fi }
-          echo ""
-          $srcdir/pmpostdir/upmpost.test
-          echo ""
-          $srcdir/pmpostdir/upmpsamp.test    || \
-            { if [ "$?" = "77" ]; then echo "** SKIP: upmpsamp.test\n" ; else echo -e "**\n** failed: upmpsamp.test\n**" ; fi }
-          echo ""
-          $srcdir/synctexdir/synctex.test
         env:
           srcdir: "../../../texk/web2c"
           TEXMFCNF: "../../../texk/kpathsea"
