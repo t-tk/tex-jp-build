@@ -301,19 +301,12 @@ jobs:
           make vftovp.exe
           make vptovf.exe
           make weave.exe
-          # make pmp.web
-          # make pmp.p
-          # make pmp.c
-          # make pmp.exe
-          # make upmp.web
-          # make upmp.p
-          # make upmp.c
-          # make upmp.exe
-          make mpost.exe || echo "fail to make mpost.exe"
-          make pmpost.exe || echo "fail to make pmpost.exe"
-          make upmpost.exe || echo "fail to make upmpost.exe"
-          make synctex.exe || echo "fail to make synctex.exe"
+          make mpost.exe
+          make pmpost.exe
+          make upmpost.exe
+          make synctex.exe
           echo "!!! make complete !!!"
+          make || echo "fail to make"
 
       - name: web2c version check
         shell: msys2 {0}
@@ -328,6 +321,10 @@ jobs:
           ./tie.exe --version || echo "tie"
           echo ""
           ./twill.exe --version || echo "twill"
+          echo ""
+          ./tex.exe --version || echo "tex"
+          echo ""
+          ./etex.exe --version || echo "etex"
           echo ""
           ./ptex.exe --version || echo "ptex"
           echo ""
@@ -370,6 +367,14 @@ jobs:
           ./pktype.exe --version || echo "pktype"
           echo ""
           ./pooltype.exe --version || echo "pooltype"
+          echo ""
+          ./mpost.exe --version || echo "mpost"
+          echo ""
+          ./pmpost.exe --version || echo "pmpost"
+          echo ""
+          ./upmpost.exe --version || echo "upmpost"
+          echo ""
+          ./synctex.exe --version || echo "synctex"
         env:
           TEXMFCNF: "../../../texk/kpathsea"
 
@@ -435,8 +440,9 @@ jobs:
           echo ""
           $srcdir/euptexdir/eupver.test || echo -e "**\n** failed: eupver.test\n**"
           echo ""
-          # $srcdir/uptexdir/sample.test  || echo -e "**\n** failed: sample.test\n**"
-          # echo ""
+          $srcdir/uptexdir/sample.test  || \
+            { if [ "$?" = "77" ]; then echo "** SKIP: sample.test\n" ; else echo -e "**\n** failed: sample.test\n**" ; fi }
+          echo ""
           $srcdir/uptexdir/updvitype.test  || echo -e "**\n** failed: updvitype.test\n**"
           echo ""
           $srcdir/uptexdir/uppltotf.test  || echo -e "**\n** failed: uppltotf.test\n**"
