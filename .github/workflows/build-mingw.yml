@@ -33,38 +33,37 @@ jobs:
       - name: make libs
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work
-          mkdir ./source/Work/libs
+          mkdir -p ./source/Work/libs
 
-          mkdir ./source/Work/libs/zlib
+          mkdir -p ./source/Work/libs/zlib
           cd ./source/Work/libs/zlib
           ../../../libs/zlib/configure
           make
           make check
 
           cd ../../../..
-          mkdir ./source/Work/libs/libpng
+          mkdir -p ./source/Work/libs/libpng
           cd ./source/Work/libs/libpng
           ../../../libs/libpng/configure
           make
           make check
 
           cd ../../../..
-          mkdir ./source/Work/libs/libpaper
+          mkdir -p ./source/Work/libs/libpaper
           cd ./source/Work/libs/libpaper
           ../../../libs/libpaper/configure
           make
           make check
 
           cd ../../../..
-          mkdir ./source/Work/libs/pixman
+          mkdir -p ./source/Work/libs/pixman
           cd ./source/Work/libs/pixman
           ../../../libs/pixman/configure
           make
           make check
 
           cd ../../../..
-          mkdir ./source/Work/libs/cairo
+          mkdir -p ./source/Work/libs/cairo
           cd ./source/Work/libs/cairo
           ../../../libs/cairo/configure
           make
@@ -73,9 +72,9 @@ jobs:
       - name: make kpathsea, ptexenc
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk
+          mkdir -p ./source/Work/texk
 
-          mkdir ./source/Work/texk/kpathsea
+          mkdir -p ./source/Work/texk/kpathsea
           cd ./source/Work/texk/kpathsea
           ../../../texk/kpathsea/configure
           make
@@ -86,7 +85,7 @@ jobs:
           make check
 
           cd ../../../..
-          mkdir ./source/Work/texk/ptexenc
+          mkdir -p ./source/Work/texk/ptexenc
           cd ./source/Work/texk/ptexenc
           ../../../texk/ptexenc/configure
           make
@@ -94,7 +93,7 @@ jobs:
       - name: upmendex
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/upmendex
+          mkdir -p ./source/Work/texk/upmendex
           cd ./source/Work/texk/upmendex
           ../../../texk/upmendex/configure \
             --with-system-icu
@@ -105,7 +104,7 @@ jobs:
       - name: dvipdfm-x
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/dvipdfm-x
+          mkdir -p ./source/Work/texk/dvipdfm-x
           cd ./source/Work/texk/dvipdfm-x
           ../../../texk/dvipdfm-x/configure
           make
@@ -114,7 +113,7 @@ jobs:
       - name: dvipsk
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/dvipsk
+          mkdir -p ./source/Work/texk/dvipsk
           cd ./source/Work/texk/dvipsk
           ../../../texk/dvipsk/configure
           make
@@ -123,7 +122,7 @@ jobs:
       - name: makejvf
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/makejvf
+          mkdir -p ./source/Work/texk/makejvf
           cd ./source/Work/texk/makejvf
           ../../../texk/makejvf/configure
           make
@@ -132,7 +131,7 @@ jobs:
       - name: mendex
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/mendexk
+          mkdir -p ./source/Work/texk/mendexk
           cd ./source/Work/texk/mendexk
           ../../../texk/mendexk/configure
           make
@@ -141,7 +140,7 @@ jobs:
       - name: dviout-util
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/dviout-util
+          mkdir -p ./source/Work/texk/dviout-util
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
@@ -150,7 +149,7 @@ jobs:
       - name: dvi2tty
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/dvi2tty
+          mkdir -p ./source/Work/texk/dvi2tty
           cd ./source/Work/texk/dvi2tty
           ../../../texk/dvi2tty/configure
           make
@@ -159,7 +158,7 @@ jobs:
       - name: seetex
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/seetexk
+          mkdir -p ./source/Work/texk/seetexk
           cd ./source/Work/texk/seetexk
           ../../../texk/seetexk/configure
           make
@@ -171,7 +170,7 @@ jobs:
       - name: dvidvi
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/dvidvi
+          mkdir -p ./source/Work/texk/dvidvi
           cd ./source/Work/texk/dvidvi
           ../../../texk/dvidvi/configure
           make
@@ -182,7 +181,7 @@ jobs:
       - name: bibtex-x
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/bibtex-x
+          mkdir -p ./source/Work/texk/bibtex-x
           cd ./source/Work/texk/bibtex-x
           ../../../texk/bibtex-x/configure \
             --with-system-icu
@@ -201,7 +200,7 @@ jobs:
       - name: web2c
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/web2c
+          mkdir -p ./source/Work/texk/web2c
           cd ./source/Work/texk/web2c
           ../../../texk/web2c/configure \
             --srcdir=../../../texk/web2c \
@@ -249,19 +248,19 @@ jobs:
 
           ## link without libtool
           echo -e "###\n### link without libtool  ptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o ptex.exe ptexdir/ptex-ptexextra.o ptex-ptexini.o ptex-ptex0.o ptex-ptex-pool.o libkanji.a lib/libp.a ../ptexenc/.libs/libptexenc.a lib/lib.a ../kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a ../../libs/zlib/libz.a || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o ptex.exe ptexdir/ptex-ptexextra.o ptex-ptexini.o ptex-ptex0.o ptex-ptex-pool.o libkanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a -lwsock32 || \
             echo -e "**\n** fail to link ptex.exe"
 
           echo -e "###\n### link without libtool  uptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o uptex.exe uptexdir/uptex-uptexextra.o uptex-uptexini.o uptex-uptex0.o uptex-uptex-pool.o libukanji.a lib/libp.a ../ptexenc/.libs/libptexenc.a lib/lib.a ../kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a ../../libs/zlib/libz.a || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o uptex.exe uptexdir/uptex-uptexextra.o uptex-uptexini.o uptex-uptex0.o uptex-uptex-pool.o libukanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a -lwsock32 || \
             echo -e "**\n** fail to link uptex.exe"
 
           echo -e "###\n### link without libtool  eptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o eptex.exe eptexdir/eptex-eptexextra.o synctexdir/eptex-synctex.o eptex-eptexini.o eptex-eptex0.o eptex-eptex-pool.o libkanji.a lib/libp.a ../ptexenc/.libs/libptexenc.a lib/lib.a ../kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a ../../libs/zlib/libz.a || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o eptex.exe eptexdir/eptex-eptexextra.o synctexdir/eptex-synctex.o eptex-eptexini.o eptex-eptex0.o eptex-eptex-pool.o libkanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a || \
             echo -e "**\n** fail to link eptex.exe"
 
           echo -e "###\n### link without libtool  euptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o euptex.exe euptexdir/euptex-euptexextra.o synctexdir/euptex-synctex.o euptex-euptexini.o euptex-euptex0.o euptex-euptex-pool.o libukanji.a lib/libp.a ../ptexenc/.libs/libptexenc.a lib/lib.a ../kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a ../../libs/zlib/libz.a || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o euptex.exe euptexdir/euptex-euptexextra.o synctexdir/euptex-synctex.o euptex-euptexini.o euptex-euptex0.o euptex-euptex-pool.o libukanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a || \
             echo -e "**\n** fail to link euptex.exe"
 
           make check || echo "fail to make check"
