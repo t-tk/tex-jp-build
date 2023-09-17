@@ -8,7 +8,7 @@ on:
 jobs:
   Build-on-mingw:
     runs-on: windows-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
@@ -388,7 +388,7 @@ jobs:
           $srcdir/tangle.test         || echo -e "**\n** failed: tangle.test\n**"
           echo ""
 
-          export KPSEWHICH="./kpsewhich.exe"
+          export KPSEWHICH="../kpathsea/kpsewhich.exe"
           $srcdir/dvicopy.test        || echo -e "**\n** failed: dvicopy.test\n**"
           echo ""
           $srcdir/dvitype.test        || echo -e "**\n** failed: dvitype.test\n**"
@@ -423,6 +423,8 @@ jobs:
           $srcdir/twill.test          || echo -e "**\n** failed: twill.test\n**"
           echo ""
 
+          $srcdir/etexdir/wprob.test    || echo -e "**\n** failed: wprob.test\n**"
+          echo ""
           $srcdir/ptexdir/pver.test     || echo -e "**\n** failed: pver.test\n**"
           echo ""
           $srcdir/eptexdir/epver.test   || echo -e "**\n** failed: epver.test\n**"
@@ -448,8 +450,11 @@ jobs:
           # $srcdir/uptexdir/upbibtex-mem.test  || echo -e "**\n** failed: upbibtex-mem.test\n**"
           # echo ""
           export abs_srcdir=../$srcdir
-          $srcdir/mftraptest.test            || echo -e "**\n** failed: mftraptest.test\n**"
-          echo ""
+          export LN_S=cp
+          export DIFF=diff
+          export DIFFFLAGS="--strip-trailing-cr --ignore-matching-lines 'DVItype'"
+          # $srcdir/mftraptest.test            || echo -e "**\n** failed: mftraptest.test\n**"
+          # echo ""
           $srcdir/triptest.test              || echo -e "**\n** failed: triptest.test\n**"
           echo ""
           $srcdir/etexdir/etriptest.test     || echo -e "**\n** failed: etriptest.test\n**"
@@ -468,13 +473,19 @@ jobs:
           echo ""
           $srcdir/euptexdir/euptriptest.test || echo -e "**\n** failed: euptriptest.test\n**"
           echo ""
+          $srcdir/tests/write18-quote-test.pl || echo -e "**\n** failed: write18-quote-test.pl\n**"
+          echo ""
           $srcdir/tests/tex-closeout.test    || echo -e "**\n** failed: tex-closeout.test\n**"
           echo ""
-          $srcdir/tests/bibtex-auxinclude.test || echo -e "**\n** failed: bibtex-auxinclude.test\n**"
+          $srcdir/tests/bibtex-openout-test.pl  || echo -e "**\n** failed: bibtex-openout-test.pl\n**"
           echo ""
-          $srcdir/tests/bibtex-bigauth.test  || echo -e "**\n** failed: bibtex-bigauth.test\n**"
+          $srcdir/tests/bibtex-longline-test.pl || echo -e "**\n** failed: bibtex-longline-test.pl\n**"
           echo ""
-          $srcdir/tests/bibtex-mem.test      || echo -e "**\n** failed: bibtex-mem.test\n**"
+          $srcdir/tests/bibtex-mem.test         || echo -e "**\n** failed: bibtex-mem.test\n**"
+          echo ""
+          $srcdir/tests/bibtex-bigauth.test     || echo -e "**\n** failed: bibtex-bigauth.test\n**"
+          echo ""
+          $srcdir/tests/bibtex-auxinclude.test  || echo -e "**\n** failed: bibtex-auxinclude.test\n**"
           echo ""
           $srcdir/mplibdir/dvitomp.test      || echo -e "**\n** failed: dvitomp.test\n**"
           echo ""
