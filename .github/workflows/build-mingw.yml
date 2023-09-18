@@ -164,7 +164,7 @@ jobs:
           make
           make check
         env:
-          ExeExt: ".exe"
+          run_stdio_test: "0"
           TEXMFCNF: "../../../texk/kpathsea"
 
       - name: dvidvi
@@ -188,13 +188,15 @@ jobs:
           make
           ## link without libtool
           echo -e "###\n### link without libtool\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o bibtex8.exe bibtex8-bibtex-1.o bibtex8-bibtex-2.o bibtex8-bibtex-3.o bibtex8-bibtex-4.o bibtex8-bibtex.o bibtex8-utils.o ../../texk/kpathsea/.libs/libkpathsea.a
-          g++  -g -O2   -o bibtexu.exe bibtexu-bibtex-1.o bibtexu-bibtex-2.o bibtexu-bibtex-3.o bibtexu-bibtex-4.o bibtexu-bibtex.o bibtexu-utils.o ../../texk/kpathsea/.libs/libkpathsea.a -L/mingw64/lib  -licuio -licuin -licuuc -licudt -lpthread -lm
+          gcc -Wimplicit -Wreturn-type -g -O2   -o bibtex8.exe bibtex8-bibtex-1.o bibtex8-bibtex-2.o bibtex8-bibtex-3.o bibtex8-bibtex-4.o bibtex8-bibtex.o bibtex8-utils.o ../../texk/kpathsea/.libs/libkpathsea.a || \
+            echo -e "**\n** fail to link bibtex8.exe"
+          g++  -g -O2   -o bibtexu.exe bibtexu-bibtex-1.o bibtexu-bibtex-2.o bibtexu-bibtex-3.o bibtexu-bibtex-4.o bibtexu-bibtex.o bibtexu-utils.o ../../texk/kpathsea/.libs/libkpathsea.a -L/mingw64/lib  -licuio -licuin -licuuc -licudt -lpthread -lm || \
+            echo -e "**\n** fail to link bibtexu.exe"
           ./bibtex8.exe --version
           ./bibtexu.exe --version
           make check
         env:
-          ExeExt: ".exe"
+          run_stdio_test: "0"
           TEXMFCNF: "../../../texk/kpathsea"
 
       - name: web2c
@@ -254,19 +256,19 @@ jobs:
           cd ./source/Work/texk/web2c
           ## link without libtool
           echo -e "###\n### link without libtool  ptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o ptex.exe ptexdir/ptex-ptexextra.o ptex-ptexini.o ptex-ptex0.o ptex-ptex-pool.o libkanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a -lwsock32 || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o ptex.exe ptexdir/ptex-ptexextra.o ptex-ptexini.o ptex-ptex0.o ptex-ptex-pool.o libkanji.a lib/libp.a ../../texk/ptexenc/.libs/libptexenc.a lib/lib.a ../../texk/kpathsea/.libs/libkpathsea.a ../../libs/zlib/libz.a -lwsock32 || \
             echo -e "**\n** fail to link ptex.exe"
 
           echo -e "###\n### link without libtool  uptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o uptex.exe uptexdir/uptex-uptexextra.o uptex-uptexini.o uptex-uptex0.o uptex-uptex-pool.o libukanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a -lwsock32 || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o uptex.exe uptexdir/uptex-uptexextra.o uptex-uptexini.o uptex-uptex0.o uptex-uptex-pool.o libukanji.a lib/libp.a ../../texk/ptexenc/.libs/libptexenc.a lib/lib.a ../../texk/kpathsea/.libs/libkpathsea.a ../../libs/zlib/libz.a -lwsock32 || \
             echo -e "**\n** fail to link uptex.exe"
 
           echo -e "###\n### link without libtool  eptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o eptex.exe eptexdir/eptex-eptexextra.o synctexdir/eptex-synctex.o eptex-eptexini.o eptex-eptex0.o eptex-eptex-pool.o libkanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o eptex.exe eptexdir/eptex-eptexextra.o synctexdir/eptex-synctex.o eptex-eptexini.o eptex-eptex0.o eptex-eptex-pool.o libkanji.a lib/libp.a ../../texk/ptexenc/.libs/libptexenc.a lib/lib.a ../../texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a ../../libs/zlib/libz.a || \
             echo -e "**\n** fail to link eptex.exe"
 
           echo -e "###\n### link without libtool  euptex.exe\n###"
-          gcc -Wimplicit -Wreturn-type -g -O2   -o euptex.exe euptexdir/euptex-euptexextra.o synctexdir/euptex-synctex.o euptex-euptexini.o euptex-euptex0.o euptex-euptex-pool.o libukanji.a lib/libp.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/ptexenc/.libs/libptexenc.a lib/lib.a /d/a/tex-jp-build/tex-jp-build/source/Work/texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a /d/a/tex-jp-build/tex-jp-build/source/Work/libs/zlib/libz.a || \
+          gcc -Wimplicit -Wreturn-type -g -O2   -o euptex.exe euptexdir/euptex-euptexextra.o synctexdir/euptex-synctex.o euptex-euptexini.o euptex-euptex0.o euptex-euptex-pool.o libukanji.a lib/libp.a ../../texk/ptexenc/.libs/libptexenc.a lib/lib.a ../../texk/kpathsea/.libs/libkpathsea.a -lwsock32 libmd5.a ../../libs/zlib/libz.a || \
             echo -e "**\n** fail to link euptex.exe"
 
       - name: web2c version check
@@ -328,6 +330,12 @@ jobs:
           ./pktype.exe --version || echo "pktype"
           echo ""
           ./pooltype.exe --version || echo "pooltype"
+          echo ""
+          ./vftovp.exe --version || echo "vftovp"
+          echo ""
+          ./vptovf.exe --version || echo "vptovf"
+          echo ""
+          ./weave.exe --version || echo "weave"
           echo ""
           ./mpost.exe --version || echo "mpost"
           echo ""
