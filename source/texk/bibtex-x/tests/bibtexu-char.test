@@ -57,17 +57,29 @@ diff $srcdir/tests/nameu.bbl tests/xnameu.bbl || rc=14
 
 ## test for is.knj.str$
 
-DIFF="diff"; icuver=0
+icuver=1000
 $_bibtexu --version | grep "ICU version 70" && icuver=70
-if [ $icuver -eq 70 ]; then
-  # skip CJK Ideograph Extension H
-  # U+31350 -> \360\261\215\220
-  uchr='\360\261\215\220'
-  DIFF="diff --ignore-matching-lines="`printf "${uchr}"`
-  echo "*** skip checking CJK Ideograph Extension H"
+$_bibtexu --version | grep "ICU version 71" && icuver=71
+$_bibtexu --version | grep "ICU version 72" && icuver=72
+$_bibtexu --version | grep "ICU version 73" && icuver=73
+if [ $icuver -le 73 ]; then
+  # skip CJK Ideograph Extension I
+  # ex. U+2EBF0
+  uchr='\x{2EBF0}'
+  if [ $icuver -le 70 ]; then
+    # skip CJK Ideograph Extension H
+    # ex. U+31350
+    uchr=${uchr}'|\x{31350}'
+  fi
+  echo "*** skip checking CJK Ideograph Extension H or I"
 fi
 cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
 $_bibtexu tests/xiscjku || rc=15
-$DIFF $srcdir/tests/iscjku.bbl tests/xiscjku.bbl || rc=16
+cp $srcdir/tests/iscjku.bbl tests/oiscjku.bbl
+if [ $icuver -le 73 ]; then
+  perl -i".bak" -CD -ne "print unless /${uchr}/" tests/oiscjku.bbl
+  perl -i".bak" -CD -ne "print unless /${uchr}/" tests/xiscjku.bbl
+fi
+diff tests/oiscjku.bbl tests/xiscjku.bbl || rc=16
 
 exit $rc
