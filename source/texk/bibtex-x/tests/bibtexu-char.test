@@ -18,10 +18,10 @@ BIBINPUTS=$srcdir/tests; export BIBINPUTS
 
 rc=0
 
-if [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
-  echo "*** skip test $0 on MinGW"
-  exit 77
-fi
+#if [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
+#  echo "*** skip test $0 on MinGW"
+#  exit 77
+#fi
 
 ## test for add.period$
 cp $srcdir/tests/periodu.aux tests/xperiodu.aux
