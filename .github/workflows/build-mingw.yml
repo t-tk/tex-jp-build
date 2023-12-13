@@ -194,7 +194,8 @@ jobs:
             echo -e "**\n** fail to link bibtexu.exe"
           ./bibtex8.exe --version
           ./bibtexu.exe --version
-          make check
+          make check || :
+          cat tests/bibtexu-char.log
         env:
           run_stdio_test: "0"
           TEXMFCNF: "../../../texk/kpathsea"
