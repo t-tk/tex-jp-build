@@ -120,8 +120,8 @@ jobs:
         run: |
           cd ./Work
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/bibtex-x
-          ./bibtex8.exe --version
-          ./bibtexu.exe --version
+          $BinDir/bibtex8.exe --version
+          $BinDir/bibtexu.exe --version
           $srcdir/tests/bibtex8.test
           $srcdir/tests/bibtexu.test
           $srcdir/tests/bibtex8u-mem.test
