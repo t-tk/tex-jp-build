@@ -40,20 +40,25 @@ icuver=1000
 $_bibtexu --version | grep 'ICU version' | sed -E 's/.*ICU version ([1-9][0-9])\..*/\1/' > tests/icuver.txt
 icuver=`cat tests/icuver.txt`
 echo "*** icuver="$icuver
-if [ $icuver -le 73 ]; then
+if [ $icuver -lt 74 ]; then
   # skip CJK Ideograph Extension I
   # ex. U+2EBF0
   uchr='\x{2EBF0}'
 fi
-if [ $icuver -le 70 ]; then
+if [ $icuver -lt 72 ]; then
   # skip CJK Ideograph Extension H
   # ex. U+31350
   uchr=${uchr}'|\x{31350}'
 fi
-if [ $icuver -le 65 ]; then
-  # skip CJK Ideograph Extension G
-  # ex. U+30000
-  uchr=${uchr}'|\x{30000}'
+if [ $icuver -lt 70 ]; then
+  # skip Kana Extended B
+  # ex. U+1AFF0
+  uchr=${uchr}'|\x{1AFF0}'
+fi
+if [ $icuver -lt 66 ]; then
+  # skip CJK Ideograph Extension G, Small Kana Extension
+  # ex. U+30000, U+1B150
+  uchr=${uchr}'|\x{30000}|\x{1B150}'
 fi
 cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
 $_bibtexu tests/xiscjku || rc=1
