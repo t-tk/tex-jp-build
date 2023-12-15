@@ -9,7 +9,23 @@ _bibtexu=$BinDir/bibtexu$ExeExt
 
 test -d tests || mkdir -p tests
 
-LC_ALL=C; export LC_ALL; LANGUAGE=C; export LANGUAGE
+for loc in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8 ja_JP.UTF-8 ja_JP.utf8; do
+  locale -a | grep "^$loc\$"
+  ret=$?
+  # For Slackware linux, we need to replace from utf8 to UTF-8
+  if [ -f /etc/slackware-version ]; then
+    loc=`echo $loc | sed -e "s/utf8/UTF-8/"`
+  fi
+  if [ $ret = 0 ]; then
+    LC_ALL=$loc; LANGUAGE=$loc; export LC_ALL LANGUAGE
+    break
+  fi
+done
+if [ $ret != 0 ]; then
+  # linux musl fails to run `locale -a` but seems to have C.UTF-8
+  loc=C.UTF-8
+  LC_ALL=$loc; LANGUAGE=$loc; export LC_ALL LANGUAGE
+fi
 #
 TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
 BSTINPUTS=$srcdir/tests; export BSTINPUTS
@@ -28,17 +44,22 @@ if [ $icuver -le 73 ]; then
   # skip CJK Ideograph Extension I
   # ex. U+2EBF0
   uchr='\x{2EBF0}'
-  if [ $icuver -le 70 ]; then
-    # skip CJK Ideograph Extension H
-    # ex. U+31350
-    uchr=${uchr}'|\x{31350}'
-  fi
-  echo "*** skip checking CJK Ideograph Extension H or I"
+fi
+if [ $icuver -le 70 ]; then
+  # skip CJK Ideograph Extension H
+  # ex. U+31350
+  uchr=${uchr}'|\x{31350}'
+fi
+if [ $icuver -le 65 ]; then
+  # skip CJK Ideograph Extension G
+  # ex. U+30000
+  uchr=${uchr}'|\x{30000}'
 fi
 cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
 $_bibtexu tests/xiscjku || rc=1
 cp $srcdir/tests/iscjku.bbl tests/oiscjku.bbl
 if [ $icuver -le 73 ]; then
+  echo "*** skip checking CJK Ideograph Extension G, H or I"
   perl -i".bak" -CD -ne "print unless /${uchr}/" tests/oiscjku.bbl
   perl -i".bak" -CD -ne "print unless /${uchr}/" tests/xiscjku.bbl
 fi
