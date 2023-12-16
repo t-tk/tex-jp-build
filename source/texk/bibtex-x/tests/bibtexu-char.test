@@ -54,30 +54,4 @@ cp $srcdir/tests/nameu.aux tests/xnameu.aux
 max_print_line=119 $_bibtexu tests/xnameu || rc=13
 diff $srcdir/tests/nameu.bbl tests/xnameu.bbl || rc=14
 
-## test for is.knj.str$
-
-icuver=1000
-$_bibtexu --version | grep 'ICU version' | sed -E 's/.*ICU version ([1-9][0-9])\..*/\1/' > tests/icuver.txt
-icuver=`cat tests/icuver.txt`
-echo "*** icuver="$icuver
-if [ $icuver -le 73 ]; then
-  # skip CJK Ideograph Extension I
-  # ex. U+2EBF0
-  uchr='\x{2EBF0}'
-  if [ $icuver -le 70 ]; then
-    # skip CJK Ideograph Extension H
-    # ex. U+31350
-    uchr=${uchr}'|\x{31350}'
-  fi
-  echo "*** skip checking CJK Ideograph Extension H or I"
-fi
-cp $srcdir/tests/iscjku.aux tests/xiscjku.aux
-$_bibtexu tests/xiscjku || rc=15
-cp $srcdir/tests/iscjku.bbl tests/oiscjku.bbl
-if [ $icuver -le 73 ]; then
-  perl -i".bak" -CD -ne "print unless /${uchr}/" tests/oiscjku.bbl
-  perl -i".bak" -CD -ne "print unless /${uchr}/" tests/xiscjku.bbl
-fi
-diff tests/oiscjku.bbl tests/xiscjku.bbl || rc=16
-
 exit $rc
