@@ -22,14 +22,9 @@ jobs:
           #brew install icu4c
           brew info icu4c
 
-      - name: make libs
-        shell: bash
-        run: |
-          mkdir -p ./source/Work/libs/zlib
-          cd ${{ github.workspace }}/source/Work/libs/zlib
-          ../../../libs/zlib/configure
-          make
-          make check
+#      - name: make libs
+#        shell: bash
+#        run: |
 #          cd ${{ github.workspace }}/source/Work/libs/icu
 #          ../../../libs/icu/configure
 #          make
