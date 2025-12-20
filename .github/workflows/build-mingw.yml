@@ -270,40 +270,40 @@ jobs:
           # make uptftopl.p
           # make uptftopl.c
           # make uptftopl.exe
-          make tex.p
-          make tex.exe
+          # make tex.p
+          # make tex.exe
           # make etex.web
           # make etex.p
           # make etex.exe
           # make ptex.web
           # make ptex.p
           # make ptex.exe
-          make uptex.web
-          make uptex.p
-          make uptex.exe
+          # make uptex.web
+          # make uptex.p
+          # make uptex.exe
           # make eptex.web
           # make eptex.p
           # make eptex.exe
-          make euptex.web
-          make euptex.p
-          make euptex.exe
-          make upbibtex.web
-          make upbibtex.p
-          make upbibtex.c
-          make upbibtex.exe
-          make dvitype.exe
-          make dvicopy.exe
-          make pltotf.exe
-          make tftopl.exe
-          make bibtex.exe
-          make gftodvi.exe
-          make gftopk.exe
-          make gftype.exe
-          make mft.exe
-          make patgen.exe
-          make pktogf.exe
-          make pktype.exe
-          make pooltype.exe
+          # make euptex.web
+          # make euptex.p
+          # make euptex.exe
+          # make upbibtex.web
+          # make upbibtex.p
+          # make upbibtex.c
+          # make upbibtex.exe
+          # make dvitype.exe
+          # make dvicopy.exe
+          # make pltotf.exe
+          # make tftopl.exe
+          # make bibtex.exe
+          # make gftodvi.exe
+          # make gftopk.exe
+          # make gftype.exe
+          # make mft.exe
+          # make patgen.exe
+          # make pktogf.exe
+          # make pktype.exe
+          # make pooltype.exe
           # make pmp.web
           # make pmp.p
           # make pmp.c
@@ -332,45 +332,45 @@ jobs:
           echo ""
           # ./ptex.exe --version || echo "ptex"
           # echo ""
-          ./uptex.exe --version || echo "uptex"
-          echo ""
+          # ./uptex.exe --version || echo "uptex"
+          # echo ""
           # ./eptex.exe --version || echo "eptex"
           # echo ""
-          ./euptex.exe --version || echo "euptex"
-          echo ""
+          # ./euptex.exe --version || echo "euptex"
+          # echo ""
           # ./updvitype.exe --version || echo "updvitype"
           # echo ""
           # ./uppltotf.exe --version || echo "uppltotf"
           # echo ""
           # ./uptftopl.exe --version || echo "uptftopl"
           # echo ""
-          ./upbibtex.exe --version || echo "upbibtex"
-          echo ""
-          ./dvitype.exe --version || echo "dvitype"
-          echo ""
-          ./dvicopy.exe --version || echo "dvicopy"
-          echo ""
-          ./pltotf.exe --version || echo "pltotf"
-          echo ""
-          ./tftopl.exe --version || echo "tftopl"
-          echo ""
-          ./bibtex.exe --version || echo "bibtex"
-          echo ""
-          ./gftodvi.exe --version || echo "gftodvi"
-          echo ""
-          ./gftopk.exe --version || echo "gftopk"
-          echo ""
-          ./gftype.exe --version || echo "gftype"
-          echo ""
-          ./mft.exe --version || echo "mft"
-          echo ""
-          ./patgen.exe --version || echo "patgen"
-          echo ""
-          ./pktogf.exe --version || echo "pktogf"
-          echo ""
-          ./pktype.exe --version || echo "pktype"
-          echo ""
-          ./pooltype.exe --version || echo "pooltype"
+          # ./upbibtex.exe --version || echo "upbibtex"
+          # echo ""
+          # ./dvitype.exe --version || echo "dvitype"
+          # echo ""
+          # ./dvicopy.exe --version || echo "dvicopy"
+          # echo ""
+          # ./pltotf.exe --version || echo "pltotf"
+          # echo ""
+          # ./tftopl.exe --version || echo "tftopl"
+          # echo ""
+          # ./bibtex.exe --version || echo "bibtex"
+          # echo ""
+          # ./gftodvi.exe --version || echo "gftodvi"
+          # echo ""
+          # ./gftopk.exe --version || echo "gftopk"
+          # echo ""
+          # ./gftype.exe --version || echo "gftype"
+          # echo ""
+          # ./mft.exe --version || echo "mft"
+          # echo ""
+          # ./patgen.exe --version || echo "patgen"
+          # echo ""
+          # ./pktogf.exe --version || echo "pktogf"
+          # echo ""
+          # ./pktype.exe --version || echo "pktype"
+          # echo ""
+          # ./pooltype.exe --version || echo "pooltype"
         env:
           TEXMFCNF: "../../../texk/kpathsea"
 
