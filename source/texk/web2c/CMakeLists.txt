@@ -66,7 +66,7 @@ include(cmake/bootstrap.cmake)
 include(cmake/cweb.cmake)
 
 # pTeX
-include(cmake/ptex.cmake)
+#include(cmake/ptex.cmake)
 
 # e-pTeX
 #include(cmake/eptex.cmake)
