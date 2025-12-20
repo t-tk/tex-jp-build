@@ -1,6 +1,6 @@
 /* This is dvipdfmx, an eXtended version of dvipdfm by Mark A. Wicks.
 
-    Copyright (C) 2002-2020 by Jin-Hwan Cho and Shunsaku Hirata,
+    Copyright (C) 2002-2025 by Jin-Hwan Cho and Shunsaku Hirata,
     the dvipdfmx project team.
     
     Copyright (C) 1998, 1999 by Mark A. Wicks <mwicks@kettering.edu>
@@ -119,6 +119,7 @@ pdf_include_page (pdf_ximage        *ximage,
   xform_info info;
   pdf_obj *contents = NULL, *catalog;
   pdf_obj *page = NULL, *resources = NULL, *markinfo = NULL;
+  pdf_obj *group = NULL, *group_obj = NULL;
 
   pf = pdf_open(ident, image_file);
   if (!pf)
@@ -129,8 +130,9 @@ pdf_include_page (pdf_ximage        *ximage,
   if (options.page_no == 0)
     options.page_no = 1;
   page = pdf_doc_get_page(pf,
-                          options.page_no, options.bbox_type,
-                          &info.bbox, &info.matrix, &resources);
+                          options.page_no, options.page_name,
+                          options.bbox_type, &info.bbox, &info.matrix,
+                          &resources);
 
   if(!page)
     goto error_silent;
@@ -150,6 +152,12 @@ pdf_include_page (pdf_ximage        *ximage,
     pdf_release_obj(tmp);
   }
 
+  /*
+   * Handle page's Group
+   */
+  group_obj = pdf_lookup_dict(page, "Group");
+  if (group_obj)
+    group = pdf_import_object(group_obj);
   /*
    * Handle page content stream.
    */
@@ -192,6 +200,12 @@ pdf_include_page (pdf_ximage        *ximage,
     pdf_add_dict(contents_dict, pdf_new_name("Resources"),
                  pdf_import_object(resources));
     pdf_release_obj(resources);
+
+    if (group)
+      pdf_add_dict(contents_dict, pdf_new_name("Group"), group);
+
+    if (options.dict)
+      pdf_merge_dict(contents_dict, options.dict);
   }
 
   pdf_close(pf);
@@ -209,6 +223,8 @@ pdf_include_page (pdf_ximage        *ximage,
     pdf_release_obj(markinfo);
   if (page)
     pdf_release_obj(page);
+  if (group)
+    pdf_release_obj(group);
   if (contents)
     pdf_release_obj(contents);
 
@@ -304,7 +320,7 @@ pdf_copy_clip (FILE *image_file, int pageNo, double x_user, double y_user)
   pdf_invertmatrix(&M);
   M.e += x_user; M.f += y_user;
 
-  page_tree = pdf_doc_get_page(pf, pageNo, 0, &bbox, &mtrx, NULL);
+  page_tree = pdf_doc_get_page(pf, pageNo, NULL, 0, &bbox, &mtrx, NULL);
   if (!page_tree) {
     pdf_close(pf);
     return -1;
