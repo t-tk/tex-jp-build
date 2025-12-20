@@ -131,14 +131,14 @@ jobs:
           make
           make check || cat dvispc.log
 
-      #- name: dvi2tty
-      #  shell: msys2 {0}
-      #  run: |
-      #    mkdir ./source/Work/texk/dvi2tty
-      #    cd ./source/Work/texk/dvi2tty
-      #    ../../../texk/dvi2tty/configure
-      #    make
-      #    make check
+      - name: dvi2tty
+        shell: msys2 {0}
+        run: |
+          mkdir ./source/Work/texk/dvi2tty
+          cd ./source/Work/texk/dvi2tty
+          ../../../texk/dvi2tty/configure
+          make
+          make check
 
       - name: seetex
         shell: msys2 {0}
