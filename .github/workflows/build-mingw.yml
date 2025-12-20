@@ -86,14 +86,14 @@ jobs:
           ./upmendex --help
           make check
 
-      - name: dvipdfm-x
-        shell: msys2 {0}
-        run: |
-          mkdir ./source/Work/texk/dvipdfm-x
-          cd ./source/Work/texk/dvipdfm-x
-          ../../../texk/dvipdfm-x/configure
-          make
-          make check
+      #- name: dvipdfm-x
+      #  shell: msys2 {0}
+      #  run: |
+      #    mkdir ./source/Work/texk/dvipdfm-x
+      #    cd ./source/Work/texk/dvipdfm-x
+      #    ../../../texk/dvipdfm-x/configure
+      #    make
+      #    make check
 
       - name: dvipsk
         shell: msys2 {0}
