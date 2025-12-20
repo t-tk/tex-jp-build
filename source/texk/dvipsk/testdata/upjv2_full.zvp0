@@ -2,13 +2,19 @@
 (DESIGNSIZE R 10.0)
 (CHECKSUM O 0)
 (MAPFONT D 0
-   (FONTNAME upjf-r)
+   (FONTNAME upjv-r)
    (FONTCHECKSUM O 0)
    (FONTAT R 1.0)
    (FONTDSIZE R 10.0)
    )
 (MAPFONT D 1
-   (FONTNAME upjf-g)
+   (FONTNAME upjv-g)
+   (FONTCHECKSUM O 0)
+   (FONTAT R 1.0)
+   (FONTDSIZE R 10.0)
+   )
+(MAPFONT D 2
+   (FONTNAME upjv-c)
    (FONTCHECKSUM O 0)
    (FONTAT R 1.0)
    (FONTDSIZE R 10.0)
@@ -38,30 +44,30 @@
    (CHARWD R 0.5)
    (MAP
       (MOVERIGHT R -0.5)
-      (SELECTFONT D 0)
-      (SETCHAR H 2018)
+      (SELECTFONT D 2)
+      (SETCHAR H 2059)
       )
    )
 (CHARACTER H 2019
    (CHARWD R 0.5)
    (MAP
-      (SELECTFONT D 0)
-      (SETCHAR H 2019)
+      (SELECTFONT D 2)
+      (SETCHAR H 205A)
       )
    )
 (CHARACTER H 201C
    (CHARWD R 0.5)
    (MAP
       (MOVERIGHT R -0.5)
-      (SELECTFONT D 0)
-      (SETCHAR H 201C)
+      (SELECTFONT D 2)
+      (SETCHAR H 2057)
       )
    )
 (CHARACTER H 201D
    (CHARWD R 0.5)
    (MAP
-      (SELECTFONT D 0)
-      (SETCHAR H 201D)
+      (SELECTFONT D 2)
+      (SETCHAR H 2058)
       )
    )
 (CHARACTER H 2600
@@ -1208,6 +1214,13 @@
       (SETCHAR H 309F)
       )
    )
+(CHARACTER H 537F
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 0)
+      (SETCHAR H 537F)
+      )
+   )
 (CHARACTER H 6674
    (CHARWD R 1.0)
    (MAP
@@ -2015,14 +2028,14 @@
 (CHARACTER H FF70
    (CHARWD R 0.5)
    (MAP
-      (SELECTFONT D 0)
+      (SELECTFONT D 1)
       (SETCHAR H FF70)
       )
    )
 (CHARACTER H FF71
    (CHARWD R 0.5)
    (MAP
-      (SELECTFONT D 0)
+      (SELECTFONT D 1)
       (SETCHAR H FF71)
       )
    )
@@ -2036,14 +2049,14 @@
 (CHARACTER H FF73
    (CHARWD R 0.5)
    (MAP
-      (SELECTFONT D 0)
+      (SELECTFONT D 1)
       (SETCHAR H FF73)
       )
    )
 (CHARACTER H FF74
    (CHARWD R 0.5)
    (MAP
-      (SELECTFONT D 0)
+      (SELECTFONT D 1)
       (SETCHAR H FF74)
       )
    )
@@ -2913,5 +2926,54 @@
    (MAP
       (SELECTFONT D 0)
       (SETCHAR H 20B9F)
+      )
+   )
+(CHARACTER H 2F833
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 0)
+      (SETCHAR H 2F833)
+      )
+   )
+(CHARACTER H 24304B
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 2)
+      (SETCHAR H 3F51)
+      )
+   )
+(CHARACTER H 2431F7
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 2)
+      (SETCHAR H 3FD7)
+      )
+   )
+(CHARACTER H 48537F
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 0)
+      (SETCHAR H 2F833)
+      )
+   )
+(CHARACTER H 80537F
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 2)
+      (SETCHAR H 3597)
+      )
+   )
+(CHARACTER H 84537F
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 2)
+      (SETCHAR H 6A2)
+      )
+   )
+(CHARACTER H 88537F
+   (CHARWD R 1.0)
+   (MAP
+      (SELECTFONT D 2)
+      (SETCHAR H 1DED)
       )
    )
