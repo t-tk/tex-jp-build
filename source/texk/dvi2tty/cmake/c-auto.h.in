@@ -15,7 +15,7 @@
 #endif /* !PTEXENC_C_AUTO_H */
 
 #define VERSION "${VERSION}"
-#define TL_VERSION "TeX Live ${TEX_LIVE_VERSION}; VC & CMake"
+#define TL_VERSION "TeX Live ${TEX_LIVE_VERSION}; Visual C++"
 
 #undef popen
 #define popen _popen
