@@ -84,7 +84,7 @@ void ListFormatterTest::ExpectPositions(
         int32_t start = cfp.getStart();
         int32_t limit = cfp.getLimit();
         char buf[128];
-        sprintf(buf, "%24s %3d %3d %3d", attrString(id), id, start, limit);
+        snprintf(buf, sizeof(buf), "%24s %3d %3d %3d", attrString(id), id, start, limit);
         logln(buf);
         for (int i = 0; i < tupleCount; ++i) {
             if (found[i]) {
@@ -95,14 +95,14 @@ void ListFormatterTest::ExpectPositions(
                 break;
             }
         }
-        assertTrue((UnicodeString)"found [" + attrString(id) + "," + start + "," + limit + "]", ok);
+        assertTrue(UnicodeString("found [") + attrString(id) + "," + start + "," + limit + "]", ok);
     }
     // check that all were found
     UBool ok = true;
     for (int i = 0; i < tupleCount; ++i) {
         if (!found[i]) {
             ok = false;
-            assertTrue((UnicodeString) "missing [" + attrString(values[i*3]) + "," + values[i*3+1] +
+            assertTrue(UnicodeString("missing [") + attrString(values[i * 3]) + "," + values[i * 3 + 1] +
                        "," + values[i*3+2] + "]", found[i]);
         }
     }

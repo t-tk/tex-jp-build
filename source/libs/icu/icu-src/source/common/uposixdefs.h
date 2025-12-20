@@ -48,7 +48,7 @@
 #endif
 
 /*
- * Make sure things like readlink and such functions work.
+ * Make sure things like realpath and such functions work.
  * Poorly upgraded Solaris machines can't have this defined.
  * Cleanly installed Solaris can use this #define.
  *
@@ -72,10 +72,6 @@
     defined(__APPLE__) && defined(__MACH__) && !defined(__clang__)
 // Needed to prevent EOWNERDEAD issues with GCC on Mac
 #define _POSIX_C_SOURCE 200809L
-#endif
-
-#if defined(__cplusplus) && defined(__NetBSD__)
-#define _ISOC99_SOURCE
 #endif
 
 #endif  /* __UPOSIXDEFS_H__ */

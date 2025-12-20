@@ -121,7 +121,7 @@ void addTestConverterFallBack(TestNode** root)
 
 static void setNuConvTestName(const char *codepage, const char *direction)
 {
-    sprintf(gNuConvTestName, "[Testing %s %s Unicode, InputBufSiz=%d, OutputBufSiz=%d]",
+    snprintf(gNuConvTestName, sizeof(gNuConvTestName), "[Testing %s %s Unicode, InputBufSiz=%d, OutputBufSiz=%d]",
         codepage,
         direction,
         (int)gInBufferSize,
@@ -209,8 +209,8 @@ static UBool testConvertFromUnicode(const UChar *source, int sourceLen,  const u
         status = U_ZERO_ERROR;
 
         ucnv_fromUnicode (conv,
-                  (char **)&targ,
-                  (const char *)end,
+                  &targ,
+                  end,
                   &src,
                   sourceLimit,
                   checkOffsets ? offs : NULL,
@@ -236,8 +236,8 @@ static UBool testConvertFromUnicode(const UChar *source, int sourceLen,  const u
         offset_str[0] = 0;
         for(p = junkout;p<targ;p++)
         {
-            sprintf(junk + uprv_strlen(junk), "0x%02x, ", (0xFF) & (unsigned int)*p);
-            sprintf(offset_str + strlen(offset_str), "0x%02x, ", (0xFF) & (unsigned int)junokout[p-junkout]);
+            snprintf(junk + uprv_strlen(junk), sizeof(junk)-uprv_strlen(junk), "0x%02x, ", (0xFF) & (unsigned int)*p);
+            snprintf(offset_str + strlen(offset_str), sizeof(offset_str)-strlen(offset_str), "0x%02x, ", (0xFF) & (unsigned int)junokout[p-junkout]);
         }
 
         log_verbose(junk);
@@ -374,8 +374,8 @@ static UBool testConvertToUnicode( const uint8_t *source, int sourcelen, const U
         ucnv_toUnicode (conv,
                 &targ,
                 end,
-                (const char **)&src,
-                (const char *)srcLimit,
+                &src,
+                srcLimit,
                 checkOffsets ? offs : NULL,
                 (UBool)(srcLimit == realSourceEnd), /* flush if we're at the end of the source data */
                 &status);
@@ -398,8 +398,8 @@ static UBool testConvertToUnicode( const uint8_t *source, int sourcelen, const U
 
         for(p = junkout;p<targ;p++)
         {
-            sprintf(junk + strlen(junk), "0x%04x, ", (0xFFFF) & (unsigned int)*p);
-            sprintf(offset_str + strlen(offset_str), "0x%04x, ", (0xFFFF) & (unsigned int)junokout[p-junkout]);
+            snprintf(junk + strlen(junk), sizeof(junk)-strlen(junk), "0x%04x, ", (0xFFFF) & (unsigned int)*p);
+            snprintf(offset_str + strlen(offset_str), sizeof(offset_str)-strlen(offset_str), "0x%04x, ", (0xFFFF) & (unsigned int)junokout[p-junkout]);
         }
 
         log_verbose(junk);
