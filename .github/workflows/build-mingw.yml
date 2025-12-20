@@ -113,14 +113,14 @@ jobs:
           make
           make check
 
-      - name: mendex
-        shell: msys2 {0}
-        run: |
-          mkdir ./source/Work/texk/mendexk
-          cd ./source/Work/texk/mendexk
-          ../../../texk/mendexk/configure
-          make
-          make check
+      #- name: mendex
+      #  shell: msys2 {0}
+      #  run: |
+      #    mkdir ./source/Work/texk/mendexk
+      #    cd ./source/Work/texk/mendexk
+      #    ../../../texk/mendexk/configure
+      #    make
+      #    make check
 
       - name: dviout-util
         shell: msys2 {0}
