@@ -11,13 +11,8 @@
  *       January 2003
  */
 
-#ifdef __GNUC__
-/* Validate in case of UNIX */
+#ifndef WIN32
 #define UNIX 1
-#else
-/* Validate if SHIFT JIS is used for a filename */
-/* Win32 MSVC is assumed */
-#define SHIFT_JIS 1
 #endif
 
 /*     %%% Contents of an extended DVI file  %%%
@@ -103,15 +98,12 @@
 #define Long  int
 
 #ifdef UNIX
-#define PATH_SEP     '/'
 #define READ_TEXT    "r"
 #define READ_BINARY  "r"
 #define WRITE_BINARY "w"
 #define WRITE_TEXT   "w"
 #define StrCmp strcmp
 #else
-#define PATH_SEP     '\\'
-#define PATH_SEPU    '/'
 #define READ_TEXT    "rt"
 #define READ_BINARY  "rb"
 #define WRITE_BINARY "wb"
@@ -1914,8 +1906,8 @@ uint work(FILE *dvi)
     uint csum;
 #ifdef PTEXENC
     int imb;
-    long wch;
-    char mbstr[4];
+    long wch, wcp;
+    char mbstr[9];
 #else
     int h_code, l_code;
 #endif
@@ -1971,12 +1963,26 @@ uint work(FILE *dvi)
                       // internal-euc/sjis: fromDVI cannot convert ASCII range
                       if (is_internalUPTEX() || (isjis(code>>8) && isjis(code&0xff))) {
                         wch = fromDVI(code);
-                        if (is_internalUPTEX()) wch = UCStoUTF8(wch);
-                        imb = 0;  memset(mbstr, '\0', 4);
-                        if (BYTE1(wch) != 0) mbstr[imb++]=BYTE1(wch);
-                        if (BYTE2(wch) != 0) mbstr[imb++]=BYTE2(wch);
-                        if (BYTE3(wch) != 0) mbstr[imb++]=BYTE3(wch);
-                        /* always */         mbstr[imb++]=BYTE4(wch);
+                        imb = 0;  memset(mbstr, '\0', 9);
+                        if (is_internalUPTEX()) {
+                          int j, len;
+                          len = UVS_get_codepoint_length(wch);
+                          for (j=1; j<=len; j++) {
+                            wcp = UVS_get_codepoint_in_sequence(wch,j);
+                            if (wcp>0) {
+                              wcp = UCStoUTF8(wcp);
+                              if (BYTE1(wcp) != 0) mbstr[imb++]=BYTE1(wcp);
+                              if (BYTE2(wcp) != 0) mbstr[imb++]=BYTE2(wcp);
+                              if (BYTE3(wcp) != 0) mbstr[imb++]=BYTE3(wcp);
+                              /* always */         mbstr[imb++]=BYTE4(wcp);
+                            }
+                          }
+                        } else {
+                          if (BYTE1(wch) != 0) mbstr[imb++]=BYTE1(wch);
+                          if (BYTE2(wch) != 0) mbstr[imb++]=BYTE2(wch);
+                          if (BYTE3(wch) != 0) mbstr[imb++]=BYTE3(wch);
+                          /* always */         mbstr[imb++]=BYTE4(wch);
+                        }
                         fprintf(fp_out,
                             (f_dtl&DTL_CHAR2)?" %u \"":" 0x%x \"", code);
                         fputs2(mbstr, fp_out);
