@@ -10,8 +10,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 40
     steps:
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub."
       - run: echo "Branch [ ${{ github.ref }} ]  Repository [ ${{ github.repository }} ]"
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -75,6 +75,7 @@ jobs:
           $srcdir/beginfontk1.test
           $srcdir/eepic-nan.test
           $srcdir/pfbincl.test
+          $srcdir/quotecmd-test.pl || echo "quotecmd-test.pl"
           $srcdir/same-name.test
           $srcdir/test-missing-image.test
           $srcdir/test-overflow-buffers.test
@@ -128,7 +129,7 @@ jobs:
           $srcdir/tests/bibtexu-range.test
           $srcdir/tests/bibtexu-char.test || \
             { if [ "$?" = "77" ]; then r="SKIP" ; else r="FAIL" ; fi } && echo "$r: bibtexu-char.test"
-          # $srcdir/tests/bibtexu-iscjk.test
+          $srcdir/tests/bibtexu-iscjk.test || echo "$r: bibtexu-iscjk.test"
           $srcdir/tests/bibtexu-sort.test
           $srcdir/tests/bibtexu-yannis.test
         env:
@@ -189,8 +190,8 @@ jobs:
           echo ""
           ./ctangle.exe --version || echo "ctangle"
           echo ""
-          ./ptex.exe --version || echo "ptex"
-          echo ""
+          #./ptex.exe --version || echo "ptex"
+          #echo ""
           ./uptex.exe --version || echo "uptex"
           echo ""
           ls -lR
