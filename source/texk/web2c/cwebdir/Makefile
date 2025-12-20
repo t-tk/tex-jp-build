@@ -1,6 +1,6 @@
 # This file is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-# Version 4.12.2 --- July 2025
+# Version 4.9 --- May 2023
 
 # Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -56,7 +56,7 @@ LINKFLAGS = -g
 #LINKFLAGS = -s # for smaller (stripped) executables on many UNIX systems
 
 # What C compiler are you using?
-#CC = cc
+CC = cc
 
 # RM and CP are used below in case rm and cp are aliased
 RM= /bin/rm
@@ -69,7 +69,6 @@ PDFTEX = dvipdfm
 #PDFTEX = pdftex
 #PDFTEX = xetex
 #PDFTEX = hitex
-#PDFTEX = luatex
 
 ##########  You shouldn't have to change anything after this point #######
 
@@ -78,17 +77,15 @@ CTANGLE = ./ctangle
 SOURCES = cweave.w common.w ctangle.w
 ALL =  common.w ctangle.w cweave.w prod.w \
 	Makefile README common.c common.h ctangle.c \
-	cwebman.tex cwebacromac.tex cwebmac.tex \
-	cweb.1 cweb.el c++lib.w iso_types.w \
-	comm-man.ch ctang-man.ch cweav-man.ch \
-	comm-bs.ch ctang-bs.ch cweav-bs.ch makefile.bs \
+	cwebman.tex cwebmac.tex comm-vms.ch ctang-vms.ch \
+	cweav-vms.ch comm-man.ch ctang-man.ch cweav-man.ch \
 	comm-pc.ch ctang-pc.ch cweav-pc.ch comm-amiga.ch \
+	comm-bs.ch ctang-bs.ch cweav-bs.ch makefile.bs \
 	comm-ql.ch ctang-ql.ch cweav-ql.ch readme.ql \
-	comm-vms.ch ctang-vms.ch cweav-vms.ch \
 	comm-w32.ch ctang-w32.ch cweav-w32.ch \
-	comm-os2.ch comm-mac.ch
+	comm-os2.ch comm-mac.ch cweb.1 cweb.el c++lib.w iso_types.w
 
-.SUFFIXES: .dvi .tex .w .pdf .hnt
+.SUFFIXES: .dvi .tex .w .pdf
 
 .w.tex:
 	$(CWEAVE) $*
@@ -113,12 +110,6 @@ ALL =  common.w ctangle.w cweave.w prod.w \
 	 dvipdfm ) tex "\let\pdf+ \input $*"; dvipdfm $* ;; \
 	 pdftex ) pdftex $* ;; \
 	 xetex ) xetex $* ;; \
-	 luatex ) luatex $* ;; \
-	esac
-
-.w.hnt:
-	make $*.tex
-	case "$(PDFTEX)" in \
 	 hitex ) hitex $* ;; \
 	esac
 
@@ -187,8 +178,6 @@ install: all
 	$(CP) cweb.1 $(MANDIR)/cweb.$(MANEXT)
 	chmod 644 $(MANDIR)/cweb.$(MANEXT)
 	- mkdir $(MACROSDIR)
-	$(CP) cwebacromac.tex $(MACROSDIR)
-	chmod 644 $(MACROSDIR)/cwebacromac.tex
 	$(CP) cwebmac.tex $(MACROSDIR)
 	chmod 644 $(MACROSDIR)/cwebmac.tex
 	- mkdir $(EMACSDIR)
@@ -216,6 +205,6 @@ tarball:
 	tar zcvhf /tmp/cweb.tgz $(ALL) examples
 
 ctan:
-	git archive -o ~/cweb-4.12.2.zip --prefix=cweb/ cweb-4.12.2
+	git archive -o ~/cweb-4.9.zip --prefix=cweb/ cweb-4.9
 	make PDF=pdf usermanual
-	cd ..; zip -r ~/cweb-4.12.2.zip cweb/cwebman.pdf
+	cd ..; zip -r ~/cweb-4.9.zip cweb/cwebman.pdf

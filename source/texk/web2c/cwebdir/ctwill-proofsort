@@ -9,22 +9,26 @@ use File::Basename;
 use Getopt::Long qw(:config no_ignore_case bundling);
 use Pod::Usage;
 
-my $progname;
-my $collator;
+my $progname = basename $0;
 
 BEGIN {
-  $progname = basename $0;
   # Unicode::Collate has been around a long time,
   # but it's not part of core Perl.
-  eval {
-    require Unicode::Collate;
-    $collator = Unicode::Collate->new();
-  };
+  my $rc = eval { require Unicode::Collate; };
+  die "$progname: the Unicode::Collate module is required\n" unless $rc;
 }
 
-my $usage = "Usage: $progname < input_file > output_file\n";
+# We expect a TeX file as the single command-line parameter.
+my $usage = "Usage: $progname input_file\n";
+if (@ARGV > 1) {
+  my $first = shift @ARGV;
+  $usage .= "extra file argument(s): @ARGV\n";
+  unshift @ARGV, $first;
+}
+$usage .= "try --help if you need it.\n";
 
-# Standard options for TeX Live.
+die $usage unless scalar @ARGV == 1;
+
 Getopt::Long::GetOptions(
   'help|?'  => \&help_handler,
   'version' => sub { print version(); exit 0; }
@@ -42,7 +46,15 @@ sub version {
   return $progname.' $Revision$ $Date$'."\n";
 }
 
-# Read input from the console and look for blocks like
+my $tex = $ARGV[0];
+
+open(TEX, $tex) or die "$0: Could not open input file $tex.\n";
+
+my %mini_index; # storage for index entries of a section
+my $print_index = 0; # do we collect and print a mini-index?
+my $collator = Unicode::Collate->new();
+
+# Scroll through the input file and look for blocks like
 # \mini
 # [LOCATION KEY TEXPART]*
 # }\FI
@@ -53,22 +65,14 @@ sub version {
 # or as a single identifier in $math_mode$; the latter come from '@f'ormat
 # definitions. All internal backslashes are removed from the KEY before it
 # is used in the storage.
-my %mini_index; # storage for index entries of a section
-my $print_index = 0; # do we collect and print a mini-index?
-foreach my $line (<STDIN>)
+foreach my $line (<TEX>)
 {
 	if ("\\mini\n" eq $line) { # start of mini-index
 		$print_index = 1;
 		%mini_index = (); # reset mini-index storage
 	} elsif ("}\\FI\n" eq $line) { # end of mini-index
-		foreach my $key ($collator ?  # (I) sort by second column
-			$collator->sort(keys %mini_index) :
-			sort {"\L$a" cmp "\L$b"} keys %mini_index) {
-			print sort { # (II) sort by third and first column
-				my ($a_loc,undef,$a_id) = split / /, $a, 3;
-				my ($b_loc,undef,$b_id) = split / /, $b, 3;
-				$a_id cmp $b_id || $a_loc cmp $b_loc }
-			@{ $mini_index{$key} };
+		foreach my $key ($collator->sort(keys %mini_index)) {
+			print $mini_index{$key};
 		}
 		$print_index = 0;
 	} elsif ($print_index) { # mini-index entry
@@ -76,12 +80,14 @@ foreach my $line (<STDIN>)
 		$key =~ s/\\//g; # strip internal TeX escape(s)
 		$key =~ m/\w*\{(\w+)\}/; # extract plain key from control seq.
 		$key =~ m/\$(\w+)\$/ unless defined $1; # extract @f TeX key
-		push @{ $mini_index{$1} }, $line; # store index entry
+		$mini_index{$1} = $line; # store index entry
 		next; # print later
 	}
 
 	print $line;
 }
+
+close(TEX);
 
 exit 0;
 
@@ -98,15 +104,16 @@ ctwill-proofsort - Sort mini-indexes alphabetically
 This small Perl script 'ctwill-proofsort' sorts the mini-indexes for each
 section in the TeX file created by 'ctwill +P', i.e., prior to
 formatting with the 'ctproofmac.tex' macros.
-It reads its input from <STDIN> and writes its output to <STDOUT>.
 
 =over
 
 =item Run CTWILL twice on your 'input_file'.w, creating 'input_file'.tex
 
-=item Invoke "( ctwill-proofsort < 'input_file'.tex ) 1<> 'input_file'.tex"
+=item Invoke "ctwill-proofsort 'input_file'.tex > 'input_file'-sorted.tex"
 
-=item Run TeX on 'input_file'.tex once
+=item Invoke "mv 'input_file'-sorted.tex 'input_file'.tex"
+
+=item Run TeX on 'input_file'.tex
 
 =back
 
@@ -123,7 +130,9 @@ Example from MMIX (https://github.com/ascherer/mmix, 'local' branch):
 
 =item $ ctwill +P -x mmotype mmotype-twill (run this two times)
 
-=item $ ( ctwill-proofsort < mmotype.tex ) 1<> mmotype.tex
+=item $ ctwill-proofsort mmotype.tex > mmotype-sorted.tex
+
+=item $ mv mmotype-sorted.tex mmotype.tex
 
 =item $ tex mmotype
 

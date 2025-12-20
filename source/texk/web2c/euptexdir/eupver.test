@@ -10,27 +10,27 @@ _euptex=$BinDir/euptex$ExeExt
 LC_ALL=C; export LC_ALL;  LANGUAGE=C; export LANGUAGE
 
 TEXMFCNF=$srcdir/../kpathsea; export TEXMFCNF
-TEXINPUTS="$srcdir/uptexdir/tests;."; export TEXINPUTS
+TEXINPUTS=$srcdir/ptexdir/tests:.; export TEXINPUTS
 
 # check consistency between runtime terminal and log
 $_euptex -ini -etex -interaction batchmode -jobname eupver1-log pver1.tex >eupver1-term.log || exit 1
 sed -n 's/^This is \([-A-Za-z]*\), Version [^-]*-\([^ ]*\) \(.*\)/\1 \2/p' \
-  eupver1-term.log >eupver1-term_ed.log || exit 2
+  eupver1-term.log >eupver1-term_ed.log || exit 1
 sed -n 's/^This is \([-A-Za-z]*\), Version [^-]*-\([^ ]*\) \(.*\)/\1 \2/p' \
-  eupver1-log.log >eupver1-log_ed.log || exit 3
-diff eupver1-term_ed.log eupver1-log_ed.log || exit 4
+  eupver1-log.log >eupver1-log_ed.log || exit 1
+diff eupver1-term_ed.log eupver1-log_ed.log || exit 2
 
 # check consistency between runtime and version output
-$_euptex -version >eupver2-self.log || exit 5
+$_euptex -version >eupver2-self.log || exit 1
 sed -n '1 s/^\([-A-Za-z]*\) [^-]*-\([^ ]*\) \(.*\)/\1 \2/p' \
-  eupver2-self.log >eupver2-self_ed.log || exit 6
-diff eupver1-term_ed.log eupver2-self_ed.log || exit 7
+  eupver2-self.log >eupver2-self_ed.log || exit 1
+diff eupver1-term_ed.log eupver2-self_ed.log || exit 4
 
 # check consistency between version output and version primitives
-$_euptex -ini -etex -interaction batchmode -jobname eupver2-prim pver2.tex || exit 8
+$_euptex -ini -etex -interaction batchmode -jobname eupver2-prim pver2.tex || exit 1
 sed -n 's/^Engine \([-A-Za-z]*\) \([^ ]*\) \(.*\)/\1 \2/p' \
-  eupver2-prim.log >eupver2-prim_ed.log || exit 9
-diff eupver2-self_ed.log eupver2-prim_ed.log || exit 10
+  eupver2-prim.log >eupver2-prim_ed.log || exit 1
+diff eupver2-self_ed.log eupver2-prim_ed.log || exit 8
 
 exit 0
 

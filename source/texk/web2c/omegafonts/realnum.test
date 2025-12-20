@@ -4,21 +4,15 @@
 # Copyright 2012 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_omfonts=$BinDir/omfonts$ExeExt
-
-tests=tests
-
-test -d $tests || mkdir -p $tests
+test -d tests || mkdir -p tests
 
 TEXMFCNF=$srcdir/../../kpathsea
-OFMFONTS=./$tests
+OFMFONTS=tests
 export TEXMFCNF OFMFONTS
 
-$_omfonts -opl2ofm -verbose $srcdir/$tests/realnum $tests/xrealnum || exit 1
+./omfonts -opl2ofm -verbose $srcdir/tests/realnum tests/xrealnum || exit 1
 
-$_omfonts -ofm2opl -verbose xrealnum $tests/xrealnum || exit 2
+./omfonts -ofm2opl -verbose xrealnum tests/xrealnum || exit 1
 
-diff $srcdir/$tests/realnum.out $tests/xrealnum.opl || exit 3
+diff $srcdir/tests/realnum.out tests/xrealnum.opl || exit 1
 

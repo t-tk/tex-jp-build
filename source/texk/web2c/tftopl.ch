@@ -15,33 +15,22 @@
 % 01/16/90 (SR)  Version 3.1.
 % (more recent changes in the ChangeLog)
 
-@x [0] l.25
-\def\(#1){} % this is used to make section names sort themselves better
-@y
-\def\({} % this is used to make section names sort themselves better
-@z
-
-@x [0] l.28
-\def\title{TF\lowercase{to}PL}
-@y
-\def\title{TF\lowercase{to}PL changes for C}
-@z
-
-@x [0] l.46 WEAVE: print changes only.
+@x [0] WEAVE: print changes only.
 \pageno=\contentspagenumber \advance\pageno by 1
 @y
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iffalse
+\def\title{TF\lowercase{to}PL changes for C}
 @z
 
-@x [1] l.67 Define my_name
+@x [1] Define my_name
 @d banner=='This is TFtoPL, Version 3.3' {printed when the program starts}
 @y
 @d my_name=='tftopl'
 @d banner=='This is TFtoPL, Version 3.3' {printed when the program starts}
 @z
 
-@x [2] l.80 Print all terminal output on stderr, so the pl can be sent to stdout.
+@x [2] Print all terminal output on stderr, so the pl can be sent to stdout.
 @d print(#)==write(#)
 @d print_ln(#)==write_ln(#)
 @y
@@ -52,7 +41,7 @@
 % [2] Fix files in program statement.  We need to tell web2c about one
 % special variable.  Perhaps it would be better to allow @define's
 % anywhere in a source file, but that seemed just as painful as this.
-@x [2] l.83
+@x
 @p program TFtoPL(@!tfm_file,@!pl_file,@!output);
 @y
 @p
@@ -61,16 +50,16 @@
 program TFtoPL(@!tfm_file,@!pl_file,@!output);
 @z
 
-@x [2] l.84 No global label.
+@x [2] No global label.
 label @<Labels in the outer block@>@/
 @y
 @z
 
-@x [still 2] l.88 Don't print banner until later (and unless verbose).
+@x [still 2] Don't print banner until later (and unless verbose).
 procedure initialize; {this procedure gets things started properly}
   begin print_ln(banner);@/
 @y
-@<Define \(|parse_arguments|@>
+@<Define |parse_arguments|@>
 procedure initialize; {this procedure gets things started properly}
   begin
     kpse_set_program_name (argv[0], my_name);
@@ -81,12 +70,12 @@ procedure initialize; {this procedure gets things started properly}
     parse_arguments;
 @z
 
-@x [3] l.98 No global label.
+@x [3] No global label.
 @<Labels...@>=final_end;
 @y
 @z
 
-@x [4] l.104 Increase sizes to match vptovf.
+@x [5] Increase sizes to match vptovf.
 @!tfm_size=30000; {maximum length of |tfm| data, in bytes}
 @!lig_size=5000; {maximum length of |lig_kern| program, in words}
 @!hash_size=5003; {preferably a prime number, a bit larger than the number
@@ -97,7 +86,7 @@ procedure initialize; {this procedure gets things started properly}
   of character pairs in lig/kern steps}
 @z
 
-@x [7] l.132 Open the TFM file.
+@x [7] Open the TFM file.
 @ On some systems you may have to do something special to read a
 packed file of bytes. For example, the following code didn't work
 when it was first tried at Stanford, because packed files have to be
@@ -119,7 +108,7 @@ if verbose then begin
 end;
 @z
 
-@x [17] l.413 Open the PL file.
+@x [17] Open the PL file.
 @ @<Set init...@>=
 rewrite(pl_file);
 @y
@@ -134,7 +123,7 @@ end else begin
 end;
 @z
 
-@x [18,19] l.420 Make |tfm| be dynamically allocated, and rename `index'.
+@x [18,19] Make |tfm| be dynamically allocated, and rename `index'.
 @<Types...@>=
 @!byte=0..255; {unsigned eight-bit quantity}
 @!index=0..tfm_size; {address of a byte in |tfm|}
@@ -155,7 +144,7 @@ end;
 @!tfm_file_array: ^byte; {the input data all goes here}
 @z
 
-@x [20] l.446 Allow arbitrarily large input files.
+@x [20] Allow arbitrarily large input files.
 if 4*lf-1>tfm_size then abort('The file is bigger than I can handle!');
 @.The file is bigger...@>
 @y
@@ -164,7 +153,7 @@ tfm_file_array := xrealloc_array (tfm_file_array, byte, 4 * lf + 1000);
 
 % [27, 28] Change strings to C char pointers. The Pascal strings are
 % indexed starting at 1, so we pad with a blank.
-@x [27] l.582
+@x
 @!ASCII_04,@!ASCII_10,@!ASCII_14: packed array [1..32] of char;
   {strings for output in the user's external character set}
 @!MBL_string,@!RI_string,@!RCE_string:packed array [1..3] of char;
@@ -177,7 +166,7 @@ tfm_file_array := xrealloc_array (tfm_file_array, byte, 4 * lf + 1000);
   {handy string constants for |face| codes}
 @z
 
-@x [28] l.588
+@x
 ASCII_04:=' !"#$%&''()*+,-./0123456789:;<=>?';@/
 ASCII_10:='@@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_';@/
 ASCII_14:='`abcdefghijklmnopqrstuvwxyz{|}~ ';@/
@@ -192,19 +181,9 @@ strcat (ASCII_all, '`abcdefghijklmnopqrstuvwxyz{|}~');@/
 MBL_string:=' MBL'; RI_string:=' RI '; RCE_string:=' RCE';
 @z
 
-@x [36] l.680
-while l>0 do @<Reduce \(1)|l| by one, preserving the invariants@>;
-@y
-while l>0 do @<Reduce \(|l| by one, preserving the invariants@>;
-@z
-
-@x [37] l.687
-@ @<Reduce \(1)|l|...@>=
-@y
-@ @<Reduce \(|l|...@>=
-@z
-
-@x [38] l.708 How we output the character code depends on |charcode_format|.
+% [38] How we output the character code depends on |charcode_format|.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 begin if font_type>vanilla then
   begin tfm[0]:=c; out_octal(0,1)
   end
@@ -232,7 +211,9 @@ else if (c>="a")and(c<="z") then
 else  begin tfm[0]:=c; out_octal(0,1);
 @z
 
-@x [39] l.730 Don't output the face code as an integer.
+% [39] Don't output the face code as an integer.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
   out(MBL_string[1+(b mod 3)]);
   out(RI_string[1+s]);
   out(RCE_string[1+(b div 3)]);
@@ -242,19 +223,9 @@ else  begin tfm[0]:=c; out_octal(0,1);
   put_byte(RCE_string[1+(b div 3)], pl_file);
 @z
 
-@x [40] l.751
-if a>@'3777 then @<Reduce \(2)negative to positive@>;
-@y
-if a>@'3777 then @<Reduce negative to positive@>;
-@z
-
-@x [43] l.775
-@ @<Reduce \(2)negative to positive@>=
-@y
-@ @<Reduce negative to positive@>=
-@z
-
-@x [78] l.1246 No progress reports unless verbose.
+% [78] No progress reports unless verbose.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
     incr(chars_on_line);
     end;
   print_octal(c); {progress report}
@@ -267,7 +238,7 @@ if a>@'3777 then @<Reduce negative to positive@>;
 % [89] Change the name of the variable `class', since AIX 3.1's <math.h>
 % defines a function by that name.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-@x [89] l.1408
+@x
 @d pending=4 {$f(x,y)$ is being evaluated}
 @y
 @d pending=4 {$f(x,y)$ is being evaluated}
@@ -275,19 +246,21 @@ if a>@'3777 then @<Reduce negative to positive@>;
 @d class == class_var
 @z
 
-@x [90] l.1435
+@x [90]
   goto final_end;
 @y
   uexit(1);;
 @z
 
-@x [90] l.1440 Change name of the function `f'.
+% [90] Change name of the function `f'.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
      r:=f(r,(hash[r]-1)div 256,(hash[r]-1)mod 256);
 @y
      r:=f_fn(r,(hash[r]-1)div 256,(hash[r]-1)mod 256);
 @z
 
-@x [90] l.1447
+@x [90]
   out('(INFINITE LIGATURE LOOP MUST BE BROKEN!)'); goto final_end;
 @y
   out('(INFINITE LIGATURE LOOP MUST BE BROKEN!)'); uexit(1);
@@ -297,7 +270,7 @@ if a>@'3777 then @<Reduce negative to positive@>;
 % But let's do a fake definition of f here, so that it gets into web2c's
 % symbol table. We also have to change the name, because there is also a
 % variable named `f', and some C compilers can't deal with that.
-@x [94] l.1500
+@x
 @p function f(@!h,@!x,@!y:index):index; forward;@t\2@>
   {compute $f$ for arguments known to be in |hash[h]|}
 @y
@@ -307,42 +280,46 @@ function f_fn(@!h,@!x,@!y:index):index; begin end;@t\2@>
   {compute $f$ for arguments known to be in |hash[h]|}
 endif('notdef')
 @z
-@x [94] l.1508
+@x
 else eval:=f(h,x,y);
 @y
 else eval:=f_fn(h,x,y);
 @z
 
-@x [95] l.1514 The real definition of f.
+% [95] The real definition of f.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 @p function f;
 @y
 @p function f_fn(@!h,@!x,@!y:index):index;
 @z
-@x [95] l.1527
+@x
 f:=lig_z[h];
 @y
 f_fn:=lig_z[h];
 @z
 
-@x [99] l.1570
+@x [99]
 if not organize then goto final_end;
 @y
 if not organize then uexit(1);
 @z
 
-@x [99] l.1574 No final newline unless verbose.
+% [99] No final newline unless verbose.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 do_characters; print_ln('.');@/
 @y
 do_characters; if verbose then print_ln('.');@/
 @z
 
-@x [99] l.1582
+@x [99]
 final_end:end.
 @y
 end.
 @z
 
-@x [100] l.1585 System-dependent changes.
+@x [100] System-dependent changes.
 This section should be replaced, if necessary, by changes to the program
 that are necessary to make \.{TFtoPL} work at a particular installation.
 It is usually best to design your change file so that all changes to
@@ -356,7 +333,7 @@ Parse a Unix-style command line.
 
 @d argument_is (#) == (strcmp (long_options[option_index].name, #) = 0)
 
-@<Define \(|parse_arguments|@> =
+@<Define |parse_arguments|@> =
 procedure parse_arguments;
 const n_options = 4; {Pascal won't count array lengths for us.}
 var @!long_options: array[0..n_options] of getopt_struct;

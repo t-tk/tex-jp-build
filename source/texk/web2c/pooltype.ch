@@ -4,23 +4,12 @@
 % 11/29/89 (KB)  Version released with 8-bit TeX.
 % (more recent changes in the ChangeLog)
 
-@x [0] l.13
-\def\(#1){} % this is used to make section names sort themselves better
-@y
-\def\({} % this is used to make section names sort themselves better
-@z
-
-@x [0] l.16
-\def\title{POOL\lowercase{type}}
-@y
-\def\title{POOL\lowercase{type} changes for C}
-@z
-
 @x [0] WEAVE: print changes only
 \pageno=\contentspagenumber \advance\pageno by 1
 @y
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iffalse
+\def\title{POOL\lowercase{type} changes for C}
 @z
 
 @x [1] Define my_name
@@ -35,12 +24,12 @@ copied from \TeX82.
 label 9999; {this labels the end of the program}
 @y
 @z
-@x [2]
+@x
 procedure initialize; {this procedure gets things started properly}
   var @<Local variables for initialization@>@;
   begin @<Set initial values of key variables@>@/
 @y
-@<Define \(|parse_arguments|@>
+@<Define |parse_arguments|@>
 procedure initialize; {this procedure gets things started properly}
   var @<Local variables for initialization@>@;
   begin
@@ -49,17 +38,17 @@ procedure initialize; {this procedure gets things started properly}
     @<Set initial values of key variables@>
 @z
 
-% [6] The text_char type is used as an array index into xord.  The
+% [??] The text_char type is used as an array index into xord.  The
 % default type `char' produces signed integers, which are bad array
 % indices in C.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-@x [6]
+@x
 @d text_char == char {the data type of characters in text files}
 @y
 @d text_char == ASCII_code {the data type of characters in text files}
 @z
 
-@x [10] Permissiveness
+@x [12] Permissiveness
 for i:=0 to @'37 do xchr[i]:=' ';
 for i:=@'177 to @'377 do xchr[i]:=' ';
 @y
@@ -67,21 +56,21 @@ for i:=0 to @'37 do xchr[i]:=chr(i);
 for i:=@'177 to @'377 do xchr[i]:=chr(i);
 @z
 
-@x [15] Write errors to stderr, avoid nonlocal label.
+@x Write errors to stderr, avoid nonlocal label.
 @d abort(#)==begin write_ln(#); goto 9999;
   end
 @y
 @d abort(#)==begin write_ln(stderr, #); uexit(1); end
 @z
 
-@x [15] Remove unused label from end of program; add uexit(0) call
+@x Remove unused label from end of program; add uexit(0) call
 9999:end.
 @y
 uexit(0);
 end.
 @z
 
-@x [18] Add pool_name variable.
+@x Add pool_name variable.
 @!pool_file:packed file of text_char;
   {the string-pool file output by \.{TANGLE}}
 @y
@@ -90,21 +79,21 @@ end.
 @!pool_name:const_c_string;
 @z
 
-% [19] The name of the pool file is dynamically determined. We open it at the
+% The name of the pool file is dynamically determined. We open it at the
 % end of parse_arguments.
-@x [19]
+@x
 reset(pool_file); xsum:=false;
 @y
 xsum:=false;
 @z
 
-@x [20] Change single read into two reads
+@x Change single read into two reads
 read(pool_file,m,n); {read two digits of string length}
 @y
 read(pool_file,m); read(pool_file,n); {read two digits of string length}
 @z
 
-@x [21] System-dependent changes.
+@x System-dependent changes.
 This section should be replaced, if necessary, by changes to the program
 that are necessary to make \.{POOLtype} work at a particular installation.
 It is usually best to design your change file so that all changes to
@@ -118,7 +107,7 @@ Parse a Unix-style command line.
 
 @d argument_is (#) == (strcmp (long_options[option_index].name, #) = 0)
 
-@<Define \(|parse_arguments|@> =
+@<Define |parse_arguments|@> =
 procedure parse_arguments;
 const n_options = 2; {Pascal won't count array lengths for us.}
 var @!long_options: array[0..n_options] of getopt_struct;

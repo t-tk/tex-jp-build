@@ -6,10 +6,6 @@
 
 # Using test data from Philipp Lehman <lehman@gmx.net>
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_bibtex=$BinDir/bibtex$ExeExt
-
 test -d tests || mkdir -p tests
 
 # Create bib data
@@ -68,7 +64,7 @@ for t in 1 2 3; do
     TEXMFCNF=$srcdir/../kpathsea \
     BSTINPUTS=$srcdir/tests \
     BIBINPUTS=./tests \
-    $_bibtex tests/memtest$t || exit $t
+    ./bibtex tests/memtest$t || exit 1
 
 done
 

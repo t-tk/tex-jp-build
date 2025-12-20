@@ -54,7 +54,6 @@ int verbose_option;
 int char_format = CHAR_CODE_NUM;
 int num_format  = NUM_CODE_HEX;
 int text_format = TEXT_CODE_MIXED;
-int omit_ofm = 0;
 
 int program;
 
@@ -92,11 +91,11 @@ static const_string names_program[PROG_NUM] =
 static const_string *names_help[PROG_NUM] =
     { OFM2OPLHELP, OPL2OFMHELP, OVF2OVPHELP, OVP2OVFHELP, OMFONTSHELP };
 static const_string names_msg[PROG_NUM] = {
-    "This is ofm2opl, Version 2.2",
-    "This is opl2ofm, Version 2.2",
-    "This is ovf2ovp, Version 2.2",
-    "This is ovp2ovf, Version 2.2",
-    "This is omfonts, Version 2.2"
+    "This is ofm2opl, Version 2.1",
+    "This is opl2ofm, Version 2.1",
+    "This is ovf2ovp, Version 2.1",
+    "This is ovp2ovf, Version 2.1",
+    "This is omfonts, Version 2.1"
 };
 
 int no_files=0;
@@ -110,7 +109,6 @@ static struct option long_options[] = {
     {"num-format", 1, 0, 0},
     {"charcode-format", 1, 0, 0},
     {"text-format", 1, 0, 0},
-    {"omit-ofm", 0, 0, 0},
     {"ofm2opl", 0, 0, 0},
     {"opl2ofm", 0, 0, 0},
     {"ovf2ovp", 0, 0, 0},
@@ -123,18 +121,8 @@ static struct option long_options[] = {
 static void read_in_whole(unsigned char **, unsigned *, FILE *, const_string );
 static void init_tables(void);
 
-#if defined(WIN32) && !defined(__MINGW32__) && !defined(MIKTEX) && defined(DLLPROC)
-extern __declspec(dllexport) int DLLPROC (int argc, char *argv[]);
-#else
-#undef DLLPROC
-#endif
-
 int
-#if defined(DLLPROC)
-DLLPROC (int argc, char *argv[])
-#else
-main (int argc, char *argv[])
-#endif
+main (int argc, string *argv)
 {
     int getopt_return_val;
     int option_index = 0;
@@ -175,8 +163,6 @@ main (int argc, char *argv[])
         } else if (!strcmp(long_options[option_index ].name, "ovp2ovf")) {
             if (program == PROG_OMFONTS) program = PROG_OVP2OVF;
             else usage (names_program[program]);
-        } else if (!strcmp(long_options[option_index ].name, "omit-ofm")) {
-            omit_ofm = 1;
         } else if (!strcmp(long_options[option_index ].name, "char-format")) {
             if (!strcmp(optarg, "ascii")) char_format = CHAR_CODE_ASCII;
             else if (!strcmp(optarg, "num")) char_format = CHAR_CODE_NUM;
@@ -327,12 +313,12 @@ main (int argc, char *argv[])
         case PROG_OVP2OVF: {
             file_ovp = kpse_open_file(name_ovp, kpse_ovp_format);
             rewritebin(file_ovf, name_ovf);
-            if (!omit_ofm) rewritebin(file_ofm, name_ofm);
+            rewritebin(file_ofm, name_ofm);
             init_tables();
             yyin = file_ovp;
             (void)yyparse();
             output_ofm_file();
-            if (!omit_ofm) (void)fclose(file_ofm);
+            (void)fclose(file_ofm);
             output_ovf_file();
             (void)fclose(file_ovf);
             if (num_errors > 0) exit(1);

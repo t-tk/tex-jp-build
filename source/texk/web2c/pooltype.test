@@ -4,11 +4,7 @@
 # Copyright 2009 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_pooltype=$BinDir/pooltype$ExeExt
-
 test -d tests || mkdir -p tests
 
-$_pooltype tex.pool >tests/xtexpool.typ || exit 1
+./pooltype tex.pool >tests/xtexpool.typ || exit 1
 

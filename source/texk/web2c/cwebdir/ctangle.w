@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.12.2 --- July 2025
+% Version 4.9 --- May 2023
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 4.12.2)}
+\def\title{CTANGLE (Version 4.9)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 4.12.2)}
+  \centerline{(Version 4.9)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 4.12.2)"
+@d banner "This is CTANGLE (Version 4.9)"
 
 @c
 @<Include files@>@/
@@ -153,7 +153,7 @@ init_node(name_dir); /* the undefined section has no replacement text */
 starting at position |first| equals the identifier pointed to by |p|:
 
 @c
-bool names_match(
+boolean names_match(
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
@@ -162,8 +162,10 @@ eight_bits t) /* not used by \.{CTANGLE} */
   return length(p)==l && strncmp(first,p->byte_start,l)==0;
 }
 
-@ The common lookup routine |id_lookup| refers to a separate routine
-|init_node| when the data structure grows.
+@ The common lookup routine |id_lookup| refers to separate routines |init_node|
+and |init_p| when the data structure grows. Actually |init_p| is called only by
+\.{CWEAVE}, but we need to declare a dummy version so that
+the loader won't complain of its absence.
 
 @c
 void
@@ -172,6 +174,8 @@ name_pointer node)
 {
     node->equiv=(void *)text_info;
 }
+void
+init_p(name_pointer p,eight_bits t) {@+(void)p;@+(void)t;@+}
 
 @* Tokens.
 Replacement texts, which represent \CEE/ code in a compressed format,
@@ -294,16 +298,8 @@ code; if there are no such sections, there is nothing to output, and an
 error message will have been generated before we do any of the initialization.
 
 @<Initialize the output stacks@>=
-stack_ptr=stack+1; cur_name=name_dir;
-cur_repl=text_info->text_link+text_info;
+stack_ptr=stack+1; cur_name=name_dir; cur_repl=text_info->text_link+text_info;
 cur_byte=cur_repl->tok_start; cur_section=0;
-
-@ Similar settings are used for secondary output files.
-
-@<Initialize the secondary output@>=
-stack_ptr=stack+1; cur_name=*an_output_file;
-cur_repl=(text_pointer)cur_name->equiv;
-cur_byte=cur_repl->tok_start;
 
 @ When the replacement text for name |p| is to be inserted into the output,
 the following subroutine is called to save the old level of output and get
@@ -326,6 +322,9 @@ name_pointer p)
   }
 }
 
+@ @<Predecl...@>=
+static void push_level(name_pointer);@/
+static void pop_level(boolean);
 
 @ When we come to the end of a replacement text, the |pop_level| subroutine
 does the right thing: It either moves to the continuation of this replacement
@@ -334,20 +333,15 @@ text or returns the state to the most recently stacked level.
 @c
 static void
 pop_level( /* do this when |cur_byte| reaches |cur_end| */
-bool flag) /* |flag==false| means we are in |output_defs| */
+boolean flag) /* |flag==false| means we are in |output_defs| */
 {
   if (flag && cur_repl->text_link<section_flag) { /* link to a continuation */
     cur_repl=cur_repl->text_link+text_info; /* stay on the same level */
     cur_byte=cur_repl->tok_start; return;
   }
   stack_ptr--; /* go down to the previous level */
-  if (stack_ptr>stack) cur_state=*stack_ptr;@^system dependencies@>
+  if (stack_ptr>stack) cur_state=*stack_ptr;
 }
-
-@ @<Predecl...@>=
-static void push_level(name_pointer);@/
-static void pop_level(bool);@/
-static void get_output(void);
 
 @ The heart of the output procedure is the function |get_output|,
 which produces the next token of output and sends it on to the lower-level
@@ -401,6 +395,8 @@ get_output(void) /* sends next token to |out_char| */
   }
 }
 
+@ @<Predecl...@>=@+static void get_output(void);
+
 @ The user may have forgotten to give any \CEE/ text for a section name,
 or the \CEE/ text may have been associated with a different name by mistake.
 
@@ -409,7 +405,7 @@ or the \CEE/ text may have been associated with a different name by mistake.
   a-=024000;
   if ((a+name_dir)->equiv!=(void *)text_info) push_level(a+name_dir);
   else if (a!=0) {
-    printf("%s","\n! Not present: <");
+    fputs("\n! Not present: <",stdout);
     print_section_name(a+name_dir); err_print(">");
 @.Not present: <section name>@>
   }
@@ -456,7 +452,7 @@ are preceded by a `\.\\'.
 
 @<Private...@>=
 static eight_bits out_state; /* current status of partial output */
-static bool protect; /* should newline characters be quoted? */
+static boolean protect; /* should newline characters be quoted? */
 
 @ Here is a routine that is invoked when we want to output the current line.
 During the output process, |cur_line| equals the number of the next line
@@ -470,7 +466,7 @@ flush_buffer(void) /* writes one line to output file */
   if (cur_line % 100 == 0 && show_progress) {
     putchar('.');
     if (cur_line % 500 == 0) printf("%d",cur_line);
-    update_terminal(); /* progress report */
+    update_terminal; /* progress report */
   }
   cur_line++;
 }
@@ -523,31 +519,36 @@ phase_two (void) {
   @<Initialize the output stacks@>@;
   @<Output macro definitions if appropriate@>@;
   if (text_info->text_link==macro && cur_out_file==end_output_files) {
-    printf("%s","\n! No program text was specified."); mark_harmless();
+    fputs("\n! No program text was specified.",stdout); mark_harmless;
 @.No program text...@>
   }
   else {
-    if (show_progress) {
-      printf(cur_out_file==end_output_files ? @|
-        "\nWriting the output file (%s):" : @|
-        "\nWriting the output files: (%s)",C_file_name);
-@.Writing the output...@>
-      update_terminal();
+    if (cur_out_file==end_output_files) {
+      if (show_progress) {
+        printf("\nWriting the output file (%s):",C_file_name);
+        update_terminal;
+      }
     }
-    if (text_info->text_link!=macro)
-      @<Output material...@>@;
-    @<Write all the named output files@>@;
+    else {
+      if (show_progress) {
+        fputs("\nWriting the output files:",stdout);
+@.Writing the output...@>
+        printf(" (%s)",C_file_name);
+        update_terminal;
+      }
+      if (text_info->text_link==macro) goto writeloop;
+    }
+    while (stack_ptr>stack) get_output();
+    flush_buffer();
+writeloop:   @<Write all the named output files@>@;
     if (show_happiness) {
-      if (show_progress) new_line();
-      printf("%s","Done.");
+      if (show_progress) new_line;
+      fputs("Done.",stdout);
     }
   }
 }
 
-@ @<Predecl...@>=
-static void phase_two(void);@/
-static void output_defs(void);@/
-static void out_char(eight_bits);
+@ @<Predecl...@>=@+static void phase_two(void);
 
 @ To write the named output files, we proceed as for the unnamed
 section.
@@ -561,16 +562,14 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
     if ((C_file=fopen(output_file_name,"wb"))==NULL)
       fatal("! Cannot open output file ",output_file_name);
 @.Cannot open output file@>
-    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal(); }
+    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal; }
     cur_line=1;
-    @<Initialize the secondary output@>@;
-    @<Output material...@>@;
-}
-
-@ @<Output material from |stack|@>=
-{
-  while (stack_ptr>stack) get_output();
-  flush_buffer();
+    stack_ptr=stack+1;
+    cur_name=*an_output_file;
+    cur_repl=(text_pointer)cur_name->equiv;
+    cur_byte=cur_repl->tok_start;
+    while (stack_ptr > stack) get_output();
+    flush_buffer();
 }
 
 @ If a \.{@@h} was not encountered in the input,
@@ -582,28 +581,32 @@ that refer to macros, preceded by the \.{\#define} preprocessor command.
     output_defs();
 
 @ @<Private...@>=
-static bool output_defs_seen=false;
+static boolean output_defs_seen=false;
+
+@ @<Predecl...@>=
+static void output_defs(void);@/
+static void out_char(eight_bits);
 
 @ @d C_printf(c,a) fprintf(C_file,c,a)
-@d C_putc(c) fputc((int)(c),C_file) /* isn't \CEE/ wonderfully consistent? */
+@d C_putc(c) putc((int)(c),C_file) /* isn't \CEE/ wonderfully consistent? */
+@#
+@d macro_end (cur_text+1)->tok_start /* end of |macro| replacement text */
 
 @c
 static void
 output_defs(void)
 {
-  sixteen_bits a; eight_bits *macro_end;
+  sixteen_bits a;
   push_level(NULL);
   for (cur_text=text_info+1; cur_text<text_ptr; cur_text++)
     if (cur_text->text_link==macro) { /* |cur_text| is the text for a |macro| */
       cur_byte=cur_text->tok_start;
-      macro_end=(cur_text+1)->tok_start; /* end of |macro| replacement text */
       C_printf("%s","#define ");
       out_state=normal;
       protect=true; /* newlines should be preceded by |'\\'| */
-      do macro_end--; while (isspace(*macro_end)&&plus_plus!=*macro_end);
-        /* discard trailing whitespace; |plus_plus=='\v'| */
-      while (cur_byte<=macro_end) {
+      while (cur_byte<macro_end) {
         a=*cur_byte++;
+        if (cur_byte==macro_end && a=='\n') break; /* disregard a final newline */
         if (out_state==verbatim && a!=string && a!=constant && a!='\n')
           C_putc(a); /* a high-bit character can occur in a string */
 @^high-bit character handling@>
@@ -637,7 +640,7 @@ static void
 out_char(
 eight_bits cur_char)
 {
-  char *j; /* pointer into |byte_mem| */
+  char *j, *k; /* pointer into |byte_mem| */
 restart:
     switch (cur_char) {
       case '\n': if (protect && out_state!=verbatim) C_putc(' ');
@@ -695,19 +698,19 @@ This makes debugging a lot less confusing.
 static char translit[0200][translit_length];
 
 @ @<Set init...@>=
-{ int i;
-  for (i=0;i<0200;i++)
-     snprintf(translit[i],translit_length,"X%02X",(unsigned int)(0200+i));
+{
+  int i;
+  for (i=0;i<0200;i++) sprintf(translit[i],"X%02X",(unsigned int)(0200+i));
 }
 
 @ @<Case of an identifier@>=@t\1\quad@>
 case identifier:
   if (out_state==num_or_id) C_putc(' ');
-  for (j=(cur_val+name_dir)->byte_start;
-       j<(cur_val+name_dir+1)->byte_start; j++)
-    if (ishigh(*j)) C_printf("%s",translit[(eight_bits)(*j)-0200]);
+  for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
+       j<k; j++)
+    if ((eight_bits)(*j)<0200) C_putc(*j);
 @^high-bit character handling@>
-    else C_putc(*j);
+    else C_printf("%s",translit[(eight_bits)(*j)-0200]);
   out_state=num_or_id; break;
 
 @ @<Case of a sec...@>=@t\1\quad@>
@@ -726,8 +729,8 @@ case section_number:
 @:line}{\.{\#line}@>
     cur_val=(int)(*cur_byte++-0200)*0400;
     cur_val+=*cur_byte++; /* points to the file name */
-    for (j=(cur_val+name_dir)->byte_start;
-         j<(cur_val+name_dir+1)->byte_start; j++) {
+    for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
+         j<k; j++) {
       if (*j=='\\' || *j=='"') C_putc('\\');
       C_putc(*j);
     }
@@ -768,9 +771,12 @@ milestones.
 @d new_section 0312 /* control code for `\.{@@\ }' and `\.{@@*}' */
 
 @<Private...@>=
-static eight_bits ccode[256]={ignore}; /* meaning of a char following \.{@@} */
+static eight_bits ccode[256]; /* meaning of a char following \.{@@} */
 
-@ @<Set ini...@>=
+@ @<Set ini...@>= {
+  int c; /* must be |int| so the |for| loop will end */
+  for (c=0; c<256; c++) ccode[c]=ignore;
+}
 ccode[' ']=ccode['\t']=ccode['\n']=ccode['\v']=ccode['\r']=ccode['\f']
   =ccode['*']=new_section;
 ccode['@@']=(eight_bits)'@@'; ccode['=']=string;
@@ -806,7 +812,7 @@ skip_ahead(void) /* skip to next control code */
 
 @ @<Predecl...@>=
 static eight_bits skip_ahead(void);@/
-static bool skip_comment(bool);
+static boolean skip_comment(boolean);
 
 @ The |skip_comment| procedure reads through the input at somewhat high
 speed in order to pass over comments, which \.{CTANGLE} does not transmit
@@ -825,11 +831,11 @@ If |skip_comment| comes to the end of the section, it prints an error message.
 No comment, long or short, is allowed to contain `\.{@@\ }' or `\.{@@*}'.
 
 @<Private...@>=
-static bool comment_continues=false; /* are we scanning a comment? */
+static boolean comment_continues=false; /* are we scanning a comment? */
 
 @ @c
-static bool skip_comment( /* skips over comments */
-bool is_long_comment)
+static boolean skip_comment( /* skips over comments */
+boolean is_long_comment)
 {
   char c; /* current character */
   while (true) {
@@ -863,7 +869,7 @@ bool is_long_comment)
 
 @<Private...@>=
 static name_pointer cur_section_name; /* name of section just scanned */
-static bool no_where; /* suppress |print_where|? */
+static boolean no_where; /* suppress |print_where|? */
 
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
@@ -872,14 +878,13 @@ that branches to the various special cases that can arise.
 static eight_bits
 get_next(void) /* produces the next input token */
 {
-  static bool preprocessing=false;
+  static boolean preprocessing=false;
   eight_bits c; /* the current character */
   while (true) {
     if (loc>limit) {
       if (preprocessing && *(limit-1)!='\\') preprocessing=false;
       if (get_line()==false) return new_section;
       else if (print_where && !no_where) {
-          sixteen_bits a;
           print_where=false;
           @<Insert the line number into |tok_mem|@>@;
         }
@@ -954,7 +959,7 @@ switch(c) {
 }
 
 @ @<Get a constant@>= {
-  bool hex_flag = false; /* are we reading a hexadecimal literal? */
+  boolean hex_flag = false; /* are we reading a hexadecimal literal? */
   id_first=loc-1;
   if (*id_first=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
   if (*id_first=='0') {
@@ -1023,7 +1028,7 @@ convention, but do not allow the string to be longer than |longest_name|.
     if (++id_loc<=section_text_end) *id_loc=(char)c;
   }
   if (id_loc>=section_text_end) {
-    printf("%s","\n! String too long: ");
+    fputs("\n! String too long: ",stdout);
 @.String too long@>
     term_write(section_text+1,25);
     err_print("...");
@@ -1118,10 +1123,10 @@ while (true) {
 *k=(char)c;
 }
 if (k>=section_text_end) {
-  printf("%s","\n! Section name too long: ");
+  fputs("\n! Section name too long: ",stdout);
 @.Section name too long@>
   term_write(section_text+1,25);
-  printf("..."); mark_harmless();
+  printf("..."); mark_harmless;
 }
 if (*k==' ' && k>section_text) k--;
 
@@ -1217,6 +1222,7 @@ file name.
 
 @<Insert the line...@>=
 {
+  eight_bits a; /* shadow variable |a| */
   store_two_bytes(0150000);
   if (changing && include_depth==change_depth) { /* correction made Feb 2017 */
     id_first=change_file_name;
@@ -1372,7 +1378,7 @@ scan_section(void)
   sixteen_bits a; /* token for left-hand side of definition */
   section_count++; @+ no_where=true;
   if (*(loc-1)=='*' && show_progress) { /* starred section */
-    printf("*%d",(int)section_count); update_terminal();
+    printf("*%d",(int)section_count); update_terminal;
   }
   next_control=ignore;
   while (true) {
@@ -1538,7 +1544,7 @@ but not an |int|, we use \.{\%td} to print these quantities.
 void
 print_stats(void) {
   puts("\nMemory usage statistics:");
-  printf("%td names (out of %ld)\n",@^system dependencies@>
+  printf("%td names (out of %ld)\n",
           (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
   printf("%td replacement texts (out of %ld)\n",
           (ptrdiff_t)(text_ptr-text_info),(long)max_texts);

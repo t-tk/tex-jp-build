@@ -174,8 +174,6 @@ FILE *Poptr;
 #undef xfopen
 #define fopen fsyscp_fopen
 #define xfopen fsyscp_xfopen
-#undef stat
-#define stat _stat
 #include <wchar.h>
 int
 fsyscp_stat(const char *path, struct stat *buffer)
@@ -531,7 +529,6 @@ shell_cmd_is_allowed (const char *cmd, char **safecmd, char **cmdname)
       *d++ = QUOTE;
     }
     *d = '\0';
-#if 0
 #ifdef WIN32
     {
       char *p, *q, *r;
@@ -569,7 +566,6 @@ shell_cmd_is_allowed (const char *cmd, char **safecmd, char **cmdname)
         }
       }
     }
-#endif
 #endif
   }
 
@@ -1021,8 +1017,7 @@ maininit (int ac, string *av)
         string new_arg;
         is_terminalUTF8(); /* To call get_terminal_enc(). return value is not used */
         new_arg = ptenc_from_utf8_string_to_internal_enc(argv[1]);
-        dump_name = argv[1] + 1;
-        if (new_arg) argv[1] = new_arg;
+        dump_name = argv[1] + 1; argv[1] = new_arg;
 #else
         dump_name = argv[1] + 1;
 #endif
@@ -1110,9 +1105,6 @@ maininit (int ac, string *av)
 #else /* !Aleph */
   kpse_set_program_enabled (kpse_tfm_format, MAKE_TEX_TFM_BY_DEFAULT,
                             kpse_src_compile);
-#if (IS_upTeX)
-  kpse_set_program_enabled (kpse_ofm_format, false, kpse_src_compile);
-#endif
 #endif /* !Aleph */
   kpse_set_program_enabled (kpse_tex_format, MAKE_TEX_TEX_BY_DEFAULT,
                             kpse_src_compile);
@@ -1173,6 +1165,11 @@ main (int ac, string *av)
   av[0] = kpse_program_basename (av[0]);
   _setmaxstdio(2048);
   setmode(fileno(stdin), _O_BINARY);
+#endif
+
+  maininit (ac, av);
+
+#ifdef WIN32
   if (ac > 1) {
     char *pp;
     if ((strlen(av[ac-1]) > 2) &&
@@ -1190,8 +1187,6 @@ main (int ac, string *av)
     }
   }
 #endif
-
-  maininit (ac, av);
 
   /* Call the real main program.  */
   mainbody ();
@@ -2051,19 +2046,6 @@ parse_options (int argc, string *argv)
 
     } /* Else it was a flag; getopt has already done the assignment.  */
   }
-
-  if (output_directory) {
-    /* If they specified --output-directory, save it in an envvar
-       so that subprocesses called with \write18 can get the value.  */
-    xputenv ("TEXMF_OUTPUT_DIRECTORY", output_directory);
-  
-  } else if (getenv ("TEXMF_OUTPUT_DIRECTORY")) {
-    /* If the option wasn't specified, but the envvar is set (i.e., by
-       the user), save the envvar value in our global variable so the
-       rest of our code will use it.  */
-    output_directory = getenv ("TEXMF_OUTPUT_DIRECTORY");
-
-  } /* Else neither option nor envvar was set; do nothing.  */
 }
 
 #if defined(TeX)
@@ -2251,6 +2233,34 @@ open_in_or_pipe (FILE **f_ptr, int filefmt, const_string fopen_mode)
 
     return open_input(f_ptr,filefmt,fopen_mode) ;
 }
+
+#ifdef FMT_COMPRESS
+boolean
+gz_wopenin(gzFile *f)
+{
+	int fd;
+	FILE *fp = NULL;
+	if (!open_input (&fp, DUMP_FORMAT, FOPEN_RBIN_MODE))
+		return false;
+	fd = dup(fileno(fp));
+	fclose(fp);
+	*f = gzdopen(fd, FOPEN_RBIN_MODE);
+	return *f != NULL;
+}
+
+boolean
+gz_wopenout(gzFile *f)
+{
+	int fd;
+	FILE *fp = NULL;
+	if (!open_output (&fp, FOPEN_WBIN_MODE))
+		return false;
+	fd = dup(fileno(fp));
+	fclose(fp);
+	*f = gzdopen(fd, FOPEN_WBIN_MODE);
+	return (*f != NULL) && (gzsetparams(*f, 1, Z_DEFAULT_STRATEGY) == Z_OK);
+}
+#endif
 
 #ifdef XeTeX
 boolean
@@ -3192,7 +3202,7 @@ gettexstring (strnumber s)
     if (c >= 0xD800 && c <= 0xDBFF) {
       unsigned lo = strpool[++i + strstart[s - 65536L]];
       if (lo >= 0xDC00 && lo <= 0xDFFF)
-        c = 0x10000 + (c - 0xD800) * 0x0400 + lo - 0xDC00;
+        c = (c - 0xD800) * 0x0400 + lo - 0xDC00;
       else
         c = 0xFFFD;
     }
@@ -3333,7 +3343,9 @@ safe_print(const char *str)
 
    The output format of this fuction must be the same as pdf_error in
    pdftex.web! */
+#if !defined(_MSC_VER)
 __attribute__ ((noreturn, format(printf, 1, 2)))
+#endif
 void pdftex_fail(const char *fmt, ...)
 {
     va_list args;

@@ -4,33 +4,24 @@
 # Copyright 2015 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_omfonts=$BinDir/omfonts$ExeExt
-
-tests=tests
-
-test -d $tests || mkdir -p $tests
-rc=0
-
 TEXMFCNF=$srcdir/../../kpathsea
-OFMFONTS=$srcdir/$tests
+OFMFONTS=$srcdir/tests
 export TEXMFCNF OFMFONTS
 
-echo && echo "*** $_omfonts"
-$_omfonts && exit 1
+echo && echo "*** ./omfonts"
+./omfonts && exit 1
 
 echo && echo "*** ofm2opl badofm badofm"
-$_omfonts -ofm2opl $srcdir/$tests/badofm badofm && rc=1
+./omfonts -ofm2opl $srcdir/tests/badofm badofm && exit 1
 
 echo && echo "*** opl2ofm badopl badopl"
-$_omfonts -opl2ofm $srcdir/$tests/badopl badopl && rc=2
+./omfonts -opl2ofm $srcdir/tests/badopl badopl && exit 1
 
 echo && echo "*** ovf2ovp badovf badovf badovf"
-$_omfonts -ovf2ovp $srcdir/$tests/badovf $srcdir/$tests/badovf badovf && rc=3
+./omfonts -ovf2ovp $srcdir/tests/badovf $srcdir/tests/badovf badovf && exit 1
 
 echo && echo "*** ovp2ovf badovp badovp"
-$_omfonts -ovp2ovf $srcdir/$tests/badovp badovp && rc=4
+./omfonts -ovp2ovf $srcdir/tests/badovp badovp && exit 1
 
-exit $rc
+exit 0
 

@@ -52,10 +52,10 @@
    (STOP)
    )
 (CHARSINTYPE O 1
-   U 81FC U FF08 U 26951 U 23B0A6 U 24304B U 25B0B1
+   U 81FC U FF08 U 26951
    )
 (CHARSINTYPE O 2
-   U 5409 U FF09 U 20BB7 U 25EFF5
+   U 5409 U FF09 U 20BB7
    )
 (CHARSINTYPE O 3
    U 2462 U FF1A
@@ -64,7 +64,7 @@
    U 2463 U 3002
    )
 (CHARSINTYPE O 5
-   U 2026 U 2464 U 26270B U 2FF476
+   U 2026 U 2464
    )
 (TYPE O 0
    (CHARWD R 1.0)
@@ -76,7 +76,7 @@
       )
    )
 (TYPE O 1
-   (CHARWD R 1.01)
+   (CHARWD R 0.5)
    (CHARHT R 0.88)
    (CHARDP R 0.12)
    (COMMENT
@@ -84,7 +84,7 @@
       )
    )
 (TYPE O 2
-   (CHARWD R 1.02)
+   (CHARWD R 0.5)
    (CHARHT R 0.88)
    (CHARDP R 0.12)
    (COMMENT
@@ -119,7 +119,7 @@
       )
    )
 (TYPE O 5
-   (CHARWD R 1.05)
+   (CHARWD R 1.0)
    (CHARHT R 0.88)
    (CHARDP R 0.12)
    (COMMENT

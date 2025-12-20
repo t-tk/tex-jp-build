@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
 \bibitem{björk2020}
 Tomas Björk.
@@ -7,9 +7,9 @@ Tomas Björk.
 
 \bibitem{boswell}
 Dustin Boswell and Trevor Foucher.
-\newblock
-  リーダブルコード ―より良いコードを書くためのシンプルで実践的 なテクニック (Theory
-  in practice).
+\newblock リーダブルコード
+  ―より良いコードを書くためのシンプルで実践的
+  なテクニック (Theory in practice).
 \newblock オライリージャパン, 2012.
 
 \bibitem{dostoevskii}
@@ -21,11 +21,6 @@ Dustin Boswell and Trevor Foucher.
 김만중.
 \newblock 구운몽.
 \newblock 高麗書林, 1975.
-
-\bibitem{imahashi}
-𫝆𫞎姬, 𡈽𪧦, 𠮷田真.
-\newblock CJK統合漢字拡張🄑--🄓のテスト --- その🄰.
-\newblock 冬𠘨𫝷, 2024.
 
 \bibitem{nikos}
 Νίκος Καζαντζάκης.

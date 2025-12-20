@@ -4,42 +4,34 @@
 # Copyright 2010, 2011 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_omfonts=$BinDir/omfonts$ExeExt
+test -d tests || mkdir -p tests
 
-tests=tests
-
-test -d $tests || mkdir -p $tests
-rc=0
-
-grep -v 'CHARWD R' $srcdir/$tests/charwd-r.pl >$tests/charwdr.pl
+grep -v 'CHARWD R' $srcdir/tests/charwd-r.pl >tests/charwdr.pl
 
 TEXMFCNF=$srcdir/../../kpathsea \
-  $_omfonts -opl2ofm $tests/charwdr.pl $tests/charwdr.tfm || rc=1
+  ./omfonts -opl2ofm tests/charwdr.pl tests/charwdr.tfm || exit 1
 
 TEXMFCNF=$srcdir/../../kpathsea \
-  TFMFONTS=$tests \
-  $_omfonts -ofm2opl $tests/charwdr.tfm $tests/charwdr.xpl || rc=2
+  TFMFONTS=tests \
+  ./omfonts -ofm2opl tests/charwdr.tfm tests/charwdr.xpl || exit 1
 
-diff $srcdir/$tests/charwd-r.pl $tests/charwdr.xpl || rc=3
+diff $srcdir/tests/charwd-r.pl tests/charwdr.xpl || exit 1
 
-grep -v 'CHARWD R' $srcdir/$tests/charwd-v.vpl >$tests/charwdv.vpl
-
-TEXMFCNF=$srcdir/../../kpathsea \
-  $_omfonts -ovp2ovf $tests/charwdv.vpl $tests/charwdv.vf $tests/charwdv.tfm || rc=4
+grep -v 'CHARWD R' $srcdir/tests/charwd-v.vpl >tests/charwdv.vpl
 
 TEXMFCNF=$srcdir/../../kpathsea \
-  TFMFONTS=$tests \
-  $_omfonts -ofm2opl $tests/charwdr.tfm $tests/charwdr.xpl || rc=5
-
-diff $srcdir/$tests/charwd-r.pl $tests/charwdr.xpl || rc=6
+  ./omfonts -ovp2ovf tests/charwdv.vpl tests/charwdv.vf tests/charwdv.tfm || exit 1
 
 TEXMFCNF=$srcdir/../../kpathsea \
-  TFMFONTS=$tests \
-  VFFONTS=$tests \
-  $_omfonts -ovf2ovp $tests/charwdv.vf $tests/charwdv.tfm $tests/charwdv.xpl || rc=7
+  TFMFONTS=tests \
+  ./omfonts -ofm2opl tests/charwdr.tfm tests/charwdr.xpl || exit 1
 
-diff $srcdir/$tests/charwd-v.vpl $tests/charwdv.xpl || rc=8
+diff $srcdir/tests/charwd-r.pl tests/charwdr.xpl || exit 1
 
-exit $rc
+TEXMFCNF=$srcdir/../../kpathsea \
+  TFMFONTS=tests \
+  VFFONTS=tests \
+  ./omfonts -ovf2ovp tests/charwdv.vf tests/charwdv.tfm tests/charwdv.xpl || exit 1
+
+diff $srcdir/tests/charwd-v.vpl tests/charwdv.xpl || exit 1
+

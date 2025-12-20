@@ -55,7 +55,6 @@ configure_file(
 
 add_subdirectory(lib)
 add_subdirectory(web2c)
-add_subdirectory(omegafonts)
 
 set(web2c_texmf web2c/common.defines web2c/texmf.defines web2c/coerce.h)
 
@@ -64,14 +63,19 @@ include(cmake/functions.cmake)
 # tangle and ctangle
 include(cmake/bootstrap.cmake)
 
-include(cmake/web.cmake)
 include(cmake/cweb.cmake)
+
+# pTeX
+include(cmake/ptex.cmake)
+
+# e-pTeX
+#include(cmake/eptex.cmake)
 
 # upTeX
 include(cmake/uptex.cmake)
 
 # e-upTeX
-include(cmake/euptex.cmake)
+#include(cmake/euptex.cmake)
 
 # libmd5
-include(cmake/md5.cmake)
+#include(cmake/md5.cmake)

@@ -4,21 +4,18 @@
 # Copyright 2015 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_omfonts=$BinDir/omfonts$ExeExt
-
 echo && echo "*** omfonts -version"
-$_omfonts -version || exit 10
+./omfonts -version || exit 1
 
 echo && echo "*** ofm2opl -version"
-$_omfonts -ofm2opl -version || exit 1
+./omfonts -ofm2opl -version || exit 1
 
 echo && echo "*** opl2ofm -version"
-$_omfonts -opl2ofm -version || exit 2
+./omfonts -opl2ofm -version || exit 1
 
 echo && echo "*** ovf2ovp -version"
-$_omfonts -ovf2ovp -version || exit 3
+./omfonts -ovf2ovp -version || exit 1
 
 echo && echo "*** ovp2ovf -version"
-$_omfonts -ovp2ovf -version || exit 4
+./omfonts -ovp2ovf -version || exit 1
+

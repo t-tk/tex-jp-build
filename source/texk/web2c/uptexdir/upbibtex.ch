@@ -35,40 +35,43 @@
 % 2022-12-03    Version 0.36 by Takuji Tanaka (-> TL'23 version)
 %   * Merge pBibTeX source/binary into upBibTeX.
 
-@x [0] extended version information
+@x [0] only print chnages
 \def\title{\BibTeX\ }
 @y
+\let\maybe=\iffalse
 \def\title{J\BibTeX\ 0.36 Changes for C Version \BibTeX\ }
 @z
 
-@x [0]
+@x
+ \def\titlepage{F}
  \centerline{\:\titlefont The {\:\ttitlefont \BibTeX} preprocessor}
- \vskip 15pt \centerline{(Version 0.99e---\today)} \vfill}
+ \vskip 15pt \centerline{(Version 0.99d---\today)} \vfill}
 @y
+ \def\titlepage{F}
  \centerline{\:\titlefont The {\:\ttitlefont J\BibTeX} preprocessor}
- \vskip 15pt \centerline{(Version 0.99e-j0.36---\today)} \vfill}
+ \vskip 15pt \centerline{(Version 0.99d-j0.36---\today)} \vfill}
 @z
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [1] banner
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-@x [1]
+@x
 @d my_name=='bibtex'
-@d banner=='This is BibTeX, Version 0.99e' {printed when the program starts}
+@d banner=='This is BibTeX, Version 0.99d' {printed when the program starts}
 @y
 @d my_name=='upbibtex'
-@d banner=='This is upBibTeX, Version 0.99e-j0.36-u2.01'
+@d banner=='This is upBibTeX, Version 0.99d-j0.36-u1.29'
   {printed when the program starts}
 @z
 
-@x [10]
+@x
   print (banner);
 @y
   print (banner);
   print (' (', conststringcast(get_enc_string), ')');
 @z
 
-@x [27] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [27]
 for i:=0 to @'37 do xchr[i]:=chr(i);
 for i:=@'177 to @'377 do xchr[i]:=chr(i);
 @y
@@ -78,7 +81,7 @@ for i:=@'200 to 255 do xchr[i]:=chr(i);
 xchr[@'33]:=chr(@'33); {escape char}
 @z
 
-@x [28] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [28]
 for i:=first_text_char to last_text_char do xord[xchr[i]]:=i;
 @y
 for i:=first_text_char to last_text_char do xord[i]:=invalid_code;
@@ -87,7 +90,7 @@ for i:=@'200 to 255 do xord[i]:=i;
 @z
 
 
-@x [29] Changes for JBibTeX by Shouichi Matsui  for ver. 0.30
+@x Changes for JBibTeX by Shouichi Matsui  for ver. 0.30
 @d period = "."                 {these are three}
 @d question_mark = "?"          {string-ending characters}
 @d exclamation_mark = "!"       {of interest in \.{add.period\$}}
@@ -122,7 +125,7 @@ for i:=@'200 to 255 do xord[i]:=i;
 
 % [32] Make RET a `white_space' character, so we won't choke on DOS
 % files, which use CR/LF for line endings.
-@x [32] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [32]
 @<Set initial values of key variables@>=
 for i:=0 to @'177 do lex_class[i] := other_lex;
 for i:=@'200 to @'377 do lex_class[i] := alpha;
@@ -151,7 +154,7 @@ for i:=@'101 to @'132 do lex_class[i] := alpha;
 for i:=@'141 to @'172 do lex_class[i] := alpha;
 @z
 
-@x [33] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [33]
 @<Set initial values of key variables@>=
 for i:=0 to @'377 do id_class[i] := legal_id_char;
 for i:=0 to @'37 do id_class[i] := illegal_id_char;
@@ -186,7 +189,7 @@ id_class[left_brace] := illegal_id_char;
 id_class[right_brace] := illegal_id_char;
 @z
 
-@x [35] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [35]
 char_width[@'167] := 722;
 char_width[@'170] := 528;
 char_width[@'171] := 528;
@@ -206,13 +209,13 @@ char_width[@'175] := 500;
 char_width[@'176] := 500;
 @z
 
-@x [47] JBibTeX and dynamic buf_size.
+@x [48] JBibTeX and dynamic buf_size.
 label loop_exit;
 @y
 label loop_exit;
 var i:c_int_type;
 @z
-@x [still 47] JBibTeX and dynamic buf_size.
+@x [still 48] JBibTeX and dynamic buf_size.
   while (not eoln(f)) do
     begin
     if (last >= buf_size) then
@@ -230,7 +233,7 @@ var i:c_int_type;
   end;
 @z
 
-@x [62] procedure lower_case
+@x procedure lower_case
 procedure lower_case (var buf:buf_type; @!bf_ptr,@!len:buf_pointer);
 var i:buf_pointer;
 begin
@@ -291,7 +294,7 @@ if (len > 0) then
     end
 @z
 
-@x [63] procedure upper_case
+@x procedure upper_case
 var i:buf_pointer;
 begin
 if (len > 0) then
@@ -354,7 +357,7 @@ if (len > 0) then
     end
 @z
 
-@x [100]
+@x
 @<Procedures and functions for the reading and processing of input files@>=
 procedure get_the_top_level_aux_file_name;
 label aux_found,@!aux_not_found;
@@ -368,7 +371,7 @@ begin
   @<Initialize variables depending on Kanji code@>
 @z
 
-@x [102]
+@x
 parse_arguments;
 @y
 init_kanji;
@@ -376,7 +379,7 @@ parse_arguments;
 @z
 
 % pBibTeX: do not break at |white_space| after Japanese characters (2022-02-08 j0.34)
-@x [323] "Break that line"
+@x "Break that line"
 while ((lex_class[out_buf[out_buf_ptr]] <> white_space) and
                                         (out_buf_ptr >= min_print_line)) do
     decr(out_buf_ptr);
@@ -385,7 +388,7 @@ while (((lex_class[out_buf[out_buf_ptr]] <> white_space) or
        (out_buf[out_buf_ptr-1] > 127)) and (out_buf_ptr >= min_print_line)) do
     decr(out_buf_ptr);
 @z
-@x [324] "Break that unbreakably long line"
+@x "Break that unbreakably long line"
     if (lex_class[out_buf[out_buf_ptr]] <> white_space) then
         incr(out_buf_ptr)
 @y
@@ -394,7 +397,7 @@ while (((lex_class[out_buf[out_buf_ptr]] <> white_space) or
         incr(out_buf_ptr)
 @z
 
-@x [331] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [332]
 @!b_write : hash_loc;           {\.{write\$}}
 @!b_default : hash_loc;         {either \.{skip\$} or \.{default.type}}
 @y
@@ -403,7 +406,7 @@ while (((lex_class[out_buf[out_buf_ptr]] <> white_space) or
 @!b_default : hash_loc;         {either \.{skip\$} or \.{default.type}}
 @z
 
-@x [333] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [334]
 @d n_write = 36         {\.{write\$}}
 
 @<Constants in the outer block@>=
@@ -416,14 +419,14 @@ while (((lex_class[out_buf[out_buf_ptr]] <> white_space) or
 @!num_blt_in_fns = 38;  {one more than the previous number}
 @z
 
-@x [334] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [335]
 build_in('write$      ',6,b_write,n_write);
 @y
 build_in('write$      ',6,b_write,n_write);
 build_in('is.kanji.str$',13,b_is_kanji_str,n_is_kanji_str);
 @z
 
-@x [341] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [342]
     n_write :           x_write;
     othercases confusion ('Unknown built-in function')
 endcases;
@@ -436,7 +439,7 @@ endcases;
 end
 @z
 
-@x [342] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [343]
 @<|execute_fn|({\.{write\$}})@>@;
 @<|execute_fn| itself@>
 @y
@@ -445,14 +448,14 @@ end
 @<|execute_fn| itself@>
 @z
 
-@x [361] Changes for JBibTeX by Shouichi Matsui   --- add.period$ for ver. 0.30
+@x Changes for JBibTeX by Shouichi Matsui   --- add.period$ for ver. 0.30
 case (str_pool[sp_ptr]) of
     period,
     question_mark,
     exclamation_mark :
         repush_string;
     othercases
-        @<Add the |period|\(t) (it's necessary) and push@>
+        @<Add the |period| (it's necessary) and push@>
 @y
 case (str_pool[sp_ptr]) of
     period,
@@ -471,9 +474,9 @@ case (str_pool[sp_ptr]) of
                     if (str_pool[sp_ptr-2]<>e_ss3) then
                        repush_string
                     else
-                       @<Add the |period|\(t) (it's necessary) and push@>;
+                       @<Add the |period| (it's necessary) and push@>;
                 othercases
-                    @<Add the |period|\(t) (it's necessary) and push@>;
+                    @<Add the |period| (it's necessary) and push@>;
             endcases;
             end;
         if (is_internalUPTEX) then
@@ -490,13 +493,13 @@ case (str_pool[sp_ptr]) of
                 u_exclam_question:
                     repush_string;
                 othercases
-                    @<Add the |period|\(t) (it's necessary) and push@>;
+                    @<Add the |period| (it's necessary) and push@>;
             endcases;
             end;
         end;
 @z
 
-@x [377] x_chr_to_int
+@x x_chr_to_int
 else if (length(pop_lit1) <> 1) then
     begin
     print ('"');
@@ -526,7 +529,7 @@ else
     end
 @z
 
-@x [383] by Shouichi Matsui for Zenkaku comma
+@x by Shouichi Matsui for Zenkaku comma
 if (ex_buf_ptr < ex_buf_length) then            {remove the ``and''}
     ex_buf_ptr := ex_buf_ptr - 4;
 @y
@@ -545,7 +548,7 @@ if (ex_buf_ptr < ex_buf_length) then    {remove the ``and'', or Zenkau comma}
   end;
 @z
 
-@x [384] Changes for JBibTeX by Shouichi Matsui for Zenkaku comma
+@x Changes for JBibTeX by Shouichi Matsui for Zenkaku comma
     "a", "A" :
         begin
         incr(ex_buf_ptr);
@@ -564,7 +567,7 @@ if (ex_buf_ptr < ex_buf_length) then    {remove the ``and'', or Zenkau comma}
      e_pun_first:
         if (is_internalEUC) then
         begin
-          if ((fromBUFF(ex_buf, ex_buf_length, ex_buf_ptr) = e_comma) or
+          if ((fromBUFF(ex_buf, ex_buf_length, ex_buf_ptr) = e_comma) or 
               (fromBUFF(ex_buf, ex_buf_length, ex_buf_ptr) = e_toten)) then
                 begin
                   preceding_white := false;
@@ -585,7 +588,7 @@ if (ex_buf_ptr < ex_buf_length) then    {remove the ``and'', or Zenkau comma}
      u_pun_first2:
         if (is_internalUPTEX) then
         begin
-          if ((fromBUFF(ex_buf, ex_buf_length, ex_buf_ptr) = u_comma) or
+          if ((fromBUFF(ex_buf, ex_buf_length, ex_buf_ptr) = u_comma) or 
               (fromBUFF(ex_buf, ex_buf_length, ex_buf_ptr) = u_toten)) then
                 begin
                   preceding_white := false;
@@ -605,7 +608,7 @@ if (ex_buf_ptr < ex_buf_length) then    {remove the ``and'', or Zenkau comma}
         end;
 @z
 
-@x [384] Changes for JBibTeX by Shouichi Matsui for Zenkaku comma
+@x Changes for JBibTeX by Shouichi Matsui for Zenkaku comma[385]
     othercases
         if (lex_class[ex_buf[ex_buf_ptr]] = white_space) then
             begin
@@ -637,7 +640,7 @@ check_brace_level (pop_lit_var);
 end;
 @z
 
-@x [415] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [415]
     if (lex_class[name_buf[name_bf_ptr]] = alpha) then
         begin
         append_ex_buf_char_and_check (name_buf[name_bf_ptr]);
@@ -660,7 +663,7 @@ end;
     else if ((name_buf[name_bf_ptr] = left_brace) and
 @z
 
-@x [422] x_int_to_chr
+@x x_int_to_chr
 procedure x_int_to_chr;
 begin
 pop_lit_stk (pop_lit1,pop_typ1);
@@ -717,7 +720,7 @@ end;
 end;
 @z
 
-@x [437] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [437]
 @<|execute_fn|({\.{substring\$}})@>=
 procedure x_substring;
 label exit;
@@ -731,7 +734,7 @@ var tps,tpe:pool_pointer; {temporary pointer}
 begin
 @z
 
-@x [438]
+@x
 @<Form the appropriate substring@>=
 begin
 @y
@@ -740,7 +743,7 @@ begin
 pop_lit2_saved := pop_lit2; {save before negate}
 @z
 
-@x [438] 2023-04-08 texjporg/tex-jp-build#157
+@x 2023-04-08 texjporg/tex-jp-build#157
         str_start[pop_lit3+1] := sp_end;
 @y
         { |2..4| bytes Kanji code break check }
@@ -757,7 +760,7 @@ pop_lit2_saved := pop_lit2; {save before negate}
         str_start[pop_lit3+1] := tpe;
 @z
 
-@x [438] Changes for JBibTeX by Shouichi Matsui + fix (2022-02-20 j0.34)
+@x Changes for JBibTeX by Shouichi Matsui [438] + fix (2022-02-20 j0.34)
 str_room(sp_end - sp_ptr);
 while (sp_ptr < sp_end) do                      {shift the substring}
     begin
@@ -796,7 +799,7 @@ while (sp_ptr < sp_end) do                      {shift the substring}
     end;
 @z
 
-@x [445] Changes for JBibTeX by Shouichi Matsui
+@x Changes for JBibTeX by Shouichi Matsui [445]
     else if (str_pool[sp_xptr1-1] = right_brace) then
         begin
         if (sp_brace_level > 0) then
@@ -821,19 +824,19 @@ while (sp_ptr < sp_end) do                      {shift the substring}
     end;
 @z
 
-@x [467]
+@x
 const n_options = 4; {Pascal won't count array lengths for us.}
 @y
 const n_options = 9; {Pascal won't count array lengths for us.}
 @z
 
-@x [467]
+@x
       usage_help (BIBTEX_HELP, nil);
 @y
       usage_help (UPBIBTEX_HELP, 'issue@@texjp.org');
 @z
 
-@x [467]
+@x
     end; {Else it was a flag; |getopt| has already done the assignment.}
 @y
     end else if argument_is ('kanji') then begin
@@ -854,9 +857,19 @@ const n_options = 9; {Pascal won't count array lengths for us.}
     end; {Else it was a flag; |getopt| has already done the assignment.}
 @z
 
-@x New sections [476] and [477]
-@ An element with all zeros always ends the list.
+@x
+long_options[current_option].name := 'version';
+long_options[current_option].has_arg := 0;
+long_options[current_option].flag := 0;
+long_options[current_option].val := 0;
+incr (current_option);
 @y
+long_options[current_option].name := 'version';
+long_options[current_option].has_arg := 0;
+long_options[current_option].flag := 0;
+long_options[current_option].val := 0;
+incr (current_option);
+
 @ Kanji option.
 @.-kanji@>
 
@@ -876,7 +889,11 @@ long_options[current_option].has_arg := 0;
 long_options[current_option].flag := 0;
 long_options[current_option].val := 0;
 incr(current_option);
+@z
 
+@x
+@ An element with all zeros always ends the list.
+@y
 @ Kanji-internal option.
 @.-kanji-internal@>
 
@@ -890,16 +907,29 @@ incr(current_option);
 @ An element with all zeros always ends the list.
 @z
 
-@x Shifted section [479]
+@x
 begin kpse_set_program_name (argv[0], 'bibtex');
 @y
 begin kpse_set_program_name (argv[0], 'upbibtex');
 @z
 
-@x Shifted Index section [484]
-@* Index.
+@x
+  until j_prime;
+  incr (k);
+  hash_prime := j;
+  primes[k] := hash_prime;
+  end;
+end;
+
 @y
-@ Modules for JBibTeX.
+  until j_prime;
+  incr (k);
+  hash_prime := j;
+  primes[k] := hash_prime;
+  end;
+end;
+
+@ modules for JBibTeX
 
 @<|execute_fn|({\.{is.kanji.str\$}})@>=
 procedure x_is_kanji_str;
@@ -938,7 +968,7 @@ function is_char_kanji_upbibtex(@!c:integer):boolean;
 label exit;
 var k:integer;
 begin
-  { based on upTeX-1.35 kcatcode status: 16,17,19->true / 15,18->false }
+  { based on upTeX-1.29 kcatcode status: 16,17,19->true / 15,18->false }
   is_char_kanji_upbibtex := true;
   if (is_internalUPTEX) then begin { should be in sync with |kcat_code| of uptex-m.ch }
     k := kcatcodekey(c);
@@ -955,12 +985,12 @@ begin
     else if k=@"93 then return { Hangul Syllables }
     else if k=@"94 then return { Hangul Jamo Extended-B }
     else if k=@"99 then return { CJK Compatibility Ideographs }
-    else if (k>=@"115)and(k<=@"118) then return { Kana Extended-B .. Small Kana Extension }
-    else if (k>=@"145)and(k<=@"14F) then return { CJK Unified Ideographs Extension B .. J }
+    else if (k>=@"10D)and(k<=@"110) then return { Kana Extended-B .. Small Kana Extension }
+    else if (k>=@"13B)and(k<=@"142) then return { CJK Unified Ideographs Extension B .. H }
     else if k=@"1FE then return { Fullwidth digit and latin alphabet }
     else if k=@"1FF then return; { Halfwidth katakana }
     end
-  else { |is_internalEUC| }
+  else { is_internalEUC }
     if is_char_kanji(c) then return;
   is_char_kanji_upbibtex := false;
 exit:end;
@@ -980,7 +1010,7 @@ if (is_internalUPTEX) then
     for i:=@"F0 to @"F4 do char_width[i]:=257; { lead bytes (4bytes) }
   end
 else
-  begin { |is_internalEUC| }
+  begin { is_internalEUC }
     for i:=@'200 to @'240 do lex_class[i] := illegal;
     for i:=@'241 to 254 do lex_class[i] := alpha;
     lex_class[255]:=illegal;
@@ -991,6 +1021,4 @@ else
     for i:=@'241 to 254 do char_width[i]:=514;
     char_width[e_ss3]:=0;
   end;
-
-@* Index.
 @z

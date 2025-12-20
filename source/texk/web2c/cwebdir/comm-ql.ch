@@ -10,24 +10,24 @@ ex <dev_>cc;'-v -h -c -=500000 -DCWEBINPUTS=flp2_ common_c'
 @x
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.12.2)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.9)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.12.2)}
+  \centerline{(Version 4.9)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
 @y
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (QL Version 4.12.2)}
+\def\title{Common code for CTANGLE and CWEAVE (QL Version 4.9)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.12.2)}
+  \centerline{(Version 4.9)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -152,10 +152,8 @@ the routine as if it would work.
   }
   sprintf(alt_web_file_name,"%s.web",*argv);
   sprintf(tex_file_name,"%s.tex",name_pos); /* strip off directory name */
-  if (make_xrefs) { /* indexes will be generated */
-    sprintf(idx_file_name,"%s.idx",name_pos);
-    sprintf(scn_file_name,"%s.scn",name_pos);
-  }
+  sprintf(idx_file_name,"%s.idx",name_pos);
+  sprintf(scn_file_name,"%s.scn",name_pos);
   sprintf(C_file_name,"%s.c",name_pos);
   found_web=true;
 }
@@ -172,10 +170,8 @@ the routine as if it would work.
   }
   sprintf(alt_web_file_name,"%s_web",*argv);
   sprintf(tex_file_name,"%s_tex",name_pos); /* strip off directory name */
-  if (make_xrefs) { /* indexes will be generated */
-    sprintf(idx_file_name,"%s_idx",name_pos);
-    sprintf(scn_file_name,"%s_scn",name_pos);
-  }
+  sprintf(idx_file_name,"%s_idx",name_pos);
+  sprintf(scn_file_name,"%s_scn",name_pos);
   sprintf(C_file_name,"%s_c",name_pos);
   found_web=true;
 }

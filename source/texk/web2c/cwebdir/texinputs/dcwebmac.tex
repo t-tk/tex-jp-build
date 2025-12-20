@@ -28,7 +28,6 @@
 % Version 3.64 [p21] --- Andreas Scherer, Octobre 2005
 % Version 3.64 [p22] --- Andreas Scherer, March 2016
 % Version 4.9 --- Andreas Scherer, June 2022
-% Version 4.12 --- Andreas Scherer, August 2024
 
 \ifx\undefined\botofcontents\input cwebmac.tex\fi
 
@@ -55,7 +54,7 @@
 \def\fin{\par\vfill\eject % this is done when we are ending the index
   \ifpagesaved\null\vfill\eject\fi % output a null index column
   \if L\lr\else\null\vfill\eject\fi % finish the current page
-  \ifpdf \ifpdflua \makebookmarks % added in Version 3.68
+  \ifpdf \ifpdftex \makebookmarks % added in Version 3.68
     \countsections \fi\fi % and in Version 4.9
   \parfillskip 0pt plus 1fil
   \let\topsecno=\nullsec
@@ -65,7 +64,7 @@
   \def\note##1##2.{\quad{\eightrm##1~\ifacrohint{\pdfnote##2.}\else{##2}\fi.}}
   \def\I{\par\hangindent 2em}\let\*=*
   \ifacro \let\Xpdf\X
-  \ifpdflua \pdfdest name {NOS} fith
+  \ifpdftex \pdfdest name {NOS} fith
     \pdfoutline goto name {NOS} count -\the\countD {\outsecname}
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
@@ -82,11 +81,11 @@
 % \ifodd\pageno\else\titletrue\null\vfill\eject\fi % for duplex printers
   \rightskip 0pt \hyphenpenalty 50 \tolerance 200
   \setpage \output={\normaloutput\page\lheader\rheader}
-  \ifpdf\startpdf\fi \titletrue % prepare to output the table of contents
+  \titletrue % prepare to output the table of contents
   \pageno=\contentspagenumber
   \redefcon
   \ifhint\HINThome\fi% Mark the Table of contents as home page
-  \topofcontents
+  \topofcontents \startpdf
   \line{\headerline}
   \let\ZZ=\contentsline
   \readcontents\relax % read the contents info

@@ -4,14 +4,10 @@
 # Copyright 2009 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_gftopk=$BinDir/gftopk$ExeExt
-
 test -d tests || mkdir -p tests
 
 TEXMFCNF=$srcdir/../kpathsea \
-  $_gftopk -verbose $srcdir/tests/cmr10.600gf tests/xcmr10.pk || exit 1
+  ./gftopk -verbose $srcdir/tests/cmr10.600gf tests/xcmr10.pk || exit 1
 
 TEXMFCNF=$srcdir/../kpathsea \
-  $_gftopk $srcdir/tests/cmr10.600gf cmr10.pk && rm cmr10.pk || exit 2
+  ./gftopk $srcdir/tests/cmr10.600gf cmr10.pk && rm cmr10.pk || exit 1

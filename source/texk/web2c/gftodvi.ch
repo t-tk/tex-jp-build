@@ -35,23 +35,12 @@
 % Revision 0.3  84/11/17  23:51:56  richards
 % 	Base version for GFtoDVI Version 0.3
 
-@x [0] l.29
-\def\(#1){} % this is used to make section names sort themselves better
-@y
-\def\({} % this is used to make section names sort themselves better
-@z
-
-@x [0] l.32
-\def\title{GF$\,$\lowercase{to}$\,$DVI}
-@y
-\def\title{GF$\,$\lowercase{to}$\,$DVI changes for C}
-@z
-
 @x [0] WEAVE: print changes only.
 \pageno=\contentspagenumber \advance\pageno by 1
 @y
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iffalse
+\def\title{GF$\,$\lowercase{to}$\,$DVI changes for C}
 @z
 
 @x [1] Define my_name
@@ -83,7 +72,7 @@ procedure initialize; {this procedure gets things started properly}
 const @<Constants in the outer block@>@/
 type @<Types in the outer block@>@/
 var @<Globals in the outer block@>@/
-@<Define \(|parse_arguments|@>
+@<Define |parse_arguments|@>
 procedure initialize; {this procedure gets things started properly}
   var @!i,@!j,@!m,@!n:integer; {loop indices for initializations}
   begin
@@ -96,7 +85,9 @@ procedure initialize; {this procedure gets things started properly}
     end;
 @z
 
-@x [4] Remove the final_end label.
+% [4] Remove the final_end label.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 @ If the program has to stop prematurely, it goes to the
 `|final_end|'.
 
@@ -121,7 +112,9 @@ so a procedure called |jump_out| has been introduced.
 @d abort(#)==@+begin write_ln (stderr, #); jump_out;@+end
 @z
 
-@x [8] Remove nonlocal goto.
+% [8] Remove nonlocal goto.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 @p procedure jump_out;
 begin goto final_end;
 end;
@@ -135,7 +128,7 @@ end;
 % default type `char' produces signed integers, which are bad array
 % indices in C.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-@x [11]
+@x
 @d text_char == char {the data type of characters in text files}
 @y
 @d text_char == ASCII_code {the data type of characters in text files}
@@ -150,7 +143,7 @@ for i:=@'177 to @'377 do xchr[i]:=chr(i);
 @z
 
 
-@x [16] Change `update_terminal' to `flush', `term_in' is stdin.
+@x [15] Change `update_terminal' to `flush', `term_in' is stdin.
 Since the terminal is being used for both input and output, some systems
 need a special routine to make sure that the user can see a prompt message
 before waiting for input based on that message. (Otherwise the message
@@ -236,7 +229,7 @@ end;
 
 % [48] Don't force a maximum length for name_of_file.  See comments in
 % tex.ch for why we change the element type to text_char.
-@x [48]
+@x
 @!name_of_file:packed array[1..file_name_size] of char; {external file name}
 @y
 @!name_of_file:^text_char;
@@ -248,7 +241,7 @@ end;
 % symbol table, so this loses.  Rather than fix web2c (hard), we change
 % the name of the field (ugly, but easy).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-@x [52]
+@x
 @!four_quarters = packed record@;@/
   @!b0:quarterword;
   @!b1:quarterword;
@@ -271,7 +264,9 @@ end;
                                   types that come after this}
 @z
 
-@x [55] fix references to .b0
+% [55] fix references to .b0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 @d char_width_end(#)==#.b0].sc
 @d char_width(#)==font_info[width_base[#]+char_width_end
 @d char_exists(#)==(#.b0>min_quarterword)
@@ -305,7 +300,9 @@ end;
 @d rem_byte(#)==#.B3
 @z
 
-@x [62] More .b?'s.
+% [62] More .b?'s.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
   qw.b0:=qi(b0); qw.b1:=qi(b1); qw.b2:=qi(b2); qw.b3:=qi(b3);
 @y
   qw.B0:=qi(b0); qw.B1:=qi(b1); qw.B2:=qi(b2); qw.B3:=qi(b3);
@@ -357,7 +354,7 @@ else  begin if c="/" then
   name_of_file[k]:=xchr[c];
 @z
 
-@x [92]
+@x
 @!name_length:0..file_name_size; {number of characters packed}
 begin k:=0;
 for j:=str_start[a] to str_start[a+1]-1 do append_to_name(str_pool[j]);
@@ -468,7 +465,9 @@ if dvi_ptr>(@"7FFFFFFF-dvi_offset) then
 if dvi_ptr>0 then write_dvi(0,dvi_ptr-1)
 @z
 
-@x [111] More .b?'s.
+% [111] More .b?'s.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 dvi_out(qo(font_check[f].b0));
 dvi_out(qo(font_check[f].b1));
 dvi_out(qo(font_check[f].b2));
@@ -482,14 +481,16 @@ dvi_out(qo(font_check[f].B3));@/
 
 % [115] Don't go to final_end, just exit; this is the normal exit from
 % the program, so we want to end with a newline if we are being verbose.
-@x [115]
+@x
 goto final_end;
 @y
 if verbose then print_ln (' ');
 uexit (0);
 @z
 
-@x [118] And still more .b?'s.
+% [118] And still more .b?'s.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 dummy_info.b0:=qi(0); dummy_info.b1:=qi(0); dummy_info.b2:=qi(0);
 dummy_info.b3:=qi(0);
 @y
@@ -497,7 +498,9 @@ dummy_info.B0:=qi(0); dummy_info.B1:=qi(0); dummy_info.B2:=qi(0);
 dummy_info.B3:=qi(0);
 @z
 
-@x [138] write_ln formatting.
+% [138] write_ln formatting.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 begin if abs(r-slant_reported)>0.001 then
   begin print_nl('Sorry, I can''t make diagonal rules of slant ',r:10:5,'!');
 @y
@@ -506,7 +509,9 @@ begin if fabs(r-slant_reported)>0.001 then
         print_real(r,10,5); print('!');
 @z
 
-@x [164] No progress report unless verbose.
+% [164] No progress report unless verbose.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@x
 print('[',total_pages:1); update_terminal; {print a progress report}
 @y
 if verbose
@@ -516,7 +521,7 @@ then begin
 end;
 @z
 
-@x [164]
+@x
 print(']'); update_terminal;
 @y
 if verbose
@@ -533,7 +538,7 @@ end;
 % inches to the right edge of the diagram, which puts it off the paper
 % for even moderately large fonts.  Instead, we make it a command-line
 % option.
-@x [170]
+@x
 over_col:=over_col+delta_x+10000000;
 @y
 over_col := over_col + delta_x + overflow_label_offset;
@@ -541,7 +546,7 @@ over_col := over_col + delta_x + overflow_label_offset;
 
 % [215] Some broken compilers cannot handle 165 labels for the same
 % branch of a switch.
-@x [215]
+@x
 @<Read and process...@>=
 loop  @+begin continue: case cur_gf of
   sixty_four_cases(0): k:=cur_gf;
@@ -581,7 +586,7 @@ loop  @+begin continue:
   endcases;@/
 @z
 
-@x [219] If verbose, output a newline at the end.
+@x [still 219] If verbose, output a newline at the end.
 final_end:end.
 @y
   if verbose and (total_pages mod 13 <> 0) then print_ln (' ');
@@ -602,7 +607,7 @@ Parse a Unix-style command line.
 
 @d argument_is (#) == (strcmp (long_options[option_index].name, #) = 0)
 
-@<Define \(|parse_arguments|@> =
+@<Define |parse_arguments|@> =
 procedure parse_arguments;
 const n_options = 4; {Pascal won't count array lengths for us.}
 var @!long_options: array[0..n_options] of getopt_struct;

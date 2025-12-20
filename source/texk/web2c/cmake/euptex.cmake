@@ -59,7 +59,7 @@ set(euptex_prereq
   euptexd.h
   etexdir/etex_version.h
   ptexdir/ptex_version.h
-  euptexdir/eptex_version.h
+  eptexdir/eptex_version.h
   uptexdir/uptex_version.h
   )
 
@@ -76,16 +76,20 @@ set(euptex_web_srcs
   )
 
 set(euptex_ch_srcs
-  euptexdir/etex.ch0
+  eptexdir/etex.ch0
   ptexdir/ptex-base.ch
   uptexdir/uptex-m.ch
-  euptexdir/eptex.ech
-  euptexdir/etex.ch1
+  euptexdir/euptex.ch0
+  eptexdir/eptex.ech
+  eptexdir/etex.ch1
+  euptexdir/euptex.ch1
   ${euptex_ch_synctex}
-  euptexdir/fam256.ch
-  euptexdir/pdfutils.ch
-  euptexdir/suppresserrors.ch
-  euptexdir/char-warning-eptex.ch
+  eptexdir/fam256.ch
+  euptexdir/pdfstrcmp-eup-pre.ch
+  eptexdir/pdfutils.ch
+  euptexdir/pdfstrcmp-eup-post.ch
+  eptexdir/suppresserrors.ch
+  eptexdir/char-warning-eptex.ch
   tex-binpool.ch
   )
 
@@ -122,7 +126,7 @@ web2c_tie_c(euptex.ch SOURCES euptex.web ${euptex_ch_srcs})
 add_custom_command(
   OUTPUT euptex-pool.c
   DEPENDS euptex.pool euptexd.h makecpool
-  COMMAND python3.exe "${CMAKE_CURRENT_SOURCE_DIR}/cmake/makecpool.py"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/cmake/makecpool.py"
     "--makecpool" "$<TARGET_FILE_DIR:makecpool>/makecpool"
     euptex euptex-pool.c
   )

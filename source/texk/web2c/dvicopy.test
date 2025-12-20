@@ -4,17 +4,13 @@
 # Copyright 2009-2012 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_dvicopy=$BinDir/dvicopy$ExeExt
-
 test -d tests || mkdir -p tests
 
 if tfmpath=`$KPSEWHICH cmbx10.tfm`; then
 
   TEXMFCNF=$srcdir/../kpathsea \
     TFMFONTS=`dirname "$tfmpath"` \
-    $_dvicopy $srcdir/tests/story tests/xstory.dvi || exit 1
+    ./dvicopy $srcdir/tests/story tests/xstory.dvi || exit 1
 
 fi
 
@@ -22,5 +18,5 @@ fi
 (TEXMFCNF=$srcdir/../kpathsea \
   TFMFONTS=$srcdir/tests \
   VFFONTS=$srcdir/tests \
-  $_dvicopy <$srcdir/tests/pplr.dvi >tests/xpplr.dvi) 2>&1 || exit 2
+  ./dvicopy <$srcdir/tests/pplr.dvi >tests/xpplr.dvi) 2>&1 || exit 1
 

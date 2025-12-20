@@ -1,1 +1,1 @@
-#define UPTEX_VERSION "u2.01"
+#define UPTEX_VERSION "u1.29"

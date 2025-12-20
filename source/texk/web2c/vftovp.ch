@@ -2,17 +2,12 @@
 % Written by kb@cs.umb.edu.
 % This file is in the public domain.
 
-@x [0] l.18
-\def\title{VF\lowercase{to}VP}
-@y
-\def\title{VF$\,$\lowercase{to}$\,$VP changes for C}
-@z
-
 @x [0] WEAVE: print changes only.
 \pageno=\contentspagenumber \advance\pageno by 1
 @y
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iffalse
+\def\title{VF$\,$\lowercase{to}$\,$VP changes for C}
 @z
 
 @x [1] Define my_name
@@ -34,7 +29,7 @@
 % [2] We need to tell web2c about one special variable.
 % Perhaps it would be better to allow @define's
 % anywhere in a source file, but that seemed just as painful as this.
-@x [2]
+@x
 @p program VFtoVP(@!vf_file,@!tfm_file,@!vpl_file,@!output);
 @y
 @p
@@ -49,7 +44,7 @@ procedure initialize; {this procedure gets things started properly}
   var @!k:integer; {all-purpose index for initialization}
   begin print_ln(banner);@/
 @y
-@<Define \(p)|parse_arguments|@>
+@<Define |parse_arguments|@>
 procedure initialize; {this procedure gets things started properly}
   var @!k:integer; {all-purpose index for initialization}
   begin
@@ -65,7 +60,7 @@ procedure initialize; {this procedure gets things started properly}
 % Also, AIX defines `class' in <math.h>, so let's take this opportunity to
 % define that away.
 % And increase several constants.
-@x [4]
+@x
 @<Constants...@>=
 @!tfm_size=30000; {maximum length of |tfm| data, in bytes}
 @!vf_size=10000; {maximum length of |vf| data, in bytes}
@@ -127,7 +122,8 @@ end else begin
 end;
 @z
 
-@x [22] `index' is not a good choice of identifier in C.
+% [22] `index' is not a good choice of identifier in C.
+@x
 @<Types...@>=
 @!index=0..tfm_size; {address of a byte in |tfm|}
 @y
@@ -146,7 +142,8 @@ end;
 @!tfm_file_array: ^byte; {the input data all goes here}
 @z
 
-@x [24] abort() should cause a bad exit code.
+% [24] abort() should cause a bad exit code.
+@x
 @d abort(#)==begin print_ln(#);
   print_ln('Sorry, but I can''t go on; are you sure this is a TFM?');
   goto final_end;
@@ -165,7 +162,8 @@ if 4*lf-1>tfm_size then abort('The file is bigger than I can handle!');
 tfm_file_array := xrealloc_array (tfm_file_array, byte, 4 * lf + 1000);
 @z
 
-@x [31] Ditto for vf_abort.
+% [31] Ditto for vf_abort.
+@x
 @d vf_abort(#)==
   begin print_ln(#);
   print_ln('Sorry, but I can''t go on; are you sure this is a VF?');
@@ -262,7 +260,7 @@ free(cur_name);
         print_ln('Check sum in VF file being replaced by TFM check sum');
 @z
 
-@x [43] Remove initialization of now-defunct array.
+@x [42] Remove initialization of now-defunct array.
 @ @<Set init...@>=
 default_directory:=default_directory_name;
 @y
@@ -338,13 +336,14 @@ ASCII_10:=' @@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_';@/
 ASCII_14:=' `abcdefghijklmnopqrstuvwxyz{|}~?';@/
 @z
 
-@x [50]
+@x
 MBL_string:='MBL'; RI_string:='RI '; RCE_string:='RCE';
 @y
 MBL_string:=' MBL'; RI_string:=' RI '; RCE_string:=' RCE';
 @z
 
-@x [60] How we output the character code depends on |charcode_format|.
+% [60] How we output the character code depends on |charcode_format|.
+@x
 begin if font_type>vanilla then
   begin tfm[0]:=c; out_octal(0,1)
   end
@@ -368,7 +367,8 @@ else begin tfm[0]:=c; out_octal(0,1);
   end;
 @z
 
-@x [61] Don't output the face code as an integer.
+% [61] Don't output the face code as an integer.
+@x
   out(MBL_string[1+(b mod 3)]);
   out(RI_string[1+s]);
   out(RCE_string[1+(b div 3)]);
@@ -378,7 +378,8 @@ else begin tfm[0]:=c; out_octal(0,1);
   put_byte(RCE_string[1+(b div 3)], vpl_file);
 @z
 
-@x [100] No progress reports unless verbose.
+% [101] No progress reports unless verbose.
+@x
     incr(chars_on_line);
     end;
   print_octal(c); {progress report}
@@ -388,7 +389,8 @@ else begin tfm[0]:=c; out_octal(0,1);
   if verbose then print_octal(c); {progress report}
 @z
 
-@x [112] No nonlocal goto's.
+% [112] No nonlocal goto's.
+@x
   begin print_ln('Sorry, I haven''t room for so many ligature/kern pairs!');
 @.Sorry, I haven't room...@>
   goto final_end;
@@ -402,13 +404,13 @@ else begin tfm[0]:=c; out_octal(0,1);
 % still [112] We can't have a function named `f', because of the local
 % variable in do_simple_things.  It would be better, but harder, to fix
 % web2c.
-@x [112]
+@x
      r:=f(r,(hash[r]-1)div 256,(hash[r]-1)mod 256);
 @y
      r:=lig_f(r,(hash[r]-1)div 256,(hash[r]-1)mod 256);
 @z
 
-@x [112]
+@x
   out('(INFINITE LIGATURE LOOP MUST BE BROKEN!)'); goto final_end;
 @y
   out('(INFINITE LIGATURE LOOP MUST BE BROKEN!)'); uexit(1);
@@ -417,7 +419,7 @@ else begin tfm[0]:=c; out_octal(0,1);
 % [116] web2c can't handle these mutually recursive procedures.
 % But let's do a fake definition of f here, so that it gets into web2c's
 % symbol table...
-@x [116]
+@x
 @p function f(@!h,@!x,@!y:index):index; forward;@t\2@>
   {compute $f$ for arguments known to be in |hash[h]|}
 @y
@@ -428,7 +430,7 @@ function lig_f(@!h,@!x,@!y:index):index; begin end;@t\2@>
 endif('notdef')
 @z
 
-@x [116]
+@x
 else eval:=f(h,x,y);
 @y
 else eval:=lig_f(h,x,y);
@@ -440,7 +442,7 @@ else eval:=lig_f(h,x,y);
 @p function lig_f(@!h,@!x,@!y:index):index;
 @z
 
-@x [117]
+@x
 f:=lig_z[h];
 @y
 lig_f:=lig_z[h];
@@ -488,11 +490,11 @@ begin if o>=set1 then
   end
 @z
 
-@x [131] Eliminate the |final_end| and |exit| labels.
+@x [132] Eliminate the |final_end| and |exit| labels.
 label final_end, exit;
 @y
 @z
-@x [131]
+@x
 vf_input:=true; return;
 final_end: vf_input:=false;
 exit: end;
@@ -500,11 +502,11 @@ exit: end;
 vf_input:=true;
 end;
 @z
-@x [131]
+@x
 label final_end, exit;
 @y
 @z
-@x [131]
+@x
 organize:=vf_input; return;
 final_end: organize:=false;
 exit: end;
@@ -513,11 +515,11 @@ organize:=vf_input;
 end;
 @z
 
-@x [133] Eliminate the |final_end| and |exit| labels.
+@x [134] Eliminate the |final_end| and |exit| labels.
 label final_end,exit;
 @y
 @z
-@x [133]
+@x
 do_map:=true; return;
 final_end: do_map:=false;
 exit:end;
@@ -526,13 +528,13 @@ do_map:=true;
 end;
 @z
 
-@x [134] No final newline unless verbose.
+@x [135] No final newline unless verbose.
 print_ln('.');@/
 @y
 if verbose then print_ln('.');@/
 @z
 
-@x [135] System-dependent changes.
+@x [136] System-dependent changes.
 This section should be replaced, if necessary, by changes to the program
 that are necessary to make \.{VFtoVP} work at a particular installation.
 It is usually best to design your change file so that all changes to
@@ -546,7 +548,7 @@ Parse a Unix-style command line.
 
 @d argument_is (#) == (strcmp (long_options[option_index].name, #) = 0)
 
-@<Define \(p)|parse_arguments|@> =
+@<Define |parse_arguments|@> =
 procedure parse_arguments;
 const n_options = 4; {Pascal won't count array lengths for us.}
 var @!long_options: array[0..n_options] of getopt_struct;

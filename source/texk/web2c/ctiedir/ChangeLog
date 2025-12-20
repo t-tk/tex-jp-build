@@ -1,11 +1,3 @@
-2024-06-18  Andreas Scherer  <https://ascherer.github.io>
-
-	* ctie-k.ch: Recreate with 'f-c-l -ph ctie.w ctie-k.ch'.
-
-2023-09-03  TANAKA Takuji  <ttk@t-lab.opal.ne.jp>
-
-	* ctie.test: Make easier to test on Windows.
-
 2023-05-21  Andreas Scherer  <https://ascherer.github.io>
 
 	* ctie-k.ch: Handle deletion of last line in 'master' file.

@@ -16,50 +16,50 @@
 
 @q Please send comments, suggestions, etc. to tex-k@@tug.org.            @>
 
-@x [0.0] l.30
-\def\title{CTANGLE (Version 4.12.2)}
+@x
+\def\title{CTANGLE (Version 4.9)}
 @y
-\def\title{CTANGLE (Version 4.12.2 [\TeX~Live])}
+\def\title{CTANGLE (Version 4.9 [\TeX~Live])}
 @z
 
-@x [0.0] l.34
-  \centerline{(Version 4.12.2)}
+@x
+  \centerline{(Version 4.9)}
 @y
-  \centerline{(Version 4.12.2 [\TeX~Live])}
+  \centerline{(Version 4.9 [\TeX~Live])}
 @z
 
-@x [0.0] l.36
+@x
 \def\botofcontents{\vfill
 @y
 \def\covernote{\vbox{%
 @z
 
-@x [0.0] l.49
+@x
 }
 @y
 }}\datecontentspage
 @z
 
-@x [1.1] l.64
-@d banner "This is CTANGLE (Version 4.12.2)"
+@x
+@d banner "This is CTANGLE (Version 4.9)"
 @y
-@d banner "This is CTANGLE, Version 4.12.2"
+@d banner "This is CTANGLE, Version 4.9"
   /* will be extended by the \TeX~Live |versionstring| */
 @z
 
-@x [1.2] l.90
+@x
   if (show_banner) puts(banner); /* print a ``banner line'' */
 @y
   if (show_banner) cb_show_banner(); /* print a ``banner line'' */
 @z
 
-@x [1.3] l.101
+@x
 @i common.h
 @y
 @i comm-w2c.h
 @z
 
-@x [2.20] l.129
+@x
 @ @d max_texts 4000 /* number of replacement texts, must be less than 10240 */
 @d max_toks 270000 /* number of bytes in compressed \CEE/ code */
 @y
@@ -67,51 +67,55 @@
 @d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
 @z
 
-@x [3.29] l.237
+@x
   if (tok_ptr+2>tok_mem_end) overflow("token");
 @y
   if (tok_ptr+2>tok_mem_end) overflow(_("token"));
 @z
 
-@x [4.35] l.320
+@x
   if (stack_ptr==stack_end) overflow("stack");
 @y
   if (stack_ptr==stack_end) overflow(_("stack"));
 @z
 
-@x [4.40] l.412
-    printf("%s","\n! Not present: <");
+@x
+    fputs("\n! Not present: <",stdout);
 @y
-    printf("%s",_("\n! Not present: <"));
+    fputs(_("\n! Not present: <"),stdout);
 @z
 
-@x [5.47] l.510
+@x
     else overflow("output files");
 @y
     else overflow(_("output files"));
 @z
 
-@x [6.48] l.526
-    printf("%s","\n! No program text was specified."); mark_harmless();
+@x
+    fputs("\n! No program text was specified.",stdout); mark_harmless;
 @y
-    printf("%s",_("\n! No program text was specified.")); mark_harmless();
+    fputs(_("\n! No program text was specified."),stdout); mark_harmless;
 @z
 
-@x [6.48] l.532
-        "\nWriting the output file (%s):" : @|
-        "\nWriting the output files: (%s)",C_file_name);
+@x
+        printf("\nWriting the output file (%s):",C_file_name);
 @y
-       _("\nWriting the output file (%s):") : @|
-       _("\nWriting the output files: (%s)"),C_file_name);
+        printf(_("\nWriting the output file (%s):"),C_file_name);
 @z
 
-@x [6.48] l.542
-      printf("%s","Done.");
+@x
+        fputs("\nWriting the output files:",stdout);
 @y
-      printf("%s",_("Done."));
+        fputs(_("\nWriting the output files:"),stdout);
 @z
 
-@x [6.50] l.556
+@x
+      fputs("Done.",stdout);
+@y
+      fputs(_("Done."),stdout);
+@z
+
+@x
 @<Write all the named output files@>=
 for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
     an_output_file--;
@@ -120,10 +124,14 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
     if ((C_file=fopen(output_file_name,"wb"))==NULL)
       fatal("! Cannot open output file ",output_file_name);
 @.Cannot open output file@>
-    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal(); }
+    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal; }
     cur_line=1;
-    @<Initialize the secondary output@>@;
-    @<Output material...@>@;
+    stack_ptr=stack+1;
+    cur_name=*an_output_file;
+    cur_repl=(text_pointer)cur_name->equiv;
+    cur_byte=cur_repl->tok_start;
+    while (stack_ptr > stack) get_output();
+    flush_buffer();
 }
 @y
 @<Write all the named output files@>=
@@ -141,10 +149,14 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
       fatal(_("! Cannot open output file "),output_file_name);
 @.Cannot open output file@>
   }
-  if (show_progress) { printf("\n(%s)",output_file_name); update_terminal(); }
+  if (show_progress) { printf("\n(%s)",output_file_name); update_terminal; }
   cur_line=1;
-  @<Initialize the secondary output@>@;
-  @<Output material...@>@;
+  stack_ptr=stack+1;
+  cur_name=*an_output_file;
+  cur_repl=(text_pointer)cur_name->equiv;
+  cur_byte=cur_repl->tok_start;
+  while (stack_ptr > stack) get_output();
+  flush_buffer();
   if (check_for_change) {
     fclose(C_file); C_file=NULL;
     @<Update the secondary results when they have changed@>@;
@@ -154,13 +166,13 @@ if (check_for_change)
   strcpy(check_file_name,""); /* We want to get rid of the temporary file */
 @z
 
-@x [6.54] l.616
+@x
           else if (a<050000) confusion("macro defs have strange char");
 @y
           else if (a<050000) confusion(_("macro defs have strange char"));
 @z
 
-@x [6.59] l.703
+@x
 @ @<Case of an identifier@>=@t\1\quad@>
 @y
 @ Nowadays, most computer files are encoded in some form of ``Unicode''. A very
@@ -192,9 +204,10 @@ quarter) with its two-byte encoding \.{c2 bc}.
 @<Case of an identifier@>=@t\1\quad@>
 @z
 
-@x [6.59] l.708
-    if (ishigh(*j)) C_printf("%s",translit[(eight_bits)(*j)-0200]);
+@x
+    if ((eight_bits)(*j)<0200) C_putc(*j);
 @^high-bit character handling@>
+    else C_printf("%s",translit[(eight_bits)(*j)-0200]);
 @y
     if (ishigh(*j)) {
 @^high-bit character handling@>
@@ -205,93 +218,94 @@ quarter) with its two-byte encoding \.{c2 bc}.
       }
       C_printf("%s",translit[(eight_bits)(*j)-0200]);
     }
+    else C_putc(*j);
 @z
 
-@x [7.67] l.840
+@x
           err_print("! Input ended in mid-comment");
 @y
           err_print(_("! Input ended in mid-comment"));
 @z
 
-@x [7.67] l.853
+@x
         err_print("! Section name ended in mid-comment"); loc--;
 @y
         err_print(_("! Section name ended in mid-comment")); loc--;
 @z
 
-@x [8.74] l.1004
+@x
         err_print("! String didn't end"); loc=limit; break;
 @y
         err_print(_("! String didn't end")); loc=limit; break;
 @z
 
-@x [8.74] l.1008
+@x
         err_print("! Input ended in middle of string"); loc=buffer; break;
 @y
         err_print(_("! Input ended in middle of string")); loc=buffer; break;
 @z
 
-@x [8.74] l.1026
-    printf("%s","\n! String too long: ");
+@x
+    fputs("\n! String too long: ",stdout);
 @y
-    printf("%s",_("\n! String too long: "));
+    fputs(_("\n! String too long: "),stdout);
 @z
 
-@x [8.75] l.1041
+@x
   case translit_code: err_print("! Use @@l in limbo only"); continue;
 @y
   case translit_code: err_print(_("! Use @@l in limbo only")); continue;
 @z
 
-@x [8.75] l.1046
+@x
       err_print("! Double @@ should be used in control text");
 @y
       err_print(_("! Double @@ should be used in control text"));
 @z
 
-@x [8.76] l.1070
+@x
         err_print("! Double @@ should be used in ASCII constant");
 @y
         err_print(_("! Double @@ should be used in ASCII constant"));
 @z
 
-@x [8.76] l.1076
+@x
         err_print("! String didn't end"); loc=limit-1; break;
 @y
         err_print(_("! String didn't end")); loc=limit-1; break;
 @z
 
-@x [8.79] l.1108
+@x
     err_print("! Input ended in section name");
 @y
     err_print(_("! Input ended in section name"));
 @z
 
-@x [8.79] l.1121
-  printf("%s","\n! Section name too long: ");
+@x
+  fputs("\n! Section name too long: ",stdout);
 @y
-  printf("%s",_("\n! Section name too long: "));
+  fputs(_("\n! Section name too long: "),stdout);
 @z
 
-@x [8.80] l.1135
+@x
     err_print("! Section name didn't end"); break;
 @y
     err_print(_("! Section name didn't end")); break;
 @z
 
-@x [8.80] l.1139
+@x
     err_print("! Nesting of section names not allowed"); break;
 @y
     err_print(_("! Nesting of section names not allowed")); break;
 @z
 
-@x [8.81] l.1153
+@x
 if (loc>=limit) err_print("! Verbatim string didn't end");
 @y
 if (loc>=limit) err_print(_("! Verbatim string didn't end"));
 @z
 
-@x [9.82] l.1177
+@x
 @d app_repl(c) {
   if (tok_ptr==tok_mem_end) overflow("token");
   else *(tok_ptr++)=(eight_bits)c;
@@ -303,55 +317,55 @@ if (loc>=limit) err_print(_("! Verbatim string didn't end"));
 }
 @z
 
-@x [9.83] l.1204
+@x
   if (text_ptr>text_info_end) overflow("text");
 @y
   if (text_ptr>text_info_end) overflow(_("text"));
 @z
 
-@x [9.86] l.1250
+@x
 case output_defs_code: if (t!=section_name) err_print("! Misplaced @@h");
 @y
 case output_defs_code: if (t!=section_name) err_print(_("! Misplaced @@h"));
 @z
 
-@x [9.86] l.1268
+@x
     err_print("! @@d, @@f and @@c are ignored in C text"); continue;
 @y
     err_print(_("! @@d, @@f and @@c are ignored in C text")); continue;
 @z
 
-@x [9.87] l.1278
+@x
   if (*try_loc=='=') err_print ("! Missing `@@ ' before a named section");
 @y
   if (*try_loc=='=') err_print (_("! Missing `@@ ' before a named section"));
 @z
 
-@x [9.88] l.1295
+@x
       else err_print("! Double @@ should be used in string");
 @y
       else err_print(_("! Double @@ should be used in string"));
 @z
 
-@x [9.89] l.1344
+@x
     default: err_print("! Unrecognized escape sequence");
 @y
     default: err_print(_("! Unrecognized escape sequence"));
 @z
 
-@x [10.93] l.1417
+@x
   err_print("! Definition flushed, must start with identifier");
 @y
   err_print(_("! Definition flushed, must start with identifier"));
 @z
 
-@x [10.100] l.1498
+@x
             err_print("! Double @@ should be used in control text");
 @y
             err_print(_("! Double @@ should be used in control text"));
 @z
 
-@x [10.100] l.1501
+@x
           } @=/* otherwise fall through */@>@;
         default: err_print("! Double @@ should be used in limbo");
 @y
@@ -359,21 +373,21 @@ case output_defs_code: if (t!=section_name) err_print(_("! Misplaced @@h"));
         default: err_print(_("! Double @@ should be used in limbo"));
 @z
 
-@x [10.102] l.1516
+@x
     err_print("! Improper hex number following @@l");
 @y
     err_print(_("! Improper hex number following @@l"));
 @z
 
-@x [10.102] l.1526
+@x
       err_print("! Replacement string in @@l too long");
 @y
       err_print(_("! Replacement string in @@l too long"));
 @z
 
-@x [10.103] l.1540
+@x
   puts("\nMemory usage statistics:");
-  printf("%td names (out of %ld)\n",@^system dependencies@>
+  printf("%td names (out of %ld)\n",
           (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
   printf("%td replacement texts (out of %ld)\n",
           (ptrdiff_t)(text_ptr-text_info),(long)max_texts);
@@ -382,7 +396,7 @@ case output_defs_code: if (t!=section_name) err_print(_("! Misplaced @@h"));
   printf("%td tokens (out of %ld)\n",
 @y
   puts(_("\nMemory usage statistics:"));
-  printf(_("%td names (out of %ld)\n"),@^system dependencies@>
+  printf(_("%td names (out of %ld)\n"),
           (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
   printf(_("%td replacement texts (out of %ld)\n"),
           (ptrdiff_t)(text_ptr-text_info),(long)max_texts);
@@ -391,7 +405,7 @@ case output_defs_code: if (t!=section_name) err_print(_("! Misplaced @@h"));
   printf(_("%td tokens (out of %ld)\n"),
 @z
 
-@x [11.104] l.1551
+@x
 @** Index.
 @y
 @** Extensions to {\tentex CWEB}.  The following sections introduce new or
@@ -402,7 +416,7 @@ Care has been taken to keep the original section numbering intact, so this new
 material should nicely integrate with the original ``\&{104.~Index}.''
 
 @* Output file update. Most \CEE/ projects are controlled by a \.{Makefile}
-that automatically takes care of the temporal dependencies between the different
+that automatically takes care of the temporal dependecies between the different
 source modules. It may be convenient that \.{CWEB} doesn't create new output
 for all existing files, when there are only changes to some of them. Thus the
 \.{make} process will only recompile those modules where necessary. You can
@@ -427,7 +441,7 @@ if((C_file=fopen(C_file_name,"r"))!=NULL) {
   rename(check_file_name,C_file_name); /* This was the first run */
 
 @ @<Set up the comparison of temporary output@>=
-  bool comparison=false;
+  boolean comparison=false;
 
   if((check_file=fopen(check_file_name,"r"))==NULL)
     fatal(_("! Cannot open output file "),check_file_name);
@@ -449,7 +463,7 @@ do {
 } while(comparison && !feof(C_file) && !feof(check_file));
 
 @ Note the superfluous call to |remove| before |rename|.  We're using it to
-get around a bug in some implementations of |rename|.@^system dependencies@>
+get around a bug in some implementations of |rename|.
 
 @<Create the primary output...@>=
 if(comparison)
@@ -518,14 +532,14 @@ else {
 @ No copying necessary, just remove the temporary output file.
 
 @<Redirect temporary output to \.{/dev/null}@>={
-  bool comparison=true;
+  boolean comparison=true;
   @<Create the secondary output...@>@;
 }
 
 @ @<Setup system redirection@>=
 char in_buf[BUFSIZ+1];
 int in_size;
-bool comparison=true;
+boolean comparison=true;
 if((check_file=fopen(check_file_name,"r"))==NULL)
   fatal(_("! Cannot open output file "),check_file_name);
 @.Cannot open output file@>

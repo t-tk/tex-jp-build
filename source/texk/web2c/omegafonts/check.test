@@ -4,40 +4,24 @@
 # Copyright 2014, 2015 Peter Breitenlohner <tex-live@tug.org>
 # You may freely use, modify and/or distribute this file.
 
-BinDir=${BinDir:-.}
-ExeExt=${ExeExt:-}
-_omfonts=$BinDir/omfonts$ExeExt
-
-# pre-generated test results in the repository are stored in LF
-# but the output might be written in CRLF on some platform.
-# if 'diff --strip-trailing-cr' is available, exploit it.
-# (useful for tests on win32 binaries run on MSYS shell)
-DIFF="diff"
-$DIFF --strip-trailing-cr $0 $0 \
-  && DIFF="diff --strip-trailing-cr" || echo
-
-tests=tests
-
-test -d $tests || mkdir -p $tests
-rc=0
+test -d tests || mkdir -p tests
 
 TEXMFCNF=$srcdir/../../kpathsea
-OFMFONTS=".;./$tests"
+OFMFONTS=".;./tests"
 export TEXMFCNF OFMFONTS
 
 echo && echo "*** ofm2opl check xcheck"
-$_omfonts -ofm2opl $srcdir/$tests/check $tests/xcheck || rc=1
+./omfonts -ofm2opl $srcdir/tests/check tests/xcheck || exit 1
 
 echo && echo "*** diff check.opl xcheck.opl"
-diff $srcdir/$tests/check.opl $tests/xcheck.opl || rc=2
+diff $srcdir/tests/check.opl tests/xcheck.opl || exit 1
 
 echo && echo "*** opl2ofm xcheck xchecked"
-$_omfonts -opl2ofm $tests/xcheck $tests/xchecked || rc=3
+./omfonts -opl2ofm tests/xcheck tests/xchecked || exit 1
 
 echo && echo "*** ofm2opl xchecked stdout (xchecked.opl)"
-$_omfonts -ofm2opl $tests/xchecked >$tests/xchecked.opl || rc=4
+./omfonts -ofm2opl tests/xchecked >tests/xchecked.opl || exit 1
 
 echo && echo "*** diff checked.opl xchecked.opl"
-$DIFF $srcdir/$tests/checked.opl $tests/xchecked.opl || rc=5
+diff $srcdir/tests/checked.opl tests/xchecked.opl || exit 1
 
-exit $rc

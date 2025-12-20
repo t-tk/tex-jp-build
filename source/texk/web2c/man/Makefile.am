@@ -1,7 +1,7 @@
 ## $Id$
 ## Makefile.am for the TeX Live subdirectory texk/web2c/man/
 ##
-## Copyright 2015-2025 Karl Berry <tex-live@tug.org>
+## Copyright 2015-2022 Karl Berry <tex-live@tug.org>
 ## Copyright 2009-2015 Peter Breitenlohner <tex-live@tug.org>
 ## You may freely use, modify and/or distribute this file.
 ##
@@ -11,11 +11,10 @@ bootstrap_man_sources = ctie.man cweb.man ctwill.man tangle.man tie.man
 
 # Symlinks within $(man1dir): FILE:LINK indicates LINK.1->FILE.1
 man1_links = cweb:ctangle cweb:cweave
-man1_links += ctwill:ctwill-proofsort ctwill:ctwill-refsort ctwill:ctwill-twinx
+man1_links += ctwill:ctwill-refsort ctwill:ctwill-twinx
 
 if WEB
 man_sources += $(web_man_sources)
-man1_links += twill:twill-refsort
 endif WEB
 EXTRA_DIST += $(web_man_sources)
 web_man_sources = bibtex.man dvicopy.man dvitomp.man dvitype.man gftodvi.man \
@@ -55,14 +54,14 @@ endif PDFTEX
 pdftex_man_sources = pdftex.man pdftosrc.man ttf2afm.man
 EXTRA_DIST += $(pdftex_man_sources)
 
-if EUPTEX
+if EPTEX
 man_sources += ptex.man
 man1_links += ptex:eptex ptex:euptex ptex:uptex
 man_sources += ppltotf.man ptftopl.man
 man1_links += ppltotf:uppltotf ptftopl:uptftopl
 man_sources += pbibtex.man
 man1_links += pbibtex:upbibtex
-endif EUPTEX
+endif EPTEX
 EXTRA_DIST += ptex.man ppltotf.man ptftopl.man pbibtex.man
 
 if LUATEX
@@ -112,20 +111,6 @@ include $(top_srcdir)/../../am/man1_links.am
 install-data-hook: install-man1-links
 
 uninstall-hook: uninstall-man1-links
-
-# to make a test tex.pdf from tex.man:  make m=tex -C $ww/man testman  
-# where ww=.../Work/texk/web2c, and that's where the pdf file is output.
-# We force a4 since that's what we distribute.
-testopts = -man -Tpdf -P-pa4
-testman:
-	pdf=`basename "$m" .man`.pdf; \
-	groff $(testopts) $(srcdir)/$m.man >"$$pdf" \
-	|| { rm -f "$$pdf"; exit 1; }; # ls -l `pwd`/"$$pdf"
-
-# remake pdfs for all *.man files.
-testmans:
-	for m in $(srcdir)/*.man; do echo $$m; \
-	  $(MAKE) -s m=`basename $$m .man` testman || exit 1; done
 
 EXTRA_DIST += \
 	spell.add

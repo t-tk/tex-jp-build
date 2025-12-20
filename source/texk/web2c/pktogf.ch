@@ -12,20 +12,15 @@
 % gf and pk formats.  PKtoGF runs silently unless it is given the
 % -v switch in the command line.
 
-@x [0] l.22
-\def\title{PKtoGF}
-@y
-\def\title{PK$\,$\lowercase{to}$\,$GF changes for C}
-@z
-
 @x [0] WEAVE: print changes only
 \pageno=\contentspagenumber \advance\pageno by 1
 @y
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iffalse
+\def\title{PK$\,$\lowercase{to}$\,$GF changes for C}
 @z
 
-@x [2] Define my_name
+@x [1] Define my_name
 @d banner=='This is PKtoGF, Version 1.1'
 @y
 @d my_name=='pktogf'
@@ -60,7 +55,7 @@ procedure initialize; {this procedure gets things started properly}
   var i:integer; {loop index for initializations}
   begin print_ln(banner);@/
 @y
-@<Define \(|parse_arguments|@>
+@<Define |parse_arguments|@>
 procedure initialize; {this procedure gets things started properly}
   var i:integer; {loop index for initializations}
 begin
@@ -79,12 +74,12 @@ begin
 @<Labels...@>=final_end;
 @y
 @ This module is deleted, because it is only useful for
-a non-local |goto|\unskip, which we don't use in C.
+a non-local goto, which we don't use in C.
 @z
 
 % [6] Remove terminal_line_length, since there is no dialog, and
 % name_length, since there is no maximum size.
-@x [6]
+@x
 @<Constants...@>=
 @!name_length=80; {maximum length of a file name}
 @!terminal_line_length=132; {maximum length of an input line}
@@ -444,12 +439,12 @@ end ;
 dialog ;
 @y
 @z
-@x [73]
+@x
 final_end :
 @y
 @z
 
-@x [74] System-dependent changes.
+@x System-dependent changes.
 This section should be replaced, if necessary, by changes to the program
 that are necessary to make \.{PKtoGF} work at a particular installation.
 Any additional routines should be inserted here.
@@ -459,7 +454,7 @@ Parse a Unix-style command line.
 
 @d argument_is (#) == (strcmp (long_options[option_index].name, #) = 0)
 
-@<Define \(|parse_arguments|@> =
+@<Define |parse_arguments|@> =
 procedure parse_arguments;
 const n_options = 3; {Pascal won't count array lengths for us.}
 var @!long_options: array[0..n_options] of getopt_struct;
