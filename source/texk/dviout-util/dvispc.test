@@ -218,6 +218,11 @@ $DIFF $testdir/fntdef3-dtl.txt xfntdef3-dtl.txt || exit 1
 $_dvispc -x xfntdef3-dtl.txt xfntdef3-dtl.dvi || exit 2
 $CMP $testdir/fntdef3.dvi xfntdef3-dtl.dvi || exit 1
 
+$_dvispc -a -Ju $testdir/jisx0208.dvi jisx0208☃.da.txt || exit 52
+$DIFF $testdir/jisx0208.txt jisx0208☃.da.txt || exit 51
+$_dvispc -x $testdir/jisx0208.txt jisx0208☃.da.dvi || exit 52
+$CMP $testdir/jisx0208.dvi jisx0208☃.da.dvi || exit 51
+
 
 exit 0
 
