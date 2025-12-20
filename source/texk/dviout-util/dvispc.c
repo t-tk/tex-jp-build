@@ -93,6 +93,13 @@
 
 #include "common.h"
 
+#if defined(WIN32) && defined(KPATHSEA)
+#undef fopen
+#undef fprintf
+#define fopen    fsyscp_fopen
+#define fprintf  win32_fprintf
+#endif
+
 #define uchar unsigned char
 #define uint  unsigned int
 #define Long  int

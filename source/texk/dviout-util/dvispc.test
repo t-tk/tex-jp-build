@@ -7,6 +7,9 @@ BinDir=${BinDir:-.}
 ExeExt=${ExeExt:-}
 _dvispc=$BinDir/dvispc$ExeExt
 
+TEXMFCNF=$srcdir/../kpathsea
+export TEXMFCNF
+
 testdir=$srcdir/tests
 
 DIFF="diff"
