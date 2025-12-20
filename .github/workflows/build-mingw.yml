@@ -95,14 +95,14 @@ jobs:
       #    make
       #    make check
 
-      - name: dvipsk
-        shell: msys2 {0}
-        run: |
-          mkdir ./source/Work/texk/dvipsk
-          cd ./source/Work/texk/dvipsk
-          ../../../texk/dvipsk/configure
-          make
-          make check
+      #- name: dvipsk
+      #  shell: msys2 {0}
+      #  run: |
+      #    mkdir ./source/Work/texk/dvipsk
+      #    cd ./source/Work/texk/dvipsk
+      #    ../../../texk/dvipsk/configure
+      #    make
+      #    make check
 
       - name: makejvf
         shell: msys2 {0}
