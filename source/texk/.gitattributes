@@ -31,5 +31,9 @@
 /dvipsk/testdata/pfbincl.xps binary
 
 # for windows_wrapper
-/texlive/windows_wrapper/**/*.c   text eol=crlf
-/texlive/windows_wrapper/**/*.txt text eol=crlf
+/texlive/windows_wrapper/**/*.c   text eol=lf
+/texlive/windows_wrapper/**/*.txt text eol=lf
+
+# for mplibdir
+/web2c/mplibdir/*.c text eol=lf
+/web2c/mplibdir/*.h text eol=lf
