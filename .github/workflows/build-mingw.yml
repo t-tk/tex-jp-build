@@ -258,10 +258,10 @@ jobs:
           make cweave.exe
           make tie.exe
           make twill.exe || echo ""
-          make updvitype.web
-          make updvitype.p
-          make updvitype.c
-          make updvitype.exe
+          #make updvitype.web
+          #make updvitype.p
+          #make updvitype.c
+          #make updvitype.exe
           make uppltotf.web
           make uppltotf.p
           make uppltotf.c
