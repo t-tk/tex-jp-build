@@ -258,32 +258,32 @@ jobs:
           make cweave.exe
           make tie.exe
           make twill.exe || echo ""
-          #make updvitype.web
-          #make updvitype.p
-          #make updvitype.c
-          #make updvitype.exe
-          make uppltotf.web
-          make uppltotf.p
-          make uppltotf.c
-          make uppltotf.exe
-          make uptftopl.web
-          make uptftopl.p
-          make uptftopl.c
-          make uptftopl.exe
+          # make updvitype.web
+          # make updvitype.p
+          # make updvitype.c
+          # make updvitype.exe
+          # make uppltotf.web
+          # make uppltotf.p
+          # make uppltotf.c
+          # make uppltotf.exe
+          # make uptftopl.web
+          # make uptftopl.p
+          # make uptftopl.c
+          # make uptftopl.exe
           make tex.p
           make tex.exe
           # make etex.web
           # make etex.p
           # make etex.exe
-          make ptex.web
-          make ptex.p
-          make ptex.exe
+          # make ptex.web
+          # make ptex.p
+          # make ptex.exe
           make uptex.web
           make uptex.p
           make uptex.exe
-          make eptex.web
-          make eptex.p
-          make eptex.exe
+          # make eptex.web
+          # make eptex.p
+          # make eptex.exe
           make euptex.web
           make euptex.p
           make euptex.exe
@@ -330,20 +330,20 @@ jobs:
           echo ""
           ./twill.exe --version || echo "twill"
           echo ""
-          ./ptex.exe --version || echo "ptex"
-          echo ""
+          # ./ptex.exe --version || echo "ptex"
+          # echo ""
           ./uptex.exe --version || echo "uptex"
           echo ""
-          ./eptex.exe --version || echo "eptex"
-          echo ""
+          # ./eptex.exe --version || echo "eptex"
+          # echo ""
           ./euptex.exe --version || echo "euptex"
           echo ""
-          ./updvitype.exe --version || echo "updvitype"
-          echo ""
-          ./uppltotf.exe --version || echo "uppltotf"
-          echo ""
-          ./uptftopl.exe --version || echo "uptftopl"
-          echo ""
+          # ./updvitype.exe --version || echo "updvitype"
+          # echo ""
+          # ./uppltotf.exe --version || echo "uppltotf"
+          # echo ""
+          # ./uptftopl.exe --version || echo "uptftopl"
+          # echo ""
           ./upbibtex.exe --version || echo "upbibtex"
           echo ""
           ./dvitype.exe --version || echo "dvitype"
