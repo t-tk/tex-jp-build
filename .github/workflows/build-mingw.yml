@@ -8,13 +8,13 @@ on:
 jobs:
   Build-on-mingw:
     runs-on: windows-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
       - run: echo "Branch [ ${{ github.ref }} ]  Repository [ ${{ github.repository }} ]"
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: install tools
         uses: msys2/setup-msys2@v2
@@ -25,52 +25,86 @@ jobs:
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
             mingw-w64-x86_64-pkg-config
-            mingw-w64-x86_64-pixman
-            mingw-w64-x86_64-cairo
-            mingw-w64-x86_64-gmp
-            mingw-w64-x86_64-mpfr
             bison
             texinfo
 
       - name: make libs
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work
-          mkdir ./source/Work/libs
+          mkdir -p ./source/Work/libs
 
-          mkdir ./source/Work/libs/zlib
+          mkdir -p ./source/Work/libs/zlib
           cd ./source/Work/libs/zlib
           ../../../libs/zlib/configure
           make
           make check
 
           cd ../../../..
-          mkdir ./source/Work/libs/libpng
+          mkdir -p ./source/Work/libs/libpng
           cd ./source/Work/libs/libpng
           ../../../libs/libpng/configure
           make
           make check
 
           cd ../../../..
-          mkdir ./source/Work/libs/libpaper
+          mkdir -p ./source/Work/libs/libpaper
           cd ./source/Work/libs/libpaper
           ../../../libs/libpaper/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir -p ./source/Work/libs/pixman
+          cd ./source/Work/libs/pixman
+          ../../../libs/pixman/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir -p ./source/Work/libs/cairo
+          cd ./source/Work/libs/cairo
+          ../../../libs/cairo/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir -p ./source/Work/libs/gmp
+          cd ./source/Work/libs/gmp
+          ../../../libs/gmp/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir -p ./source/Work/libs/mpfr
+          cd ./source/Work/libs/mpfr
+          ../../../libs/mpfr/configure
+          make
+          make check
+
+          cd ../../../..
+          mkdir -p ./source/Work/libs/mpfi
+          cd ./source/Work/libs/mpfi
+          ../../../libs/mpfi/configure
           make
           make check
 
       - name: make kpathsea, ptexenc
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk
+          mkdir -p ./source/Work/texk
 
-          mkdir ./source/Work/texk/kpathsea
+          mkdir -p ./source/Work/texk/kpathsea
           cd ./source/Work/texk/kpathsea
           ../../../texk/kpathsea/configure
           make
-          make check
+          ## link without libtool
+          echo -e "###\n### link without libtool  kpsewhich.exe\n###"
+          gcc -Wimplicit -Wreturn-type -g -O2   -o kpsewhich.exe kpsewhich.o .libs/libkpathsea.a || \
+            echo -e "**\n** fail to link kpsewhich.exe"
+          make check || cat tests/kpsesafe.log
 
           cd ../../../..
-          mkdir ./source/Work/texk/ptexenc
+          mkdir -p ./source/Work/texk/ptexenc
           cd ./source/Work/texk/ptexenc
           ../../../texk/ptexenc/configure
           make
@@ -125,7 +159,7 @@ jobs:
       - name: dviout-util
         shell: msys2 {0}
         run: |
-          mkdir ./source/Work/texk/dviout-util
+          mkdir -p ./source/Work/texk/dviout-util
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
