@@ -104,14 +104,14 @@ jobs:
       #    make
       #    make check
 
-      - name: makejvf
-        shell: msys2 {0}
-        run: |
-          mkdir ./source/Work/texk/makejvf
-          cd ./source/Work/texk/makejvf
-          ../../../texk/makejvf/configure
-          make
-          make check
+      #- name: makejvf
+      #  shell: msys2 {0}
+      #  run: |
+      #    mkdir ./source/Work/texk/makejvf
+      #    cd ./source/Work/texk/makejvf
+      #    ../../../texk/makejvf/configure
+      #    make
+      #    make check
 
       #- name: mendex
       #  shell: msys2 {0}
