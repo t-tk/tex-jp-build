@@ -479,6 +479,20 @@ int main(int argc, char **argv)
     if(argc <= 1)
         usage(0);
 
+#if defined(WIN32) && defined(KPATHSEA)
+    {
+        int ac;
+        char **av, *enc;
+
+        kpse_set_program_name(argv[0], "dvispc");
+        enc = kpse_var_value("command_line_encoding");
+        if (get_command_line_args_utf8(enc, &ac, &av)) {
+            argc = ac;
+            argv = av;
+        }
+    }
+#endif
+
     for(i = 1; i < argc && argv[i][0] == '-'; i++){
       for(len = 1; argv[i][len]; len++){
         switch(argv[i][len]){
