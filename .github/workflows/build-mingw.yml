@@ -61,6 +61,12 @@ jobs:
             echo -e "**\n** fail to link kpsewhich.exe"
           make check || cat tests/kpsesafe.log
 
+          cd ../../../..
+          mkdir -p ./source/Work/texk/ptexenc
+          cd ./source/Work/texk/ptexenc
+          ../../../texk/ptexenc/configure
+          make
+
       - name: dviout-util
         shell: msys2 {0}
         run: |
