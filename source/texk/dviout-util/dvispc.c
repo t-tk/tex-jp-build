@@ -86,6 +86,15 @@
 #endif
 
 #include <config.h>
+#ifdef KPATHSEA
+#include <kpathsea/config.h>
+#include <kpathsea/c-fopen.h>
+#include <kpathsea/getopt.h>
+#include <kpathsea/readable.h>
+#if defined(WIN32)
+#include <kpathsea/variable.h>
+#endif
+#endif
 #ifdef PTEXENC
 #include <ptexenc/ptexenc.h>
 #include <ptexenc/unicode.h>
