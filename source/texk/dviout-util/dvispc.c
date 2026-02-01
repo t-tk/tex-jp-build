@@ -116,6 +116,12 @@
 #define WRITE_TEXT   "wt"
 #define StrCmp stricmp
 #endif
+#if defined(WIN32) && defined(KPATHSEA)
+#undef fopen
+#undef fprintf
+#define fopen    fsyscp_fopen
+#define fprintf  win32_fprintf
+#endif
 
 #define PIXEL      int
 #define SIZE_PARA  int
