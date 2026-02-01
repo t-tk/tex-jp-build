@@ -79,7 +79,7 @@ jobs:
           gcc -Wimplicit -Wreturn-type -g -O2   -o dvispc.exe dvispc.o ../../texk/kpathsea/.libs/libkpathsea.a ../../texk/ptexenc/.libs/libptexenc.a || \
             echo -e "**\n** fail to link dvispc.exe"
           cp ../../../texk/dviout-util/tests/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
-          make check || cat tests/dvispc.log
-          cat tests/dvispc.log
+          make check || cat ./dvispc.log
+          cat ./dvispc.log
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
