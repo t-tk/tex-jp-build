@@ -74,6 +74,7 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
+          cp ../../../texk/dviout-util/tests/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
           make check
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
