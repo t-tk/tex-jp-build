@@ -6,6 +6,7 @@
 BinDir=${BinDir:-.}
 ExeExt=${ExeExt:-}
 _dvispc=$BinDir/dvispc$ExeExt
+CP=${CP:-cp$ExeExt}
 
 testdir=$srcdir/tests
 
@@ -224,12 +225,11 @@ if [ "$COMSPEC" != "" ] || [ "$ExeExt" = ".exe" ]; then
   MyOS=Windows
   command_line_encoding=utf8
   export command_line_encoding
-  cp$ExeExt $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi || :
 else
   echo "*** We guess OS is not Windows."
   MyOS=nonWindows
-  cp $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
 fi
+$CP $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
 $_dvispc -a -JU ./putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
 $DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
 $_dvispc -x putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 2

@@ -119,8 +119,12 @@
 #if defined(WIN32) && defined(KPATHSEA)
 #undef fopen
 #undef fprintf
+#undef fputs
+#undef putc
 #define fopen    fsyscp_fopen
 #define fprintf  win32_fprintf
+#define fputs    win32_fputs
+#define putc     win32_putc
 #endif
 
 #define PIXEL      int
