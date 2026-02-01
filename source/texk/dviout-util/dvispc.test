@@ -219,6 +219,7 @@ $_dvispc -x xfntdef3-dtl.txt xfntdef3-dtl.dvi || exit 2
 $CMP $testdir/fntdef3.dvi xfntdef3-dtl.dvi || exit 1
 
 ## Unicode filename
+command_line_encoding=utf8 ; export command_line_encoding
 cp $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
 $_dvispc -a -JU ./putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
 $DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
