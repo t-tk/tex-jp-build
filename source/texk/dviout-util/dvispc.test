@@ -224,6 +224,7 @@ if [ "$COMSPEC" != "" ] || [ "$ExeExt" = ".exe" ]; then
   MyOS=Windows
   command_line_encoding=utf8
   export command_line_encoding
+  chcp 65001
   cp$ExeExt $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
 else
   echo "*** We guess OS is not Windows."
