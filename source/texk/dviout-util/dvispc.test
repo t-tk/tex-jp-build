@@ -232,6 +232,8 @@ else
 fi
 $_dvispc -a -JU ./putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
 $DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
+$_dvispc -x putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 2
+$CMP putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 1
 
 exit 0
 
