@@ -244,12 +244,18 @@ $_dvispc -s $testdir/spc000_es.dvi x0spc000_es.spc && \
 $_dvispc -s $testdir/spc000_es.dvi > x1spc000_es.spc && \
   $DIFF $testdir/spc000_es.spc x1spc000_es.spc && echo || rc=2
 
+# output to STDOUT
+$_dvispc -s $testdir/spc000_es.dvi
+
 ### (u)ptex, ambiguous encoding: UTF-8 or EUC-JP
 $_dvispc -s $testdir/spc000_ue.dvi x0spc000_ue.spc && \
   $DIFF $testdir/spc000_ue.spc x0spc000_ue.spc && echo || rc=1
 
 $_dvispc -s $testdir/spc000_ue.dvi > x1spc000_ue.spc && \
   $DIFF $testdir/spc000_ue.spc x1spc000_ue.spc && echo || rc=2
+
+# output to STDOUT
+$_dvispc -s $testdir/spc000_ue.dvi
 
 
 exit 0
