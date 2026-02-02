@@ -244,7 +244,7 @@ $_dvispc -s $testdir/spc000_es.dvi x0spc000_es.spc && \
 $_dvispc -s $testdir/spc000_es.dvi > x1spc000_es.spc && \
   $DIFF $testdir/spc000_es.spc x1spc000_es.spc && echo || rc=2
 
-# output to STDOUT
+# output STDOUT to terminal
 $_dvispc -s $testdir/spc000_es.dvi
 
 ### (u)ptex, ambiguous encoding: UTF-8 or EUC-JP
@@ -254,9 +254,17 @@ $_dvispc -s $testdir/spc000_ue.dvi x0spc000_ue.spc && \
 $_dvispc -s $testdir/spc000_ue.dvi > x1spc000_ue.spc && \
   $DIFF $testdir/spc000_ue.spc x1spc000_ue.spc && echo || rc=2
 
-# output to STDOUT
+# output STDOUT to terminal
 $_dvispc -s $testdir/spc000_ue.dvi
 
+# test
+$_dvispc -a -Ju $testdir/jisx0208.dvi jisx0208.da.txt || exit 2
+$DIFF $testdir/jisx0208.txt jisx0208.da.txt || exit 1
+$_dvispc -x $testdir/jisx0208.txt jisx0208.da.dvi || exit 2
+$CMP $testdir/jisx0208.dvi jisx0208.da.dvi || exit 1
+
+$_dvispc -a -Js $testdir/jisx0208.dvi jisx0208-sjp.da.txt || exit 2
+$_dvispc -a -Je $testdir/jisx0208.dvi jisx0208-ejp.da.txt || exit 2
 
 exit 0
 
