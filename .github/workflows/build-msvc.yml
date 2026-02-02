@@ -50,6 +50,7 @@ jobs:
           cd ./Work
           export BinDir=./Debug/bin ExeExt=.exe srcdir=../source/texk/dviout-util
           cp $srcdir/tests/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
+          cp $srcdir/tests/put.dump.dvi ./putΔДदダ打다.dump.dvi
           $srcdir/dvispc.test
           $srcdir/chkdvifont.test
         env:

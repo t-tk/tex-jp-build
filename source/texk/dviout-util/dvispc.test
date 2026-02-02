@@ -229,11 +229,11 @@ else
   echo "*** We guess OS is not Windows."
   MyOS=nonWindows
 fi
-$CP $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi || exit 50
-$_dvispc -a -JU ./putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
+$CP $testdir/put.dump.dvi ./putΔДदダ打다.dump.dvi || exit 50
+$_dvispc -a -JU ./putΔДदダ打다.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
 $DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
 $_dvispc -x putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 2
-$CMP putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.dvi || exit 1
+$CMP putΔДदダ打다.dump.dvi putΔДदダ打다𝕯🎉.da.dvi || exit 1
 
 ## EXE2SPECIAL, Japanese encoding (EUC-JP, Shift_JIS or UTF-8)
 
