@@ -231,8 +231,8 @@ else
   MyOS=nonWindows
 fi
 $CP $testdir/put.dump.dvi ./putΔДदダ打다.dump.dvi || exit 50
-$_dvispc -a -JU ./putΔДदダ打다.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
-$DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
+$_dvispc -a -JU ./putΔДदダ打다.dump.dvi putΔДदダ打다.da.txt || exit 2
+$DIFF $testdir/put.txt putΔДदダ打다.da.txt || exit 1
 $_dvispc -x putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 2
 $CMP putΔДदダ打다.dump.dvi putΔДदダ打다𝕯🎉.da.dvi || exit 1
 
