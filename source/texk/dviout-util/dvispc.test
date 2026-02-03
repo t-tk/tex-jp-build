@@ -1,12 +1,11 @@
 #! /bin/sh -vx
 # $Id$
-# Copyright 2018-2021 Japanese TeX Development Community <issue@texjp.org>
+# Copyright 2018-2026 Japanese TeX Development Community <issue@texjp.org>
 # You may freely use, modify and/or distribute this file.
 
 BinDir=${BinDir:-.}
 ExeExt=${ExeExt:-}
 _dvispc=$BinDir/dvispc$ExeExt
-CP=${CP:-cp}
 
 testdir=$srcdir/tests
 
@@ -184,6 +183,16 @@ $CMP $testdir/jisx0208.dvi jisx0208.da.dvi || exit 1
 $_dvispc -a -Js $testdir/jisx0208.dvi jisx0208-sjp.da.txt || exit 2
 $_dvispc -a -Je $testdir/jisx0208.dvi jisx0208-ejp.da.txt || exit 2
 
+if [ -x ../ptexenc/ptekf ]; then
+  cp $testdir/jisx0208.txt ./jisx0208.txt || exit 40
+  ../ptexenc/ptekf -Us ./jisx0208.txt || exit 41
+  mv jisx0208.txt.out jisx0208-s.txt || exit 42
+  ../ptexenc/ptekf -Ue ./jisx0208.txt || exit 41
+  mv jisx0208.txt.out jisx0208-e.txt || exit 42
+  $DIFF jisx0208-s.txt jisx0208-sjp.da.txt || exit 2
+  $DIFF jisx0208-e.txt jisx0208-ejp.da.txt || exit 2
+fi
+
 ## EXE2TEXT: printing ASCII/Japanese characters
 $_dvispc -a -Ju $testdir/putj.dump.dvi putj.da.txt || exit 2
 $DIFF $testdir/putj.txt putj.da.txt || exit 1
@@ -232,7 +241,7 @@ else
   echo "*** We guess OS is not Windows."
   MyOS=nonWindows
 fi
-$CP $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi || exit 50
+cp $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi || exit 50
 $_dvispc -a -JU ./putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
 $DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
 $_dvispc -x putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 2
@@ -259,25 +268,6 @@ $_dvispc -s $testdir/spc000_ue.dvi > x1spc000_ue.spc && \
 
 # output STDOUT to terminal
 $_dvispc -s $testdir/spc000_ue.dvi
-
-# test
-$_dvispc -a -Ju $testdir/jisx0208.dvi jisx0208.da.txt || exit 2
-$DIFF $testdir/jisx0208.txt jisx0208.da.txt || exit 1
-$_dvispc -x $testdir/jisx0208.txt jisx0208.da.dvi || exit 2
-$CMP $testdir/jisx0208.dvi jisx0208.da.dvi || exit 1
-
-$_dvispc -a -Js $testdir/jisx0208.dvi jisx0208-sjp.da.txt || exit 2
-$_dvispc -a -Je $testdir/jisx0208.dvi jisx0208-ejp.da.txt || exit 2
-
-if [ -x ../ptexenc/ptekf ]; then
-  $CP $testdir/jisx0208.txt ./jisx0208.txt || exit 40
-  ../ptexenc/ptekf -Us  ./jisx0208.txt || exit 41
-  $CP jisx0208.txt.out jisx0208-s.txt || exit 42
-  ../ptexenc/ptekf -Ue ./jisx0208.txt || exit 41
-  $CP jisx0208.txt.out jisx0208-e.txt || exit 42
-  $DIFF jisx0208-s.txt jisx0208-sjp.da.txt || exit 2
-  $DIFF jisx0208-e.txt jisx0208-ejp.da.txt || exit 2
-fi
 
 exit 0
 
