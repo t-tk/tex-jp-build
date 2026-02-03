@@ -225,6 +225,7 @@ if [ "$COMSPEC" != "" ] || [ "$ExeExt" = ".exe" ]; then
   MyOS=Windows
   command_line_encoding=utf8
   export command_line_encoding
+  chcp.com 65001 || :
 else
   echo "*** We guess OS is not Windows."
   MyOS=nonWindows
