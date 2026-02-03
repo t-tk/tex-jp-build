@@ -225,16 +225,15 @@ if [ "$COMSPEC" != "" ] || [ "$ExeExt" = ".exe" ]; then
   MyOS=Windows
   command_line_encoding=utf8
   export command_line_encoding
-  chcp.com 65001 || :
 else
   echo "*** We guess OS is not Windows."
   MyOS=nonWindows
 fi
-$CP $testdir/put.dump.dvi ./putΔДदダ打다.dump.dvi || exit 50
-$_dvispc -a -JU ./putΔДदダ打다.dump.dvi putΔДदダ打다.da.txt || exit 2
-$DIFF $testdir/put.txt putΔДदダ打다.da.txt || exit 1
+$CP $testdir/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi || exit 50
+$_dvispc -a -JU ./putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.txt || exit 2
+$DIFF $testdir/put.txt putΔДदダ打다𝕯🎉.da.txt || exit 1
 $_dvispc -x putΔДदダ打다𝕯🎉.da.txt putΔДदダ打다𝕯🎉.da.dvi || exit 2
-$CMP putΔДदダ打다.dump.dvi putΔДदダ打다𝕯🎉.da.dvi || exit 1
+$CMP putΔДदダ打다𝕯🎉.dump.dvi putΔДदダ打다𝕯🎉.da.dvi || exit 1
 
 ## EXE2SPECIAL, Japanese encoding (EUC-JP, Shift_JIS or UTF-8)
 
@@ -266,6 +265,13 @@ $CMP $testdir/jisx0208.dvi jisx0208.da.dvi || exit 1
 
 $_dvispc -a -Js $testdir/jisx0208.dvi jisx0208-sjp.da.txt || exit 2
 $_dvispc -a -Je $testdir/jisx0208.dvi jisx0208-ejp.da.txt || exit 2
+
+if [ -x ../ptexenc/ptekf ]; then
+  ../ptexenc/ptekf -s $testdir/jisx0208.txt > jisx0208-s.txt || exit 40
+  ../ptexenc/ptekf -e $testdir/jisx0208.txt > jisx0208-e.txt || exit 40
+  $DIFF jisx0208-s.txt jisx0208-sjp-u.da.txt || exit 2
+  $DIFF jisx0208-e.txt jisx0208-ejp-u.da.txt || exit 2
+fi
 
 exit 0
 
