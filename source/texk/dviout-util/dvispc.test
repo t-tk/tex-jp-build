@@ -19,6 +19,9 @@ CMP="cmp"
 $DIFF --strip-trailing-cr $0 $0 \
   && DIFF="diff --strip-trailing-cr" || echo
 
+TEXMFCNF=$srcdir/../kpathsea
+export TEXMFCNF
+
 ## show banner
 $_dvispc
 
@@ -267,7 +270,6 @@ $_dvispc -a -Js $testdir/jisx0208.dvi jisx0208-sjp.da.txt || exit 2
 $_dvispc -a -Je $testdir/jisx0208.dvi jisx0208-ejp.da.txt || exit 2
 
 if [ -x ../ptexenc/ptekf ]; then
-  TEXMFCNF=$srcdir/../kpathsea ; export TEXMFCNF
   ../ptexenc/ptekf -s $testdir/jisx0208.txt > jisx0208-s.txt || exit 40
   ../ptexenc/ptekf -e $testdir/jisx0208.txt > jisx0208-e.txt || exit 40
   $DIFF jisx0208-s.txt jisx0208-sjp.da.txt || exit 2

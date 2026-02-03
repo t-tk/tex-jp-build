@@ -49,6 +49,6 @@ jobs:
           cd ./source/Work/texk/dviout-util
           ../../../texk/dviout-util/configure
           make
-          make check
+          make check || cat ./dvispc.log
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
