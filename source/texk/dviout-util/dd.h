@@ -89,13 +89,13 @@ typedef int (* COMP)(const void *, const void *);
 #ifdef TRUE
 #undef TRUE
 #endif
-#ifdef BOOL
-#undef BOOL
+#ifdef BOOLxx
+#undef BOOLxx
 #endif
 typedef enum{
 	FALSE = 0,
 	TRUE  = 1
-} BOOL;
+} BOOLxx;
 
 #define NOTHING 0
 #define FAILURE (-1)
