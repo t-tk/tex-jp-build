@@ -65,6 +65,9 @@
 #define GCC 1
 #endif
 
+#include "dd.h"
+#include "common.h"
+
 #include <config.h>
 #ifdef KPATHSEA
 #include <kpathsea/config.h>
@@ -72,9 +75,6 @@
 #include <kpathsea/variable.h>
 #endif
 #endif
-
-#include "dd.h"
-#include "common.h"
 
 #if defined(WIN32) && defined(KPATHSEA)
 #undef fopen
