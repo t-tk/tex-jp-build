@@ -66,9 +66,22 @@
 #endif
 
 #include <config.h>
+#ifdef KPATHSEA
+#include <kpathsea/config.h>
+#if defined(WIN32)
+#include <kpathsea/variable.h>
+#endif
+#endif
 
 #include "dd.h"
 #include "common.h"
+
+#if defined(WIN32) && defined(KPATHSEA)
+#undef fopen
+#undef fprintf
+#define fopen    fsyscp_fopen
+#define fprintf  win32_fprintf
+#endif
 
 #define ID          2
 #define ID_PTEX     3
@@ -289,6 +302,19 @@ int main(int argc, char **argv)
 
     if (argc < 2)
         usage();
+#if defined(WIN32) && defined(KPATHSEA)
+    {
+        int ac;
+        char **av, *enc;
+
+        kpse_set_program_name(argv[0], "chkdvifont");
+        enc = kpse_var_value("command_line_encoding");
+        if (get_command_line_args_utf8(enc, &ac, &av)) {
+            argc = ac;
+            argv = av;
+        }
+    }
+#endif
     for (i = 1; i < argc - 1; i++) {
         if (argv[i][0] != '-')
             usage();
