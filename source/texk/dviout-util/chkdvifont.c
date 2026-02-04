@@ -523,7 +523,11 @@ void show_dvi_data(DVIFILE_INFO *dvi)
     int len, x, y;
     long s_width, s_hight;
 
+#if defined(WIN32) && defined(KPATHSEA)
+    fprintf(stdout, "dvi file name\t\t\t= %s\n", dvi->file_name);
+#else
     printf("dvi file name\t\t\t= %s\n", dvi->file_name);
+#endif
     fseek(dvi->file_ptr, 14L, SEEK_SET),
         len = (uchar)read_byte(dvi->file_ptr);
     printf("comment\t\t\t\t=%s\n", read_str(dvi->file_ptr, len));

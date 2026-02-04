@@ -85,6 +85,9 @@ cp $testdir/oldindep.dvi ./oidΔДदダ打다𝕯🎉.dvi && \
   $_chkdvifont -c ./oidΔДदダ打다𝕯🎉.dvi > xoidΔДदダ打다𝕯🎉.cfn && \
   $DIFF oidΔДदダ打다𝕯🎉.cfn xoidΔДदダ打다𝕯🎉.cfn && echo || exit 51
 
+# output STDOUT to terminal
+$_chkdvifont -c ./oidΔДदダ打다𝕯🎉.dvi
+
 
 exit 0
 
