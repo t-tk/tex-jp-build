@@ -83,19 +83,21 @@ typedef void (*void_func_ptr) ();
 typedef int (*int_func_ptr) ();
 typedef int (* COMP)(const void *, const void *);
 
+#if 0
 #ifdef FALSE
 #undef FALSE
 #endif
 #ifdef TRUE
 #undef TRUE
 #endif
-#ifdef BOOLxx
-#undef BOOLxx
+#ifdef BOOL
+#undef BOOL
 #endif
 typedef enum{
 	FALSE = 0,
 	TRUE  = 1
-} BOOLxx;
+} BOOL;
+#endif
 
 #define NOTHING 0
 #define FAILURE (-1)
