@@ -78,8 +78,10 @@ jobs:
           echo -e "###\n### link without libtool  dvispc.exe\n###"
           gcc -Wimplicit -Wreturn-type -g -O2   -o dvispc.exe dvispc.o ../../texk/kpathsea/.libs/libkpathsea.a ../../texk/ptexenc/.libs/libptexenc.a || \
             echo -e "**\n** fail to link dvispc.exe"
-          cp ../../../texk/dviout-util/tests/put.dump.dvi ./putΔДदダ打다𝕯🎉.dump.dvi
-          make check || cat ./dvispc.log
+          gcc -Wimplicit -Wreturn-type -g -O2   -o chkdvifont.exe chkdvifont.o ../../texk/kpathsea/.libs/libkpathsea.a || \
+            echo -e "**\n** fail to link chkdvifont.exe"
+          make check || cat ./dvispc.log ./chkdvifont.log
           cat ./dvispc.log
+          cat ./chkdvifont.log
 
       - run: echo "⛄ This job's status is ${{ job.status }}."
