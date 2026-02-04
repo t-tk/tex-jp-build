@@ -64,5 +64,21 @@ $_chkdvifont -c $testdir/upphirakakuw6-h.tfm > xupp6-h.cfn && \
   $DIFF $testdir/upphirakakuw6-h.cfn xupp6-h.cfn && echo || exit 9
 
 
+## Unicode filename
+if [ "$COMSPEC" != "" ] || [ "$ExeExt" = ".exe" ]; then
+  echo "*** We guess OS is Windows."
+  MyOS=Windows
+  command_line_encoding=utf8
+  export command_line_encoding
+else
+  echo "*** We guess OS is not Windows."
+  MyOS=nonWindows
+fi
+cp $testdir/oldindep.dvi ./oidΔДदダ打다𝕯🎉.dvi && \
+  sed -e s/oldindep/oidΔДदダ打다𝕯🎉/ < $testdir/oldindep.cfn > oidΔДदダ打다𝕯🎉.cfn &&
+  $_chkdvifont -c ./oidΔДदダ打다𝕯🎉.dvi > xoidΔДदダ打다𝕯🎉.cfn && \
+  $DIFF oidΔДदダ打다𝕯🎉.cfn xoidΔДदダ打다𝕯🎉.cfn && echo || exit 51
+
+
 exit 0
 
