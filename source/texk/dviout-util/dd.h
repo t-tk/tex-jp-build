@@ -84,6 +84,7 @@ typedef int (*int_func_ptr) ();
 typedef int (* COMP)(const void *, const void *);
 
 #if 0
+/** We do not use them in dviout-util (TeX Live) **/
 #ifdef FALSE
 #undef FALSE
 #endif
