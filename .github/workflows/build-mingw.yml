@@ -27,6 +27,7 @@ jobs:
             mingw-w64-x86_64-pkg-config
             bison
             texinfo
+            gawk
 
       - name: make libs
         shell: msys2 {0}
@@ -136,7 +137,7 @@ jobs:
           cd ./source/Work/texk/dvipsk
           ../../../texk/dvipsk/configure
           make
-          make check || cat */test-hyperlink.log
+          make check || cat test-hyperlink.log
 
       - name: makejvf
         shell: msys2 {0}
