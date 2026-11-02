@@ -137,7 +137,7 @@ jobs:
           cd ./source/Work/texk/dvipsk
           ../../../texk/dvipsk/configure
           make
-          make check || cat test-hyperlink.log
+          make check
 
       - name: makejvf
         shell: msys2 {0}
