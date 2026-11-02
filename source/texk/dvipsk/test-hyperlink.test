@@ -23,7 +23,7 @@ $DIFF --strip-trailing-cr $0 $0 \
   && DIFF="diff --strip-trailing-cr" || echo
 
 # hps.pro is generated into the build directory, not shipped in testdata.
-TEXPSHEADERS=.:$TEXPSHEADERS; export TEXPSHEADERS
+TEXPSHEADERS=".;"$TEXPSHEADERS; export TEXPSHEADERS
 
 $_dvips -z -D 600 $srcdir/testdata/$tst.dvi -o $tst.ps || exit 1
 
